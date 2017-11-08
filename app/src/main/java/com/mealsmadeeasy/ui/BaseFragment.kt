@@ -1,7 +1,7 @@
 package com.mealsmadeeasy.ui
 
-import android.support.v4.app.Fragment
+import com.trello.rxlifecycle2.components.support.RxFragment
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : RxFragment() {
 
 }
