@@ -2,6 +2,7 @@ package com.mealsmadeeasy.inject
 
 import android.content.Context
 import android.preference.PreferenceManager
+import com.mealsmadeeasy.data.FakeMealStore
 import com.mealsmadeeasy.data.MealStore
 import dagger.Module
 import dagger.Provides
@@ -18,6 +19,6 @@ class MealsModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideMealStore(): MealStore = TODO()
+    fun provideMealStore(): MealStore = FakeMealStore()
 
 }
