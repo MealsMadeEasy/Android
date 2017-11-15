@@ -1,5 +1,7 @@
 package com.mealsmadeeasy.inject
 
+import com.mealsmadeeasy.ui.home.glance.WeekAtAGlanceFragment
+import com.mealsmadeeasy.ui.home.grocery.GroceryListFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,6 +11,7 @@ import javax.inject.Singleton
 ))
 interface MealsComponent {
 
-    // TODO Inject things
+    fun inject(fragment: WeekAtAGlanceFragment)
+    fun inject(fragment: GroceryListFragment)
 
 }

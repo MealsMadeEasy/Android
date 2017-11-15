@@ -6,4 +6,7 @@
     <string name="meal_lunch">Lunch</string>
     <string name="meal_dinner">Dinner</string>
 
+    <string name="week_at_a_glance">Week at a glance</string>
+    <string name="grocery_list">Grocery list</string>
+
 </resources>
