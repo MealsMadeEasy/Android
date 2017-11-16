@@ -9,4 +9,5 @@
     <string name="week_at_a_glance">Week at a glance</string>
     <string name="grocery_list">Grocery list</string>
 
+    <string name="error_grocery_list_load">Failed to load grocery list</string>
 </resources>
