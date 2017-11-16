@@ -33,8 +33,6 @@ class GroceryListFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // TODO return the root view of the grocery list here.
-
         val root = inflater.inflate(R.layout.activity_recycler_view, container, false)
         val rv = root?.findViewById<RecyclerView>(R.id.list_recycler_view)
         val adapter = GroceryListAdapter()
