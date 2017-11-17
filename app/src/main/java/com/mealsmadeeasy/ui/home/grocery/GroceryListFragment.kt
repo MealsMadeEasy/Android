@@ -33,11 +33,11 @@ class GroceryListFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.activity_recycler_view, container, false)
-        val rv = root?.findViewById<RecyclerView>(R.id.list_recycler_view)
+        val root = inflater.inflate(R.layout.grocery_list_recycler_view, container, false)
+        val rv = root.findViewById<RecyclerView>(R.id.list_recycler_view)
         val adapter = GroceryListAdapter()
-        rv?.adapter = adapter
-        rv?.layoutManager = LinearLayoutManager(context)
+        rv.adapter = adapter
+        rv.layoutManager = LinearLayoutManager(context)
 
         mealStore.getIngredientsForMealPlan()
                 .subscribeOn(Schedulers.io())
