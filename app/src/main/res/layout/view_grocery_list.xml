@@ -21,13 +21,13 @@
         android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/quantity"
+        android:id="@+id/ingredient_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/unit"
-        android:layout_marginStart="@dimen/textview_padding"
+        android:id="@+id/ingredient_unit"
+        android:layout_marginStart="@dimen/ingredient_unit_text_spacing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

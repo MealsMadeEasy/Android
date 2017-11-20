@@ -2,5 +2,5 @@
 <resources>
     <dimen name="list_padding_vertical">8dp</dimen>
     <dimen name="list_padding_horizontal">16dp</dimen>
-    <dimen name="textview_padding">4sp</dimen>
+    <dimen name="ingredient_unit_text_spacing">4sp</dimen>
 </resources>

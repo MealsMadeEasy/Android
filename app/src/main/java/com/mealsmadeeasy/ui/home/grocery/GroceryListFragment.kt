@@ -34,7 +34,7 @@ class GroceryListFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.grocery_list_recycler_view, container, false)
-        val rv = root.findViewById<RecyclerView>(R.id.list_recycler_view)
+        val rv = root.findViewById<RecyclerView>(R.id.grocery_list_recycler_view)
         val adapter = GroceryListAdapter()
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)

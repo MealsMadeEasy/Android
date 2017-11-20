@@ -35,9 +35,9 @@ class GroceryListViewHolder(root: View, val checkboxMap : MutableMap<Ingredient,
             : RecyclerView.ViewHolder(root) {
 
     private lateinit var ingredient : Ingredient
-    private val quantity = root.findViewById<TextView>(R.id.quantity)
+    private val quantity = root.findViewById<TextView>(R.id.ingredient_quantity)
     private val name = root.findViewById<TextView>(R.id.ingredient_name)
-    private val unit = root.findViewById<TextView>(R.id.unit)
+    private val unit = root.findViewById<TextView>(R.id.ingredient_unit)
     private val checkbox = root.findViewById<CheckBox>(R.id.ingredient_checkbox)
 
     init {
