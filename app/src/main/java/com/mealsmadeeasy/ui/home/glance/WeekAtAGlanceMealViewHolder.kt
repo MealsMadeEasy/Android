@@ -16,6 +16,7 @@ class WeekAtAGlanceMealViewHolder(root: View) : RecyclerView.ViewHolder(root) {
     fun bind(meal: Meal) {
         mealName.text = meal.name
         if (meal.thumbnailUrl != null) {
+            mealImage.visibility = View.VISIBLE
             Picasso.with(itemView.context)
                     .load(meal.thumbnailUrl)
                     .into(mealImage)
