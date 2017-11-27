@@ -4,10 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
+    android:paddingTop="@dimen/week_at_a_glance_meal_period_margin_vertical"
+    android:paddingBottom="@dimen/week_at_a_glance_meal_period_margin_vertical"
+    android:layout_marginTop="@dimen/week_at_a_glance_meal_period_corner_radius"
+    android:layout_marginBottom="@dimen/week_at_a_glance_meal_period_corner_radius"
     android:background="@drawable/background_week_at_a_glance_meal_period">
 
     <TextView
@@ -15,10 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead.Inverse"
-        android:textSize="18sp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
+        android:textSize="@dimen/week_at_a_glance_meal_period_title_size"
+        android:paddingStart="@dimen/week_at_a_glance_meal_period_title_padding"
+        android:paddingEnd="@dimen/week_at_a_glance_meal_period_title_padding"
+        android:paddingBottom="@dimen/week_at_a_glance_meal_period_title_padding"
         tools:text="Dinner"/>
 
     <android.support.v7.widget.RecyclerView

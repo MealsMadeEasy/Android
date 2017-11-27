@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/week_at_a_glance_meal_name"
         android:contentDescription="@null"
-        tools:src="@android:color/holo_blue_light"/>
+        tools:src="@color/colorAccent"/>
 
     <TextView
         android:id="@+id/week_at_a_glance_meal_name"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
         android:textColor="@android:color/white"
-        android:padding="8dp"
+        android:padding="@dimen/week_at_a_glance_meal_padding"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Ice Cream"/>
