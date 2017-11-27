@@ -4,6 +4,6 @@
 
     <corners android:radius="@dimen/week_at_a_glance_meal_period_corner_radius"/>
 
-    <solid android:color="@color/colorPrimary"/>
+    <solid android:color="@color/week_at_a_glance_tile_background"/>
 
 </shape>

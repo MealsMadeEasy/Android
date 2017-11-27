@@ -3,4 +3,6 @@
     <color name="colorPrimary">#ff9800</color>
     <color name="colorPrimaryDark">#f57c00</color>
     <color name="colorAccent">#ff5722</color>
+
+    <color name="week_at_a_glance_tile_background">#C9BBB6</color>
 </resources>
