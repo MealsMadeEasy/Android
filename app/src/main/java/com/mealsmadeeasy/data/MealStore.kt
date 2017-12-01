@@ -23,6 +23,7 @@ interface MealStore {
                             })
                             .toObservable()
                 }
+                .map { it.sortedBy(Ingredient::name) }
     }
 
 }
