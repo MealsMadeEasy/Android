@@ -1,12 +1,18 @@
 package com.mealsmadeeasy.ui.home.glance
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mealsmadeeasy.MealsApplication
+import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.ui.BaseFragment
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class WeekAtAGlanceFragment : BaseFragment() {
@@ -24,8 +30,25 @@ class WeekAtAGlanceFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // TODO return the root view of the week at a glance screen here.
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val root = inflater.inflate(R.layout.fragment_week_at_a_glance, container, false)
+        val rv = root.findViewById<RecyclerView>(R.id.week_at_a_glance_recycler_view)
+        rv.layoutManager = LinearLayoutManager(context)
+
+        mealStore.getMealPlan()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .bindToLifecycle(this)
+                .subscribe({ mealPlan ->
+                    (rv.adapter as? WeekAtAGlanceAdapter).let {
+                        if (it == null) {
+                            rv.adapter = WeekAtAGlanceAdapter(mealPlan = mealPlan)
+                        } else {
+                            it.mealPlan = mealPlan
+                        }
+                    }
+                })
+
+        return root
     }
 
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/week_at_a_glance_meal_period_margin_vertical"
+    android:paddingBottom="@dimen/week_at_a_glance_meal_period_margin_vertical"
+    android:layout_marginTop="@dimen/week_at_a_glance_meal_period_corner_radius"
+    android:layout_marginBottom="@dimen/week_at_a_glance_meal_period_corner_radius"
+    android:background="@drawable/background_week_at_a_glance_meal_period">
+
+    <TextView
+        android:id="@+id/week_at_a_glance_meal_period_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead.Inverse"
+        android:textSize="@dimen/week_at_a_glance_meal_period_title_size"
+        android:paddingStart="@dimen/week_at_a_glance_meal_period_title_padding"
+        android:paddingEnd="@dimen/week_at_a_glance_meal_period_title_padding"
+        android:paddingBottom="@dimen/week_at_a_glance_meal_period_title_padding"
+        tools:text="Dinner"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/week_at_a_glance_meal_period_entries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/view_week_at_a_glance_meal"/>
+
+</LinearLayout>
