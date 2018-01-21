@@ -18,15 +18,30 @@
     <string name="profile_sex_prompt">Sex</string>
     <string name="profile_height_feet_prompt">Feet</string>
     <string name="profile_height_inches_prompt">Inches</string>
+    <string name="profile_dietary_restrictions_prompt">Dietary Restrictions</string>
+    <string name="profile_dietary_restrictions_button_text">Edit Dietary Restrictions / Preferences</string>
     <string name="profile_button_text">Save Changes</string>
     <string name="error_profile_underage">You must be at least 13 years old to use this application</string>
     <string name="error_profile_invalid_bmi">Please enter a valid height and weight combination</string>
     <string name="error_profile_invalid_height_inches">Inches must be between 0 and 11, inclusive</string>
     <string name="error_profile_blank_field">Please fill in all fields</string>
     <string name="success_profile_updated">Your information has been updated</string>
+    <string name="error_dietary_restrictions_list_load">Failed to load dietary restrictions</string>
 
     <string name="sex_male">Male</string>
     <string name="sex_female">Female</string>
     <string name="sex_other">Other</string>
+
+    <string name="diet_none">None</string>
+    <string name="diet_peanut">Peanut</string>
+    <string name="diet_milk">Milk</string>
+    <string name="diet_egg">Egg</string>
+    <string name="diet_wheat">Wheat</string>
+    <string name="diet_soy">Soy</string>
+    <string name="diet_fish">Fish</string>
+    <string name="diet_shellfish">Shellfish</string>
+    <string name="diet_alcohol">Alcohol</string>
+    <string name="diet_meat">Meat</string>
+    <string name="diet_poultry">Poultry</string>
 
 </resources>

@@ -62,6 +62,20 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_dietary_restrictions_prompt" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/profile_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"> </android.support.v7.widget.RecyclerView>
+    <Button
+        android:id="@+id/diet_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_dietary_restrictions_button_text"/>
+
     <Button
         android:id="@+id/save_button"
         android:layout_width="wrap_content"

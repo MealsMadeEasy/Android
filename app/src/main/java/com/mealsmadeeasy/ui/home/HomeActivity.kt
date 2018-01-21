@@ -12,6 +12,7 @@ import com.mealsmadeeasy.R
 import com.mealsmadeeasy.ui.BaseActivity
 import com.mealsmadeeasy.ui.home.glance.WeekAtAGlanceFragment
 import com.mealsmadeeasy.ui.home.grocery.GroceryListFragment
+import com.mealsmadeeasy.ui.home.profile.DietaryRestrictionsFragment
 import com.mealsmadeeasy.ui.home.profile.ProfileFragment
 import com.mealsmadeeasy.utils.first
 import com.mealsmadeeasy.utils.forEach

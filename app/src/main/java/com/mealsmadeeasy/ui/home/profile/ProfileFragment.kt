@@ -52,9 +52,9 @@ class ProfileFragment : BaseFragment() {
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sexSpinner.adapter = sexAdapter
 
-        // Set button behavior
-        val button = root.findViewById<Button>(R.id.save_button)
-        button.setOnClickListener{
+        // Set save button behavior
+        val saveButton = root.findViewById<Button>(R.id.save_button)
+        saveButton.setOnClickListener{
             val sex = sexSpinner.selectedItem
             val age = root.findViewById<EditText>(R.id.age_field).text.toString()
             val feet = root.findViewById<EditText>(R.id.height_feet_field).text.toString()
@@ -78,6 +78,12 @@ class ProfileFragment : BaseFragment() {
                 }
             }
             builder.show()
+        }
+
+        // Set edit diet restrictions behavior
+        val dietButton = root.findViewById<Button>(R.id.diet_button)
+        dietButton.setOnClickListener{
+            // redirect to new screen
         }
 
         return root

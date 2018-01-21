@@ -33,12 +33,11 @@ class GroceryListFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.grocery_list_recycler_view, container, false)
+        val root = inflater.inflate(R.layout.single_recycler_view, container, false)
         val rv = root.findViewById<RecyclerView>(R.id.grocery_list_recycler_view)
         val adapter = GroceryListAdapter()
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)
-
         mealStore.getIngredientsForMealPlan()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
