@@ -1,5 +1,15 @@
 package com.mealsmadeeasy.model
 
-/**
- * Created by Alexandra on 1/19/2018.
- */
+enum class DietaryRestrictions {
+    PEANUT,
+    MILK,
+    EGG,
+    WHEAT,
+    SOY,
+    FISH,
+    SHELLFISH,
+    ALCOHOL,
+    MEAT,
+    POULTRY
+    ;
+}

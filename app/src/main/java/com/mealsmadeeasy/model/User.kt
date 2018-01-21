@@ -1,5 +1,9 @@
 package com.mealsmadeeasy.model
 
-/**
- * Created by Alexandra on 1/20/2018.
- */
+data class User (
+        val sex: Sex,
+        val age: Int,
+        val height: Double,
+        val weight: Double,
+        val restrictions: List<DietaryRestrictions>
+)

@@ -7,4 +7,7 @@
     <item android:id="@+id/menu_item_grocery_list"
         android:title="@string/grocery_list"/>
 
+    <item android:id="@+id/menu_item_user_profile"
+        android:title="@string/profile"/>
+
 </menu>

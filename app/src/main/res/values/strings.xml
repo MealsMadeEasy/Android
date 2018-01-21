@@ -7,7 +7,21 @@
     <string name="meal_dinner">Dinner</string>
 
     <string name="week_at_a_glance">Week at a glance</string>
-    <string name="grocery_list">Grocery list</string>
 
+    <string name="grocery_list">Grocery list</string>
     <string name="error_grocery_list_load">Failed to load grocery list</string>
+
+    <string name="profile">Profile</string>
+    <string name="profile_age_prompt">Age</string>
+    <string name="profile_height_prompt">Height</string>
+    <string name="profile_weight_prompt">Weight</string>
+    <string name="profile_sex_prompt">Sex</string>
+    <string name="profile_height_feet_prompt">Feet</string>
+    <string name="profile_height_inches_prompt">Inches</string>
+    <string name="profile_button_text">Save Changes</string>
+
+    <string name="sex_male">Male</string>
+    <string name="sex_female">Female</string>
+    <string name="sex_other">Other</string>
+
 </resources>
