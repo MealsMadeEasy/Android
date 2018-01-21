@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.ui.home.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,21 +56,28 @@ class ProfileFragment : BaseFragment() {
         val button = root.findViewById<Button>(R.id.save_button)
         button.setOnClickListener{
             val sex = sexSpinner.selectedItem
-            val age = root.findViewById<EditText>(R.id.age_field).text.toString().toInt()
-            val feet = root.findViewById<EditText>(R.id.height_feet_field).text.toString().toInt()
-            val inches = root.findViewById<EditText>(R.id.height_inches_field).text.toString().toInt()
-            val pounds = root.findViewById<EditText>(R.id.weight_field).toString().toDouble()
-            val bmi = calculateBMI(feet, inches, pounds)
+            val age = root.findViewById<EditText>(R.id.age_field).text.toString()
+            val feet = root.findViewById<EditText>(R.id.height_feet_field).text.toString()
+            val inches = root.findViewById<EditText>(R.id.height_inches_field).text.toString()
+            val pounds = root.findViewById<EditText>(R.id.weight_field).text.toString()
 
-            if (age < MIN_AGE) {
-                // alert
-            } else if (inches >= INCHES_IN_FEET) {
-                // alert
-            } else if (bmi < MIN_BMI || bmi > MAX_BMI) {
-                // bmi alert
+            val builder = AlertDialog.Builder(this.activity)
+            if (age == "" || feet == "" || inches == "" || pounds == "") {
+                builder.setMessage(R.string.error_profile_blank_field)
+            } else if (age.toInt() < MIN_AGE) {
+                builder.setMessage(R.string.error_profile_underage)
+            } else if (inches.toInt() >= INCHES_IN_FEET) {
+                builder.setMessage(R.string.error_profile_invalid_height_inches)
             } else {
-                // update DB
+                val bmi = calculateBMI(feet.toInt(), inches.toInt(), pounds.toDouble())
+                if (bmi < MIN_BMI || bmi > MAX_BMI) {
+                    builder.setMessage(R.string.error_profile_invalid_bmi)
+                } else {
+                    builder.setMessage(R.string.success_profile_updated)
+                    // actually insert into the db and things
+                }
             }
+            builder.show()
         }
 
         return root

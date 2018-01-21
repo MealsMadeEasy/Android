@@ -19,6 +19,11 @@
     <string name="profile_height_feet_prompt">Feet</string>
     <string name="profile_height_inches_prompt">Inches</string>
     <string name="profile_button_text">Save Changes</string>
+    <string name="error_profile_underage">You must be at least 13 years old to use this application</string>
+    <string name="error_profile_invalid_bmi">Please enter a valid height and weight combination</string>
+    <string name="error_profile_invalid_height_inches">Inches must be between 0 and 11, inclusive</string>
+    <string name="error_profile_blank_field">Please fill in all fields</string>
+    <string name="success_profile_updated">Your information has been updated</string>
 
     <string name="sex_male">Male</string>
     <string name="sex_female">Female</string>
