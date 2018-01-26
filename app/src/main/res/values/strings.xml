@@ -12,12 +12,14 @@
     <string name="error_grocery_list_load">Failed to load grocery list</string>
 
     <string name="profile">Profile</string>
-    <string name="profile_age_prompt">Age</string>
+    <string name="profile_birthday_prompt">Birthday</string>
     <string name="profile_height_prompt">Height</string>
     <string name="profile_weight_prompt">Weight</string>
     <string name="profile_sex_prompt">Sex</string>
-    <string name="profile_height_feet_prompt">Feet</string>
-    <string name="profile_height_inches_prompt">Inches</string>
+    <string name="profile_height_inches_prompt">0\"</string>
+    <string name="profile_height_feet_units">Feet</string>
+    <string name="profile_height_inches_units">Inches</string>
+    <string name="profile_weight_lbs_units">lbs</string>
     <string name="profile_dietary_restrictions_prompt">Dietary Restrictions</string>
     <string name="profile_dietary_restrictions_button_text">Edit Dietary Restrictions / Preferences</string>
     <string name="profile_button_text">Save Changes</string>
