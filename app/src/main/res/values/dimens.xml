@@ -13,4 +13,7 @@
     <dimen name="week_at_a_glance_meal_period_title_padding">8dp</dimen>
     <dimen name="week_at_a_glance_meal_padding">8dp</dimen>
     <dimen name="profile_label_text_size">6pt</dimen>
+    <dimen name="profile_padding_vertical_default">12dp</dimen>
+    <dimen name="profile_padding_horizontal_default">8dp</dimen>
+    <dimen name="profile_padding_horizontal_labels">4dp</dimen>
 </resources>

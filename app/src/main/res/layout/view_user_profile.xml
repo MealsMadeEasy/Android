@@ -2,7 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="@dimen/profile_padding_vertical_default"
+    android:paddingStart="@dimen/profile_padding_horizontal_default"
+    android:paddingEnd="@dimen/profile_padding_horizontal_default"
+    android:paddingBottom="@dimen/profile_padding_vertical_default"
+    android:dividerPadding="6dp">
 
     <Spinner
         android:id="@+id/sex_spinner"
@@ -14,6 +19,7 @@
         android:id="@+id/birthday_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:editable="false"
         android:hint="@string/profile_birthday_prompt"/>
 
     <LinearLayout
@@ -41,7 +47,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/profile_padding_horizontal_labels"
+        android:paddingEnd="@dimen/profile_padding_horizontal_labels" >
         <TextView
             android:textSize="@dimen/profile_label_text_size"
             android:layout_width="0dp"
@@ -55,6 +63,7 @@
             android:layout_width="0dp"
             android:layout_weight=".5"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/profile_padding_horizontal_labels"
             android:singleLine="true"
             android:text="@string/profile_height_inches_units"
             android:labelFor="@+id/height_inches_field" />
@@ -70,8 +79,9 @@
         android:textSize="@dimen/profile_label_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/profile_padding_horizontal_labels"
         android:text="@string/profile_weight_lbs_units"
-        android:labelFor="@+id/weight_field"/>
+        android:labelFor="@+id/weight_field" />
 
     <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
@@ -91,7 +101,7 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_gravity="center"
         android:text="@string/profile_button_text"/>
 
 </LinearLayout>

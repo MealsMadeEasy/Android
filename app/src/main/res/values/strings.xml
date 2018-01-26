@@ -23,6 +23,7 @@
     <string name="profile_dietary_restrictions_prompt">Dietary Restrictions</string>
     <string name="profile_dietary_restrictions_button_text">Edit Dietary Restrictions / Preferences</string>
     <string name="profile_button_text">Save Changes</string>
+    <string name="profile_spinner_prompt">Sex</string>
     <string name="error_profile_underage">You must be at least 13 years old to use this application</string>
     <string name="error_profile_invalid_bmi">Please enter a valid height and weight combination</string>
     <string name="error_profile_invalid_height_inches">Inches must be between 0 and 11, inclusive</string>

@@ -55,7 +55,7 @@ class ProfileFragment : BaseFragment() {
         // Populate sex spinner values
         val sexSpinner = root.findViewById<Spinner>(R.id.sex_spinner)
         val sexValues: List<String> = listOf(
-                Sex.MALE.toString(), Sex.FEMALE.toString(), Sex.OTHER.toString(), "Sex")
+                Sex.MALE.toString(), Sex.FEMALE.toString(), Sex.OTHER.toString(), getString(R.string.profile_spinner_prompt))
         val sexAdapter = HintAdapter(this.activity, android.R.layout.simple_list_item_1, sexValues)
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sexSpinner.adapter = sexAdapter
@@ -90,7 +90,9 @@ class ProfileFragment : BaseFragment() {
             val pounds = root.findViewById<EditText>(R.id.weight_field).text.toString()
 
             val builder = AlertDialog.Builder(this.activity)
-            if (feet == "" || inches == "" || pounds == "") {
+            if (sex == getString(R.string.profile_spinner_prompt)
+                    || dateText.text.toString() == ""
+                    || feet == "" || inches == "" || pounds == "") {
                 builder.setMessage(R.string.error_profile_blank_field)
             } else if (age.toInt() < MIN_AGE) {
                 builder.setMessage(R.string.error_profile_underage)
@@ -109,10 +111,10 @@ class ProfileFragment : BaseFragment() {
         }
 
         // Set edit diet restrictions behavior
-        val dietButton = root.findViewById<Button>(R.id.diet_button)
-        dietButton.setOnClickListener{
+//        val dietButton = root.findViewById<Button>(R.id.diet_button)
+//        dietButton.setOnClickListener{
             // redirect to new screen
-        }
+//        }
 
         return root
     }
