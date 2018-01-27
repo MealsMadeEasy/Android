@@ -20,17 +20,6 @@ class DietaryRestrictionsAdapter(data: List<DietaryRestrictions> =
         }
     val checkboxMap = mutableMapOf<DietaryRestrictions, Boolean>()
 
-    companion object {
-        fun getByString(value: String): DietaryRestrictions {
-            for (type in DietaryRestrictions.values()) {
-                if (type.toString() == value) {
-                    return type
-                }
-            }
-            throw IllegalArgumentException(value + " is not a valid dietary restriction")
-        }
-    }
-
     override fun getItemCount() = data.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DietaryRestrictionsViewHolder {
@@ -52,7 +41,7 @@ class DietaryRestrictionsViewHolder(root: View, val checkboxMap : MutableMap<Die
 
     init {
         checkbox.setOnCheckedChangeListener { _, checked ->
-            checkboxMap[DietaryRestrictionsAdapter.getByString(restriction.text.toString())] = checked
+            checkboxMap[DietaryRestrictions.getByString(restriction.text.toString())] = checked
         }
         root.findViewById<View>(R.id.profile_dietary_restrictions_container).setOnClickListener { _ ->
             checkbox.isChecked = !checkbox.isChecked

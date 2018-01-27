@@ -11,7 +11,7 @@ import com.mealsmadeeasy.ui.BaseFragment
 
 class DietaryRestrictionsFragment : BaseFragment() {
     companion object {
-        fun newInstance(): DietaryRestrictionsFragment = DietaryRestrictionsFragment()
+        fun newInstance() = DietaryRestrictionsFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

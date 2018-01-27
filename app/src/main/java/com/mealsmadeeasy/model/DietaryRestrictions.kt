@@ -14,6 +14,16 @@ enum class DietaryRestrictions(@StringRes val restriction: Int) {
     SHELLFISH(R.string.diet_shellfish),
     ALCOHOL(R.string.diet_alcohol),
     MEAT(R.string.diet_meat),
-    POULTRY(R.string.diet_poultry)
-    ;
+    POULTRY(R.string.diet_poultry);
+
+    companion object {
+        fun getByString(value: String): DietaryRestrictions {
+            for (type in DietaryRestrictions.values()) {
+                if (type.toString() == value) {
+                    return type
+                }
+            }
+            throw IllegalArgumentException(value + " is not a valid dietary restriction")
+        }
+    }
 }

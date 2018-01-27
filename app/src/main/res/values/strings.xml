@@ -15,7 +15,7 @@
     <string name="profile_birthday_prompt">Birthday</string>
     <string name="profile_height_prompt">Height</string>
     <string name="profile_weight_prompt">Weight</string>
-    <string name="profile_sex_prompt">Sex</string>
+    <string name="profile_sex_prompt">Gender</string>
     <string name="profile_height_inches_prompt">0\"</string>
     <string name="profile_height_feet_units">Feet</string>
     <string name="profile_height_inches_units">Inches</string>
@@ -31,9 +31,10 @@
     <string name="success_profile_updated">Your information has been updated</string>
     <string name="error_dietary_restrictions_list_load">Failed to load dietary restrictions</string>
 
-    <string name="sex_male">Male</string>
-    <string name="sex_female">Female</string>
-    <string name="sex_other">Other</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_other">Other</string>
+    <string name="gender_undisclosed">Undisclosed</string>
 
     <string name="diet_none">None</string>
     <string name="diet_peanut">Peanut</string>

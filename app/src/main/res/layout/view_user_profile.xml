@@ -7,7 +7,7 @@
     android:paddingStart="@dimen/profile_padding_horizontal_default"
     android:paddingEnd="@dimen/profile_padding_horizontal_default"
     android:paddingBottom="@dimen/profile_padding_vertical_default"
-    android:dividerPadding="6dp">
+    android:dividerPadding="@dimen/profile_padding_divider" >
 
     <Spinner
         android:id="@+id/sex_spinner"
@@ -29,7 +29,7 @@
         <EditText
             android:id="@+id/height_feet_field"
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:inputType="number"
@@ -37,7 +37,7 @@
         <EditText
             android:id="@+id/height_inches_field"
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:inputType="number"
