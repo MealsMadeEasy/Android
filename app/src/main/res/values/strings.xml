@@ -10,4 +10,6 @@
     <string name="grocery_list">Grocery list</string>
 
     <string name="error_grocery_list_load">Failed to load grocery list</string>
+
+
 </resources>
