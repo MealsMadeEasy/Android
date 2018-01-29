@@ -55,28 +55,6 @@
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal" >-->
-        <!--<EditText-->
-            <!--android:id="@+id/height_feet_field"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:singleLine="true"-->
-            <!--android:inputType="number"-->
-            <!--android:hint="@string/profile_height_prompt"/>-->
-        <!--<EditText-->
-            <!--android:id="@+id/height_inches_field"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:singleLine="true"-->
-            <!--android:inputType="number"-->
-            <!--android:hint="@string/profile_height_inches_prompt"/>-->
-    <!--</LinearLayout>-->
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/weight_container"
         android:layout_width="match_parent"
@@ -89,20 +67,6 @@
             android:layout_height="wrap_content"
             android:inputType="number"/>
     </android.support.design.widget.TextInputLayout>
-
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/profile_dietary_restrictions_prompt" />-->
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/profile_recycler_view"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"> </android.support.v7.widget.RecyclerView>-->
-    <!--<Button-->
-        <!--android:id="@+id/diet_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/profile_dietary_restrictions_button_text"/>-->
 
     <Button
         android:id="@+id/save_button"

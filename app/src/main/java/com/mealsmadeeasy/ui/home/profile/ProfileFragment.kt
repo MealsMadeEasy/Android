@@ -102,17 +102,11 @@ class ProfileFragment : BaseFragment() {
             builder.show()
         }
 
-        // Set edit diet restrictions behavior
-//        val dietButton = root.findViewById<Button>(R.id.diet_button)
-//        dietButton.setOnClickListener{
-            // redirect to new screen
-//        }
-
         return root
     }
 
     private fun setupDatePicker(editText: EditText, cal: Calendar) {
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)

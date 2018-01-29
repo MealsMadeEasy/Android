@@ -36,16 +36,4 @@
     <string name="gender_other">Other</string>
     <string name="gender_undisclosed">Undisclosed</string>
 
-    <string name="diet_none">None</string>
-    <string name="diet_peanut">Peanut</string>
-    <string name="diet_milk">Milk</string>
-    <string name="diet_egg">Egg</string>
-    <string name="diet_wheat">Wheat</string>
-    <string name="diet_soy">Soy</string>
-    <string name="diet_fish">Fish</string>
-    <string name="diet_shellfish">Shellfish</string>
-    <string name="diet_alcohol">Alcohol</string>
-    <string name="diet_meat">Meat</string>
-    <string name="diet_poultry">Poultry</string>
-
 </resources>
