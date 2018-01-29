@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.view.LayoutInflater
 import android.view.View
@@ -55,14 +56,28 @@ class ProfileFragment : BaseFragment() {
         val cal = Calendar.getInstance()
         setupDatePicker(dateText, cal)
 
+        // Set up text input view hints
+        val feetContainer = root.findViewById<TextInputLayout>(R.id.height_feet_container)
+        val feetEditText = root.findViewById<TextInputEditText>(R.id.height_feet_edit_text)
+        val inchesContainer = root.findViewById<TextInputLayout>(R.id.height_inches_container)
+        val inchesEditText = root.findViewById<TextInputEditText>(R.id.height_inches_edit_text)
+        val weightContainer = root.findViewById<TextInputLayout>(R.id.weight_container)
+        val weightEditText = root.findViewById<TextInputEditText>(R.id.weight_field)
+        feetEditText.onFocusChangeListener = TextInputViewHintListener(feetContainer,
+                getString(R.string.profile_height_prompt), getString(R.string.profile_height_feet_units))
+        inchesEditText.onFocusChangeListener = TextInputViewHintListener(inchesContainer,
+                getString(R.string.profile_height_inches_prompt), getString(R.string.profile_height_inches_units))
+        weightEditText.onFocusChangeListener = TextInputViewHintListener(weightContainer,
+                getString(R.string.profile_weight_prompt), getString(R.string.profile_weight_lbs_units))
+
         // Set save button behavior
         val saveButton = root.findViewById<Button>(R.id.save_button)
         saveButton.setOnClickListener{
             val sex = sexSpinner.selectedItem
             val age = cal.timeInMillis
-            val feet = root.findViewById<EditText>(R.id.height_feet_field).text.toString()
-            val inches = root.findViewById<EditText>(R.id.height_inches_field).text.toString()
-            val pounds = root.findViewById<EditText>(R.id.weight_field).text.toString()
+            val feet = feetEditText.text.toString()
+            val inches = inchesEditText.text.toString()
+            val pounds = weightEditText.text.toString()
 
             val builder = AlertDialog.Builder(this.activity)
             if (sex == getString(R.string.profile_spinner_prompt)
@@ -124,5 +139,16 @@ private class HintAdapter<T>(context: Context?, theLayoutResId: Int, objects: Li
     override fun getCount(): Int {
         val count = super.getCount()
         return if (count > 0) count - 1 else count
+    }
+}
+
+private class TextInputViewHintListener(val container: TextInputLayout, val dummyText: String, val hint: String)
+            : View.OnFocusChangeListener {
+    override fun onFocusChange(v: View, hasFocus: Boolean) {
+        if (hasFocus) {
+            container.hint = hint
+        } else {
+            container.hint = dummyText
+        }
     }
 }
