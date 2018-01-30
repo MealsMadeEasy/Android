@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name">Meals Made Easy</string>
+    <string name="app_name_no_spaces">MealsMadeEasy</string>
 
     <string name="meal_breakfast">Breakfast</string>
     <string name="meal_lunch">Lunch</string>
