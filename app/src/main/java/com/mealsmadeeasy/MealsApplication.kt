@@ -14,7 +14,7 @@ class MealsApplication : Application() {
 
     companion object {
 
-        fun component(context: Context) = (context.applicationContext as? MealsApplication).let {
+        fun component(context: Context?) = (context?.applicationContext as? MealsApplication).let {
             it?.component ?: throw RuntimeException("Cannot access component from $it")
         }
 
