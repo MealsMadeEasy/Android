@@ -15,6 +15,7 @@
     <dimen name="profile_label_text_size">10sp</dimen>
     <dimen name="profile_padding_vertical_default">12dp</dimen>
     <dimen name="profile_padding_horizontal_default">8dp</dimen>
-    <dimen name="profile_padding_horizontal_labels">4dp</dimen>
+    <dimen name="profile_padding_spinner_offset">10dp</dimen>
     <dimen name="profile_padding_divider">6dp</dimen>
+    <dimen name="profile_button_top_padding">64dp</dimen>
 </resources>

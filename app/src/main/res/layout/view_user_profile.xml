@@ -15,16 +15,24 @@
         android:layout_height="wrap_content"
         android:hint="@string/profile_sex_prompt"/>
 
-    <EditText
-        android:id="@+id/birthday_edit_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:editable="false"
-        android:hint="@string/profile_birthday_prompt"/>
+        android:paddingStart="@dimen/profile_padding_spinner_offset"
+        android:paddingEnd="@dimen/profile_padding_spinner_offset" >
+        <EditText
+            android:id="@+id/birthday_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="@string/profile_birthday_prompt"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/profile_padding_spinner_offset"
+        android:paddingEnd="@dimen/profile_padding_spinner_offset"
         android:orientation="horizontal" >
         <android.support.design.widget.TextInputLayout
             android:id="@+id/height_feet_container"
@@ -59,6 +67,8 @@
         android:id="@+id/weight_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/profile_padding_spinner_offset"
+        android:paddingEnd="@dimen/profile_padding_spinner_offset"
         android:hint="@string/profile_weight_prompt" >
 
         <android.support.design.widget.TextInputEditText
@@ -72,7 +82,9 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/profile_button_top_padding"
         android:layout_gravity="center"
-        android:text="@string/profile_button_text"/>
+        android:text="@string/profile_button_text"
+        android:enabled="false" />
 
 </LinearLayout>

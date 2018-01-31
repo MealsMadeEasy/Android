@@ -11,14 +11,9 @@ enum class Gender(@StringRes val gender: Int) {
     UNDISCLOSED(R.string.gender_undisclosed);
 
     companion object {
-        fun getByString(value: String): Gender {
-            for (type in Gender.values()) {
-                if (type.toString() == value) {
-                    return type
-                }
-            }
-            throw IllegalArgumentException(value + " is not a valid gender")
+        fun valuesAsStringRes(): List<Int> {
+            return listOf(R.string.gender_male, R.string.gender_female, R.string.gender_other,
+                    R.string.gender_undisclosed)
         }
     }
-
 }

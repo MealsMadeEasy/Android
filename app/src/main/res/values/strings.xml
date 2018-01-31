@@ -20,8 +20,6 @@
     <string name="profile_height_feet_units">Feet</string>
     <string name="profile_height_inches_units">Inches</string>
     <string name="profile_weight_lbs_units">lbs</string>
-    <string name="profile_dietary_restrictions_prompt">Dietary Restrictions</string>
-    <string name="profile_dietary_restrictions_button_text">Edit Dietary Restrictions / Preferences</string>
     <string name="profile_button_text">Save Changes</string>
     <string name="profile_spinner_prompt">Sex</string>
     <string name="error_profile_underage">You must be at least 13 years old to use this application</string>
@@ -29,7 +27,6 @@
     <string name="error_profile_invalid_height_inches">Inches must be between 0 and 11, inclusive</string>
     <string name="error_profile_blank_field">Please fill in all fields</string>
     <string name="success_profile_updated">Your information has been updated</string>
-    <string name="error_dietary_restrictions_list_load">Failed to load dietary restrictions</string>
 
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
