@@ -36,11 +36,10 @@ class ProfileFragment : BaseFragment() {
 
     companion object {
         fun newInstance(): ProfileFragment = ProfileFragment()
+    }
 
-        fun heightToInches(feet: Int, inches: Int): Int {
-            return feet * INCHES_IN_FEET + inches
-        }
-
+    fun heightToInches(feet: Int, inches: Int): Int {
+        return feet * INCHES_IN_FEET + inches
     }
 
     private fun areAllFieldsEnabled(): Boolean {
@@ -137,24 +136,18 @@ class ProfileFragment : BaseFragment() {
             builder.setPositiveButton("OK",  {_, _ ->
                 ;
             })
-            if (sexSpinner.getItemAtPosition(sex) == getString(R.string.profile_spinner_prompt)
-                    || dateText.text.isBlank() || feet.isBlank() || inches.isBlank()
-                    || pounds.isBlank()) {
-                builder.setMessage(R.string.error_profile_blank_field)
+            val user = UserProfile(Gender.values()[sex], age,
+                    heightToInches(feet.toInt(), inches.toInt()), pounds.toInt())
+            if (age.toInt() < MIN_AGE) {
+                builder.setMessage(R.string.error_profile_underage)
+            } else if (inches.toInt() >= INCHES_IN_FEET) {
+                builder.setMessage(R.string.error_profile_invalid_height_inches)
             } else {
-                val user = UserProfile(Gender.values()[sex], age,
-                        heightToInches(feet.toInt(), inches.toInt()), pounds.toInt())
-                if (age.toInt() < MIN_AGE) {
-                    builder.setMessage(R.string.error_profile_underage)
-                } else if (inches.toInt() >= INCHES_IN_FEET) {
-                    builder.setMessage(R.string.error_profile_invalid_height_inches)
+                if (user.bmi < MIN_BMI || user.bmi > MAX_BMI) {
+                    builder.setMessage(R.string.error_profile_invalid_bmi)
                 } else {
-                    if (user.bmi < MIN_BMI || user.bmi > MAX_BMI) {
-                        builder.setMessage(R.string.error_profile_invalid_bmi)
-                    } else {
-                        builder.setMessage(R.string.success_profile_updated)
-                        insertIntoDatabase(user)
-                    }
+                    builder.setMessage(R.string.success_profile_updated)
+                    insertIntoDatabase(user)
                 }
             }
             builder.show()
