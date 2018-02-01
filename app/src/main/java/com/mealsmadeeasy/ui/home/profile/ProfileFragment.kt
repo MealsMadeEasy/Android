@@ -27,45 +27,16 @@ private const val MIN_BMI = 15
 private const val MAX_BMI = 50
 
 class ProfileFragment : BaseFragment() {
-    lateinit var sexSpinner: Spinner
-    lateinit var bdayPicker: EditText
-    lateinit var feetText: EditText
-    lateinit var inchesText: EditText
-    lateinit var weightText: EditText
-    lateinit var submitButton: Button
+    private lateinit var sexSpinner: Spinner
+    private lateinit var bdayPicker: EditText
+    private lateinit var feetText: EditText
+    private lateinit var inchesText: EditText
+    private lateinit var weightText: EditText
+    private lateinit var submitButton: Button
+    private var cal = Calendar.getInstance()
 
     companion object {
         fun newInstance(): ProfileFragment = ProfileFragment()
-    }
-
-    fun heightToInches(feet: Int, inches: Int): Int {
-        return feet * INCHES_IN_FEET + inches
-    }
-
-    private fun areAllFieldsEnabled(): Boolean {
-        val spinner = sexSpinner.selectedItem
-        val birthday = bdayPicker.text
-        val heightFeet = feetText.text
-        val heightInches = inchesText.text
-        val weight = weightText.text
-
-        return spinner != getString(R.string.profile_spinner_prompt)
-                && !birthday.isBlank() && !heightFeet.isBlank() && !heightInches.isBlank()
-                && !weight.isBlank()
-    }
-
-    private inner class ButtonTextWatcher : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            submitButton.isEnabled = areAllFieldsEnabled()
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            ;
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            ;
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -92,8 +63,7 @@ class ProfileFragment : BaseFragment() {
 
         // Set up birthday date picker
         val dateText = root.findViewById<EditText>(R.id.birthday_edit_text)
-        val cal = Calendar.getInstance()
-        setupDatePicker(dateText, cal)
+        setupDatePicker(dateText)
 
         // Set up text input view hints
         val feetContainer = root.findViewById<TextInputLayout>(R.id.height_feet_container)
@@ -115,7 +85,7 @@ class ProfileFragment : BaseFragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                ;
+                // Do nothing.
             }
         }
 
@@ -124,39 +94,12 @@ class ProfileFragment : BaseFragment() {
             editText.addTextChangedListener(watcher)
         }
 
-        // Set button on click behavior
-        submitButton.setOnClickListener{
-            val sex = sexSpinner.selectedItemPosition
-            val age = cal.timeInMillis
-            val feet = feetText.text.toString()
-            val inches = inchesText.text.toString()
-            val pounds = weightText.text.toString()
-
-            val builder = AlertDialog.Builder(this.activity)
-            builder.setPositiveButton("OK",  {_, _ ->
-                ;
-            })
-            val user = UserProfile(Gender.values()[sex], age,
-                    heightToInches(feet.toInt(), inches.toInt()), pounds.toInt())
-            if (age.toInt() < MIN_AGE) {
-                builder.setMessage(R.string.error_profile_underage)
-            } else if (inches.toInt() >= INCHES_IN_FEET) {
-                builder.setMessage(R.string.error_profile_invalid_height_inches)
-            } else {
-                if (user.bmi < MIN_BMI || user.bmi > MAX_BMI) {
-                    builder.setMessage(R.string.error_profile_invalid_bmi)
-                } else {
-                    builder.setMessage(R.string.success_profile_updated)
-                    insertIntoDatabase(user)
-                }
-            }
-            builder.show()
-        }
+        onSubmitClicked()
 
         return root
     }
 
-    private fun setupDatePicker(editText: EditText, cal: Calendar) {
+    private fun setupDatePicker(editText: EditText) {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
@@ -174,8 +117,93 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
+    private fun onSubmitClicked() {
+        submitButton.setOnClickListener{
+            val sex = sexSpinner.selectedItemPosition
+            val age = cal.timeInMillis
+            val feet = feetText.text.toString()
+            val inches = inchesText.text.toString()
+            val pounds = weightText.text.toString()
+
+            val builder = AlertDialog.Builder(this.activity)
+            builder.setPositiveButton(getString(R.string.profile_prompt_positive_ack),  {_, _ ->
+                // Do nothing.
+            })
+            val user = UserProfile(Gender.values()[sex], age,
+                    heightToInches(feet.toInt(), inches.toInt()), pounds.toInt())
+            if (calculateAge() < MIN_AGE) {
+                builder.setMessage(R.string.error_profile_underage)
+            } else if (inches.toInt() >= INCHES_IN_FEET) {
+                builder.setMessage(R.string.error_profile_invalid_height_inches)
+            } else {
+                if (user.bmi < MIN_BMI || user.bmi > MAX_BMI) {
+                    builder.setMessage(R.string.error_profile_invalid_bmi)
+                } else {
+                    builder.setMessage(R.string.success_profile_updated)
+                    insertIntoDatabase(user)
+                }
+            }
+            builder.show()
+        }
+    }
+
     private fun insertIntoDatabase(user: UserProfile) {
         // TODO
+    }
+
+    private fun heightToInches(feet: Int, inches: Int): Int {
+        return feet * INCHES_IN_FEET + inches
+    }
+
+    private fun calculateAge(): Int {
+        val today = Calendar.getInstance()
+
+        var age = today.get(Calendar.YEAR) - cal.get(Calendar.YEAR)
+
+        if (today.get(Calendar.DAY_OF_YEAR) < cal.get(Calendar.DAY_OF_YEAR)) {
+            age--
+        }
+
+        return age
+    }
+
+    private fun areAllFieldsEnabled(): Boolean {
+        val spinner = sexSpinner.selectedItem
+        val birthday = bdayPicker.text
+        val heightFeet = feetText.text
+        val heightInches = inchesText.text
+        val weight = weightText.text
+
+        return spinner != getString(R.string.profile_spinner_prompt)
+                && !birthday.isBlank() && !heightFeet.isBlank() && !heightInches.isBlank()
+                && !weight.isBlank()
+    }
+
+    private inner class ButtonTextWatcher : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            submitButton.isEnabled = areAllFieldsEnabled()
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // Do nothing.
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // Do nothing.
+        }
+    }
+}
+
+private class TextInputViewHintListener(val container: TextInputLayout, val dummyText: String,
+                                        val hint: String) : View.OnFocusChangeListener {
+    override fun onFocusChange(v: View, hasFocus: Boolean) {
+        if (hasFocus) {
+            container.hint = hint
+        } else {
+            if (container.editText!!.text.isBlank()) {
+                container.hint = dummyText
+            }
+        }
     }
 }
 
@@ -184,20 +212,5 @@ private class HintAdapter<T>(context: Context?, theLayoutResId: Int, objects: Li
     override fun getCount(): Int {
         val count = super.getCount()
         return if (count > 0) count - 1 else count
-    }
-}
-
-private class TextInputViewHintListener(val container: TextInputLayout, val dummyText: String, val hint: String)
-            : View.OnFocusChangeListener {
-    override fun onFocusChange(v: View, hasFocus: Boolean) {
-        if (hasFocus) {
-            container.hint = hint
-        } else {
-            if (container.editText!!.text.isBlank()) {
-                container.hint = dummyText
-            } else {
-                container.hint = ""
-            }
-        }
     }
 }

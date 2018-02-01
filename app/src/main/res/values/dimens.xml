@@ -18,4 +18,5 @@
     <dimen name="profile_padding_spinner_offset">10dp</dimen>
     <dimen name="profile_padding_divider">6dp</dimen>
     <dimen name="profile_button_top_padding">64dp</dimen>
+    <dimen name="profile_spinner_top_padding">10dp</dimen>
 </resources>

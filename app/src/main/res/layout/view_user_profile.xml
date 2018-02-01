@@ -13,6 +13,7 @@
         android:id="@+id/sex_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/profile_spinner_top_padding"
         android:hint="@string/profile_sex_prompt"/>
 
     <LinearLayout
@@ -34,6 +35,7 @@
         android:paddingStart="@dimen/profile_padding_spinner_offset"
         android:paddingEnd="@dimen/profile_padding_spinner_offset"
         android:orientation="horizontal" >
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/height_feet_container"
             android:layout_width="0dp"
