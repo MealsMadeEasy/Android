@@ -32,11 +32,25 @@ class UserManager(private val service: MealsMadeEasyService) {
         return@fromCallable key!!
     }
 
+    fun isUserOnboarded(): Single<Boolean> {
+        return getUserToken()
+                .subscribeOn(Schedulers.io())
+                .flatMap { service.getUserProfile(it) }
+                .map {
+                    if (it.isSuccessful) it.body() != null
+                    else throw IOException("${it.code()}: ${it.errorBody()?.string()}")
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun getUserProfile(): Single<UserProfile> {
         return getUserToken()
                 .subscribeOn(Schedulers.io())
                 .flatMap { service.getUserProfile(it) }
-                .unwrapResponse()
+                .map {
+                    if (it.isSuccessful) it.body()!!
+                    else throw IOException("${it.code()}: ${it.errorBody()?.string()}")
+                }
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
