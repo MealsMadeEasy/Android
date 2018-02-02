@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.data
 
+import com.google.firebase.auth.FirebaseAuth
 import com.mealsmadeeasy.data.service.MealsMadeEasyService
 import com.mealsmadeeasy.model.UserProfile
 import io.reactivex.Single
@@ -7,10 +8,29 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 import java.io.IOException
+import java.util.concurrent.Semaphore
 
 class UserManager(private val service: MealsMadeEasyService) {
 
-    fun getUserToken(): Single<String> = TODO("Get this from Firebase")
+    fun getUserToken(): Single<String> = Single.fromCallable {
+        val user = FirebaseAuth.getInstance().currentUser
+                ?: throw IllegalStateException("User is not logged in")
+
+        val semaphore = Semaphore(0)
+        var key: String? = null
+
+        user.getIdToken(true).addOnCompleteListener {
+            if (it.isSuccessful) {
+                key = it.result.token
+            } else {
+                throw it.exception!!
+            }
+            semaphore.release()
+        }
+
+        semaphore.acquire()
+        return@fromCallable key!!
+    }
 
     fun getUserProfile(): Single<UserProfile> {
         return getUserToken()
