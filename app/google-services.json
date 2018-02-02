@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "127262980557",
+    "firebase_url": "https://mealsmadeeasy-a4722.firebaseio.com",
+    "project_id": "mealsmadeeasy-a4722",
+    "storage_bucket": "mealsmadeeasy-a4722.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127262980557:android:7ce941db57e40d9a",
+        "android_client_info": {
+          "package_name": "com.mealsmadeeasy.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127262980557-qfc2gdlors1uqu2pspf77etmm2ph3nqo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1ZglE_cqX1TXSyFLQTUt1NVeMUFlh-IM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127262980557:android:15f5f1f1d283ccf6",
+        "android_client_info": {
+          "package_name": "com.mealsmadeeasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127262980557-qfc2gdlors1uqu2pspf77etmm2ph3nqo.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "127262980557-uhf949o4nq25ft4qd1ljr6mpq797n0h8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mealsmadeeasy",
+            "certificate_hash": "dc736db4f472cd01f7c700f0053ddf4947c13b26"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1ZglE_cqX1TXSyFLQTUt1NVeMUFlh-IM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127262980557-rjuaoettnvoiib4p4uarjco265fk4a1n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Team-Null.MealsMadeEasy"
+              }
+            },
+            {
+              "client_id": "127262980557-qfc2gdlors1uqu2pspf77etmm2ph3nqo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
