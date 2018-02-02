@@ -1,5 +1,7 @@
 package com.mealsmadeeasy.ui.splash
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.util.Log
@@ -19,6 +21,10 @@ private const val TAG = "SplashActivity"
 class SplashActivity : BaseActivity() {
 
     @Inject lateinit var userManager: UserManager
+
+    companion object {
+        fun newIntent(context: Context) = Intent(context, SplashActivity::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
