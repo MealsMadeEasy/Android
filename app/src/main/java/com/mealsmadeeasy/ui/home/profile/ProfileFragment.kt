@@ -8,18 +8,21 @@ import android.support.design.widget.TextInputLayout
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.ui.BaseFragment
-
-import java.util.*
-import android.widget.ArrayAdapter
+import com.mealsmadeeasy.data.UserManager
 import com.mealsmadeeasy.model.Gender
 import com.mealsmadeeasy.model.UserProfile
+import com.mealsmadeeasy.ui.BaseFragment
+import java.util.*
+import javax.inject.Inject
 
+private const val TAG = "ProfileFragment"
 
 private const val MIN_AGE = 13
 private const val INCHES_IN_FEET = 12
@@ -27,6 +30,9 @@ private const val MIN_BMI = 15
 private const val MAX_BMI = 50
 
 class ProfileFragment : BaseFragment() {
+
+    @Inject lateinit var userManager: UserManager
+
     private lateinit var sexSpinner: Spinner
     private lateinit var bdayPicker: TextView
     private lateinit var feetText: EditText
@@ -37,6 +43,11 @@ class ProfileFragment : BaseFragment() {
 
     companion object {
         fun newInstance(): ProfileFragment = ProfileFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        MealsApplication.component(this).inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -95,8 +106,22 @@ class ProfileFragment : BaseFragment() {
         }
 
         onSubmitClicked()
+        loadData()
 
         return root
+    }
+
+    private fun loadData() {
+        userManager.getUserProfile().subscribe({ userProfile ->
+            sexSpinner.setSelection(Gender.values().indexOf(userProfile.gender))
+            feetText.setText((userProfile.height / INCHES_IN_FEET).toString())
+            inchesText.setText((userProfile.height % INCHES_IN_FEET).toString())
+            weightText.setText(userProfile.weight.toString())
+
+            cal.timeInMillis = userProfile.birthday
+            bdayPicker.setText(DateFormat.getDateFormat(context).format(Date(cal.timeInMillis)))
+        }, { throwable ->
+        })
     }
 
     private fun setupDatePicker(textView: TextView) {
@@ -148,7 +173,12 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun insertIntoDatabase(user: UserProfile) {
-        // TODO
+        // TODO show blocking spinner thingy
+        userManager.updateUserProfile(user)
+                .subscribe({ successful ->
+                }, { throwable ->
+                    Log.e(TAG, "Failed to update profile", throwable)
+                })
     }
 
     private fun heightToInches(feet: Int, inches: Int): Int {
