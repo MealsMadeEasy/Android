@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_splash"
+    android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,20 +10,20 @@
 
     <ImageView
         android:id="@+id/ic_splash"
-        android:src="@drawable/ic_splash"
+        android:src="@drawable/ic_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="60dp"/>
+        android:paddingBottom="@dimen/login_icon_padding"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/login_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="#ffffff"
-        android:text="@string/app_name_no_spaces"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:text="@string/app_name"
+        android:textSize="@dimen/login_app_name_size"
         android:textStyle="bold" />
 
     <com.google.android.gms.common.SignInButton
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="80dp"
-        android:paddingBottom="60dp" />
+        android:paddingTop="@dimen/login_button_padding_top"
+        android:paddingBottom="@dimen/login_button_padding_bottom" />
 
 </LinearLayout>

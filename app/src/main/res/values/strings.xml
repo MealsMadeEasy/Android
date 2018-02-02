@@ -1,7 +1,8 @@
 <resources>
 
-    <string name="app_name">Meals Made Easy</string>
-    <string name="app_name_no_spaces">MealsMadeEasy</string>
+    <string name="app_name">MealsMadeEasy</string>
+    <string name="auth_fail">Authentication failed</string>
+    <string name="google_login_fail">Google Sign In failed</string>
 
     <string name="meal_breakfast">Breakfast</string>
     <string name="meal_lunch">Lunch</string>
