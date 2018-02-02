@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/ic_splash"
-        android:src="@drawable/ic_login"
+        android:src="@drawable/ic_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
