@@ -14,16 +14,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.data.UserManager
 import com.mealsmadeeasy.ui.BaseActivity
 import com.mealsmadeeasy.ui.splash.SplashActivity
-import javax.inject.Inject
 
 private const val RC_SIGN_IN = 9001
 
 class LoginActivity : BaseActivity() {
-
-    @Inject lateinit var userManager: UserManager
 
     private lateinit var auth: FirebaseAuth
     private lateinit var signInClient: GoogleSignInClient
