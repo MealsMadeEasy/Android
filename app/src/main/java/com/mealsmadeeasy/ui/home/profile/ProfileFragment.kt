@@ -114,7 +114,7 @@ class ProfileFragment : BaseFragment() {
             editText.addTextChangedListener(watcher)
         }
 
-        onSubmitClicked()
+        submitButton.setOnClickListener { onSubmitClicked() }
         loadData()
 
         return root
@@ -180,42 +180,40 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun onSubmitClicked() {
-        submitButton.setOnClickListener{
-            val sex = sexSpinner.selectedItemPosition
-            val age = cal.timeInMillis
-            val feet = feetText.text.toString()
-            val inches = inchesText.text.toString()
-            val pounds = weightText.text.toString()
+        val sex = sexSpinner.selectedItemPosition
+        val age = cal.timeInMillis
+        val feet = feetText.text.toString()
+        val inches = inchesText.text.toString()
+        val pounds = weightText.text.toString()
 
-            val hasError: Boolean
-            val builder = AlertDialog.Builder(context!!)
-            builder.setPositiveButton(getString(R.string.profile_prompt_positive_ack),  {_, _ ->
-                // Do nothing.
-            })
-            val user = UserProfile(Gender.values()[sex], age,
-                    heightToInches(feet.toInt(), inches.toInt()), pounds.toInt())
-            when {
-                calculateAge() < MIN_AGE -> {
-                    builder.setMessage(R.string.error_profile_underage)
-                    hasError = true
-                }
-                inches.toInt() >= INCHES_IN_FEET -> {
-                    builder.setMessage(R.string.error_profile_invalid_height_inches)
-                    hasError = true
-                }
-                user.bmi < MIN_BMI || user.bmi > MAX_BMI -> {
-                    builder.setMessage(R.string.error_profile_invalid_bmi)
-                    hasError = true
-                }
-                else -> {
-                    insertIntoDatabase(user)
-                    hasError = false
-                }
+        val hasError: Boolean
+        val builder = AlertDialog.Builder(context!!)
+        builder.setPositiveButton(getString(R.string.profile_prompt_positive_ack),  {_, _ ->
+            // Do nothing.
+        })
+        val user = UserProfile(Gender.values()[sex], age,
+                heightToInches(feet.toInt(), inches.toInt()), pounds.toInt())
+        when {
+            calculateAge() < MIN_AGE -> {
+                builder.setMessage(R.string.error_profile_underage)
+                hasError = true
             }
+            inches.toInt() >= INCHES_IN_FEET -> {
+                builder.setMessage(R.string.error_profile_invalid_height_inches)
+                hasError = true
+            }
+            user.bmi < MIN_BMI || user.bmi > MAX_BMI -> {
+                builder.setMessage(R.string.error_profile_invalid_bmi)
+                hasError = true
+            }
+            else -> {
+                insertIntoDatabase(user)
+                hasError = false
+            }
+        }
 
-            if (hasError) {
-                builder.show()
-            }
+        if (hasError) {
+            builder.show()
         }
     }
 
