@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.mealsmadeeasy.MealsApplication
+import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.UserManager
 import com.mealsmadeeasy.ui.BaseActivity
 import com.mealsmadeeasy.ui.home.HomeActivity
@@ -22,6 +23,7 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MealsApplication.component(this).inject(this)
+        setContentView(R.layout.activity_splash)
 
         if (FirebaseAuth.getInstance().currentUser == null) {
             startActivity(LoginActivity.newIntent(this))

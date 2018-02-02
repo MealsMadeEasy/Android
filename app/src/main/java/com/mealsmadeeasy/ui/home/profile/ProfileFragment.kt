@@ -33,6 +33,8 @@ class ProfileFragment : BaseFragment() {
 
     @Inject lateinit var userManager: UserManager
 
+    private lateinit var loadingSpinner: ProgressBar
+
     private lateinit var sexSpinner: Spinner
     private lateinit var bdayPicker: TextView
     private lateinit var feetText: EditText
@@ -54,6 +56,8 @@ class ProfileFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.view_user_profile, container, false)
         root.findViewById<LinearLayout>(R.id.user_profile_container).requestFocus()
+
+        loadingSpinner = root.findViewById(R.id.profile_loading_spinner)
 
         sexSpinner = root.findViewById(R.id.sex_spinner)
         bdayPicker = root.findViewById(R.id.birthday_text_view)
@@ -120,8 +124,13 @@ class ProfileFragment : BaseFragment() {
 
             cal.timeInMillis = userProfile.birthday
             bdayPicker.setText(DateFormat.getDateFormat(context).format(Date(cal.timeInMillis)))
+            showForm()
         }, { throwable ->
         })
+    }
+
+    private fun showForm() {
+        loadingSpinner.visibility = View.GONE
     }
 
     private fun setupDatePicker(textView: TextView) {

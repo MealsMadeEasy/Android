@@ -11,6 +11,12 @@
     android:dividerPadding="@dimen/profile_padding_divider"
     android:focusableInTouchMode="true" >
 
+    <ProgressBar
+        android:id="@+id/profile_loading_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
     <Spinner
         android:id="@+id/sex_spinner"
         android:layout_width="match_parent"
