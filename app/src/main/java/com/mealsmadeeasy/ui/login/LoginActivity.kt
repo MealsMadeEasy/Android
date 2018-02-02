@@ -16,7 +16,7 @@ import com.mealsmadeeasy.R
 import com.mealsmadeeasy.ui.BaseActivity
 import com.mealsmadeeasy.ui.home.HomeActivity
 
-const val RC_SIGN_IN = 9001
+private const val RC_SIGN_IN = 9001
 
 class LoginActivity : BaseActivity() {
 
