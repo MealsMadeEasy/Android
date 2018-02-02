@@ -16,9 +16,9 @@ import com.mealsmadeeasy.R
 import com.mealsmadeeasy.ui.BaseActivity
 import com.mealsmadeeasy.ui.home.HomeActivity
 
-class LoginActivity : BaseActivity() {
+const val RC_SIGN_IN = 9001
 
-    private val RC_SIGN_IN = 9001
+class LoginActivity : BaseActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var signInClient: GoogleSignInClient
@@ -44,15 +44,6 @@ class LoginActivity : BaseActivity() {
         auth = FirebaseAuth.getInstance()
     }
 
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        val currentUser = auth.currentUser
-//        if (currentUser != null) {
-//            startActivity(HomeActivity.newIntent(this))
-//        }
-    }
-
     private fun signIn() {
         val signInIntent = signInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -70,7 +61,7 @@ class LoginActivity : BaseActivity() {
                 firebaseAuthWithGoogle(account)
             } catch (e: ApiException) {
                 // Google Sign In failed, display a message to the user.
-                Snackbar.make(findViewById(R.id.activity_login), "@string/google_login_fail", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(findViewById(R.id.activity_login), "R.string.google_login_fail", Snackbar.LENGTH_SHORT).show()
             }
 
         }
@@ -85,7 +76,7 @@ class LoginActivity : BaseActivity() {
                         startActivity(HomeActivity.newIntent(this))
                     } else {
                         // If sign in fails, display a message to the user.
-                        Snackbar.make(findViewById(R.id.activity_login), "@string/auth_fail", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(findViewById(R.id.activity_login), "R.string.auth_fail", Snackbar.LENGTH_SHORT).show()
                     }
                 }
     }
