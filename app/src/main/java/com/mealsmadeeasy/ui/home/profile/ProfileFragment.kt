@@ -1,10 +1,12 @@
 package com.mealsmadeeasy.ui.home.profile
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TextInputLayout
+import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
@@ -19,6 +21,7 @@ import com.mealsmadeeasy.data.UserManager
 import com.mealsmadeeasy.model.Gender
 import com.mealsmadeeasy.model.UserProfile
 import com.mealsmadeeasy.ui.BaseFragment
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import java.util.*
 import javax.inject.Inject
 
@@ -34,6 +37,7 @@ class ProfileFragment : BaseFragment() {
     @Inject lateinit var userManager: UserManager
 
     private lateinit var loadingSpinner: ProgressBar
+    private lateinit var savingSpinner: ProgressBar
 
     private lateinit var sexSpinner: Spinner
     private lateinit var bdayPicker: TextView
@@ -58,6 +62,7 @@ class ProfileFragment : BaseFragment() {
         root.findViewById<LinearLayout>(R.id.user_profile_container).requestFocus()
 
         loadingSpinner = root.findViewById(R.id.profile_loading_spinner)
+        savingSpinner = root.findViewById(R.id.profile_saving_spinner)
 
         sexSpinner = root.findViewById(R.id.sex_spinner)
         bdayPicker = root.findViewById(R.id.birthday_text_view)
@@ -116,17 +121,40 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun loadData() {
-        userManager.getUserProfile().subscribe({ userProfile ->
-            sexSpinner.setSelection(Gender.values().indexOf(userProfile.gender))
-            feetText.setText((userProfile.height / INCHES_IN_FEET).toString())
-            inchesText.setText((userProfile.height % INCHES_IN_FEET).toString())
-            weightText.setText(userProfile.weight.toString())
+        userManager.isUserOnboarded().bindToLifecycle(this)
+                .subscribe({ onboarded ->
+                    if (onboarded) {
+                        populateFormWithServerData()
+                    } else {
+                        showForm()
+                    }
+                })
+    }
 
-            cal.timeInMillis = userProfile.birthday
-            bdayPicker.setText(DateFormat.getDateFormat(context).format(Date(cal.timeInMillis)))
-            showForm()
-        }, { throwable ->
-        })
+    private fun populateFormWithServerData() {
+        userManager.getUserProfile()
+                .bindToLifecycle(this)
+                .subscribe({ userProfile ->
+                    sexSpinner.setSelection(Gender.values().indexOf(userProfile.gender))
+                    feetText.setText((userProfile.height / INCHES_IN_FEET).toString())
+                    inchesText.setText((userProfile.height % INCHES_IN_FEET).toString())
+                    weightText.setText(userProfile.weight.toString())
+
+                    cal.timeInMillis = userProfile.birthday
+                    bdayPicker.setText(DateFormat.getDateFormat(context).format(Date(cal.timeInMillis)))
+                    showForm()
+                }, { throwable ->
+                    Log.e(TAG, "Failed to read user profile")
+                    AlertDialog.Builder(context!!)
+                            .setMessage(R.string.error_profile_not_loaded)
+                            .setPositiveButton(R.string.action_try_again) { _, _ ->
+                                populateFormWithServerData()
+                            }
+                            .setNegativeButton(R.string.action_cancel) { _, _ ->
+                                activity?.finish()
+                            }
+                            .show()
+                })
     }
 
     private fun showForm() {
@@ -159,35 +187,69 @@ class ProfileFragment : BaseFragment() {
             val inches = inchesText.text.toString()
             val pounds = weightText.text.toString()
 
-            val builder = AlertDialog.Builder(this.activity)
+            val hasError: Boolean
+            val builder = AlertDialog.Builder(context!!)
             builder.setPositiveButton(getString(R.string.profile_prompt_positive_ack),  {_, _ ->
                 // Do nothing.
             })
             val user = UserProfile(Gender.values()[sex], age,
                     heightToInches(feet.toInt(), inches.toInt()), pounds.toInt())
-            if (calculateAge() < MIN_AGE) {
-                builder.setMessage(R.string.error_profile_underage)
-            } else if (inches.toInt() >= INCHES_IN_FEET) {
-                builder.setMessage(R.string.error_profile_invalid_height_inches)
-            } else {
-                if (user.bmi < MIN_BMI || user.bmi > MAX_BMI) {
+            when {
+                calculateAge() < MIN_AGE -> {
+                    builder.setMessage(R.string.error_profile_underage)
+                    hasError = true
+                }
+                inches.toInt() >= INCHES_IN_FEET -> {
+                    builder.setMessage(R.string.error_profile_invalid_height_inches)
+                    hasError = true
+                }
+                user.bmi < MIN_BMI || user.bmi > MAX_BMI -> {
                     builder.setMessage(R.string.error_profile_invalid_bmi)
-                } else {
-                    builder.setMessage(R.string.success_profile_updated)
+                    hasError = true
+                }
+                else -> {
                     insertIntoDatabase(user)
+                    hasError = false
                 }
             }
-            builder.show()
+
+            if (hasError) {
+                builder.show()
+            }
         }
     }
 
     private fun insertIntoDatabase(user: UserProfile) {
-        // TODO show blocking spinner thingy
+        setSaveInProgress(true)
         userManager.updateUserProfile(user)
+                .bindToLifecycle(this)
                 .subscribe({ successful ->
+                    if (successful) {
+                        showSnackbar(R.string.success_profile_updated)
+                    } else {
+                        showSnackbar(R.string.error_profile_not_updated)
+                    }
+                    setSaveInProgress(false)
                 }, { throwable ->
                     Log.e(TAG, "Failed to update profile", throwable)
+                    showSnackbar(R.string.error_profile_not_updated)
+                    setSaveInProgress(false)
                 })
+    }
+
+    private fun setSaveInProgress(saving: Boolean) {
+        savingSpinner.visibility = if (saving) View.VISIBLE else View.GONE
+        submitButton.visibility = if (saving) View.GONE else View.VISIBLE
+
+        sexSpinner.isEnabled = !saving
+        bdayPicker.isEnabled = !saving
+        feetText.isEnabled = !saving
+        inchesText.isEnabled = !saving
+        weightText.isEnabled = !saving
+    }
+
+    private fun showSnackbar(@StringRes message: Int) {
+        Snackbar.make(submitButton, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun heightToInches(feet: Int, inches: Int): Int {
