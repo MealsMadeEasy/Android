@@ -20,7 +20,8 @@
 
         <activity android:name=".ui.home.HomeActivity"/>
         <activity android:name=".ui.login.LoginActivity"/>
-        <activity android:name=".ui.login.OnboardingActivity"/>
+        <activity android:name=".ui.login.OnboardingActivity"
+            android:theme="@style/AppThemeWithActionBar"/>
 
     </application>
 
