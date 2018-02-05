@@ -28,7 +28,7 @@ private const val MAX_BMI = 50
 
 class ProfileFragment : BaseFragment() {
     private lateinit var sexSpinner: Spinner
-    private lateinit var bdayPicker: EditText
+    private lateinit var bdayPicker: TextView
     private lateinit var feetText: EditText
     private lateinit var inchesText: EditText
     private lateinit var weightText: EditText
@@ -42,9 +42,10 @@ class ProfileFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.view_user_profile, container, false)
+        root.findViewById<LinearLayout>(R.id.user_profile_container).requestFocus()
 
         sexSpinner = root.findViewById(R.id.sex_spinner)
-        bdayPicker = root.findViewById(R.id.birthday_edit_text)
+        bdayPicker = root.findViewById(R.id.birthday_text_view)
         feetText = root.findViewById(R.id.height_feet_edit_text)
         inchesText = root.findViewById(R.id.height_inches_edit_text)
         weightText = root.findViewById(R.id.weight_field)
@@ -62,8 +63,7 @@ class ProfileFragment : BaseFragment() {
         sexSpinner.setSelection(sexAdapter.count)
 
         // Set up birthday date picker
-        val dateText = root.findViewById<EditText>(R.id.birthday_edit_text)
-        setupDatePicker(dateText)
+        setupDatePicker(bdayPicker)
 
         // Set up text input view hints
         val feetContainer = root.findViewById<TextInputLayout>(R.id.height_feet_container)
@@ -99,17 +99,17 @@ class ProfileFragment : BaseFragment() {
         return root
     }
 
-    private fun setupDatePicker(editText: EditText) {
+    private fun setupDatePicker(textView: TextView) {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            editText.setText(DateFormat.getDateFormat(context).format(Date(cal.timeInMillis)))
+            textView.text = DateFormat.getDateFormat(context).format(Date(cal.timeInMillis))
 
         }
 
-        editText.setOnClickListener {
+        textView.setOnClickListener {
             DatePickerDialog(context, dateSetListener,
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),

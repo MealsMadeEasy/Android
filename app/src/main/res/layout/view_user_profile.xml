@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_profile_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,7 +8,8 @@
     android:paddingStart="@dimen/profile_padding_horizontal_default"
     android:paddingEnd="@dimen/profile_padding_horizontal_default"
     android:paddingBottom="@dimen/profile_padding_vertical_default"
-    android:dividerPadding="@dimen/profile_padding_divider" >
+    android:dividerPadding="@dimen/profile_padding_divider"
+    android:focusableInTouchMode="true" >
 
     <Spinner
         android:id="@+id/sex_spinner"
@@ -21,11 +23,12 @@
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/profile_padding_spinner_offset"
         android:paddingEnd="@dimen/profile_padding_spinner_offset" >
-        <EditText
-            android:id="@+id/birthday_edit_text"
+        <TextView
+            android:id="@+id/birthday_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:editable="false"
+            style="@style/Widget.AppCompat.EditText"
+            android:focusable="false"
             android:hint="@string/profile_birthday_prompt"/>
     </LinearLayout>
 
