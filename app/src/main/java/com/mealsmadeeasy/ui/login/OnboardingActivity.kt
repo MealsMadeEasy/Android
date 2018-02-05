@@ -11,6 +11,6 @@ class OnboardingActivity : SingleFragmentActivity() {
         fun newIntent(context: Context) = Intent(context, OnboardingActivity::class.java)
     }
 
-    override fun onCreateFragment() = ProfileFragment.newInstance()
+    override fun onCreateFragment() = ProfileFragment.newInstance(isOnboarding = true)
 
 }

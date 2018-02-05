@@ -26,6 +26,7 @@ import java.util.*
 import javax.inject.Inject
 
 private const val TAG = "ProfileFragment"
+private const val EXTRA_ONBOARDING = "ProfileFragment.IsForOnboarding"
 
 private const val MIN_AGE = 13
 private const val INCHES_IN_FEET = 12
@@ -35,6 +36,9 @@ private const val MAX_BMI = 50
 class ProfileFragment : BaseFragment() {
 
     @Inject lateinit var userManager: UserManager
+
+    private val isOnboarding: Boolean
+        get() = arguments?.getBoolean(EXTRA_ONBOARDING, false) ?: false
 
     private lateinit var loadingSpinner: ProgressBar
     private lateinit var savingSpinner: ProgressBar
@@ -48,7 +52,13 @@ class ProfileFragment : BaseFragment() {
     private var cal = Calendar.getInstance()
 
     companion object {
-        fun newInstance(): ProfileFragment = ProfileFragment()
+        fun newInstance(isOnboarding: Boolean = false): ProfileFragment {
+            return ProfileFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(EXTRA_ONBOARDING, isOnboarding)
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +70,9 @@ class ProfileFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.view_user_profile, container, false)
         root.findViewById<LinearLayout>(R.id.user_profile_container).requestFocus()
+
+        root.findViewById<View>(R.id.profile_onboarding_header).visibility =
+                if (isOnboarding) View.VISIBLE else View.GONE
 
         loadingSpinner = root.findViewById(R.id.profile_loading_spinner)
         savingSpinner = root.findViewById(R.id.profile_saving_spinner)
