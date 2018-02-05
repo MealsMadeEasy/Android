@@ -29,6 +29,12 @@ import javax.inject.Inject
 private const val TAG = "ProfileFragment"
 private const val EXTRA_ONBOARDING = "ProfileFragment.IsForOnboarding"
 
+private const val KEY_SAVED_SEX = "ProfileFragment.Sex"
+private const val KEY_SAVED_BDAY = "ProfileFragment.BDay"
+private const val KEY_SAVED_HEIGHT_FT = "ProfileFragment.HeightFeet"
+private const val KEY_SAVED_HEIGHT_IN = "ProfileFragment.HeightInches"
+private const val KEY_SAVED_WEIGHT_LBS = "ProfileFragment.WeightLbs"
+
 private const val MIN_AGE = 13
 private const val INCHES_IN_FEET = 12
 private const val MIN_BMI = 15
@@ -114,7 +120,7 @@ class ProfileFragment : BaseFragment() {
         // Enable button iff all fields are empty
         val editTextList = listOf(bdayPicker, feetText, inchesText, weightText)
         sexSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 submitButton.isEnabled = areAllFieldsEnabled()
             }
 
@@ -129,12 +135,22 @@ class ProfileFragment : BaseFragment() {
         }
 
         submitButton.setOnClickListener { onSubmitClicked() }
-        loadData()
+        loadData(savedInstanceState)
 
         return root
     }
 
-    private fun loadData() {
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(KEY_SAVED_SEX, sexSpinner.selectedItemPosition)
+        outState.putLong(KEY_SAVED_BDAY, cal.timeInMillis)
+        outState.putInt(KEY_SAVED_HEIGHT_FT, feetText.text.toString().toInt())
+        outState.putInt(KEY_SAVED_HEIGHT_IN, inchesText.text.toString().toInt())
+        outState.putInt(KEY_SAVED_WEIGHT_LBS, weightText.text.toString().toInt())
+    }
+
+    private fun loadData(savedInstanceState: Bundle?) {
         userManager.getUserProfileUpdateState()?.let {
             setSaveInProgress(true)
 
@@ -144,14 +160,26 @@ class ProfileFragment : BaseFragment() {
             })
         }
 
-        userManager.isUserOnboarded().bindToLifecycle(this)
-                .subscribe({ onboarded ->
-                    if (onboarded) {
-                        populateFormWithServerData()
-                    } else {
-                        showForm()
-                    }
-                })
+        if (savedInstanceState == null) {
+            userManager.isUserOnboarded().bindToLifecycle(this)
+                    .subscribe({ onboarded ->
+                        if (onboarded) {
+                            populateFormWithServerData()
+                        } else {
+                            showForm()
+                        }
+                    })
+        } else {
+            sexSpinner.setSelection(savedInstanceState.getInt(KEY_SAVED_SEX))
+            feetText.setText(savedInstanceState.getInt(KEY_SAVED_HEIGHT_FT).toString())
+            inchesText.setText(savedInstanceState.getInt(KEY_SAVED_HEIGHT_IN).toString())
+            weightText.setText(savedInstanceState.getInt(KEY_SAVED_WEIGHT_LBS).toString())
+
+            cal.timeInMillis = savedInstanceState.getLong(KEY_SAVED_BDAY)
+            bdayPicker.text = DateFormat.getDateFormat(context).format(Date(cal.timeInMillis))
+
+            showForm()
+        }
     }
 
     private fun populateFormWithServerData() {
