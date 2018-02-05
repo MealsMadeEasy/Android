@@ -84,6 +84,7 @@ class UserManager(private val service: MealsMadeEasyService) {
                 .map { it.isSuccessful }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess {
+                    profile = Single.just(userProfile)
                     profileUpdateStatus = null
                 }
                 .cache()
