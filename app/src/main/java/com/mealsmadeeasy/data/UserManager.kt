@@ -78,7 +78,7 @@ class UserManager(private val service: MealsMadeEasyService) {
             "Cannot update the user profile. Another request is already in-flight."
         }
 
-        return getUserToken()
+        profileUpdateStatus = getUserToken()
                 .subscribeOn(Schedulers.io())
                 .flatMap { service.setUserProfile(it, userProfile) }
                 .map { it.isSuccessful }
@@ -87,6 +87,8 @@ class UserManager(private val service: MealsMadeEasyService) {
                     profileUpdateStatus = null
                 }
                 .cache()
+
+        return profileUpdateStatus!!
     }
 
     /**

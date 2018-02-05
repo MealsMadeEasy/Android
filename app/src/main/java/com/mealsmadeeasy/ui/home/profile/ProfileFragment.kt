@@ -21,6 +21,7 @@ import com.mealsmadeeasy.data.UserManager
 import com.mealsmadeeasy.model.Gender
 import com.mealsmadeeasy.model.UserProfile
 import com.mealsmadeeasy.ui.BaseFragment
+import com.mealsmadeeasy.ui.home.HomeActivity
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import java.util.*
 import javax.inject.Inject
@@ -134,6 +135,15 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun loadData() {
+        userManager.getUserProfileUpdateState()?.let {
+            setSaveInProgress(true)
+
+            it.bindToLifecycle(this).subscribe(this::onSaveComplete, { throwable ->
+                Log.e(TAG, "Failed to finish profile update", throwable)
+                onSaveComplete(false)
+            })
+        }
+
         userManager.isUserOnboarded().bindToLifecycle(this)
                 .subscribe({ onboarded ->
                     if (onboarded) {
@@ -154,10 +164,10 @@ class ProfileFragment : BaseFragment() {
                     weightText.setText(userProfile.weight.toString())
 
                     cal.timeInMillis = userProfile.birthday
-                    bdayPicker.setText(DateFormat.getDateFormat(context).format(Date(cal.timeInMillis)))
+                    bdayPicker.text = DateFormat.getDateFormat(context).format(Date(cal.timeInMillis))
                     showForm()
                 }, { throwable ->
-                    Log.e(TAG, "Failed to read user profile")
+                    Log.e(TAG, "Failed to read user profile", throwable)
                     AlertDialog.Builder(context!!)
                             .setMessage(R.string.error_profile_not_loaded)
                             .setPositiveButton(R.string.action_try_again) { _, _ ->
@@ -234,18 +244,27 @@ class ProfileFragment : BaseFragment() {
         setSaveInProgress(true)
         userManager.updateUserProfile(user)
                 .bindToLifecycle(this)
-                .subscribe({ successful ->
-                    if (successful) {
-                        showSnackbar(R.string.success_profile_updated)
-                    } else {
-                        showSnackbar(R.string.error_profile_not_updated)
-                    }
-                    setSaveInProgress(false)
-                }, { throwable ->
+                .subscribe(this::onSaveComplete, { throwable ->
                     Log.e(TAG, "Failed to update profile", throwable)
-                    showSnackbar(R.string.error_profile_not_updated)
-                    setSaveInProgress(false)
+                    onSaveComplete(false)
                 })
+    }
+
+    private fun onSaveComplete(successful: Boolean) {
+        if (!isVisible) {
+            return
+        }
+
+        if (isOnboarding) {
+            startActivity(HomeActivity.newIntent(context!!))
+            activity?.finish()
+        }
+        if (successful) {
+            showSnackbar(R.string.success_profile_updated)
+        } else {
+            showSnackbar(R.string.error_profile_not_updated)
+        }
+        setSaveInProgress(false)
     }
 
     private fun setSaveInProgress(saving: Boolean) {
@@ -320,7 +339,7 @@ private class TextInputViewHintListener(val container: TextInputLayout, val dumm
 }
 
 private class HintAdapter<T>(context: Context?, theLayoutResId: Int, objects: List<T>)
-            : ArrayAdapter<T>(context, theLayoutResId, objects) {
+    : ArrayAdapter<T>(context, theLayoutResId, objects) {
     override fun getCount(): Int {
         val count = super.getCount()
         return if (count > 0) count - 1 else count
