@@ -16,6 +16,8 @@ import com.mealsmadeeasy.ui.home.profile.ProfileFragment
 import com.mealsmadeeasy.utils.first
 import com.mealsmadeeasy.utils.forEach
 
+private const val KEY_SAVED_FRAGMENT = "HomeActivity.SelectedPage"
+
 class HomeActivity : BaseActivity() {
 
     private val homeDrawerNavigationView: NavigationView
@@ -47,6 +49,17 @@ class HomeActivity : BaseActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.TRANSPARENT
+        }
+
+        savedInstanceState?.getInt(KEY_SAVED_FRAGMENT, 0)?.takeIf { it != 0 }?.let {
+            setSelectedFragment(it)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        homeDrawerNavigationView.menu.first { it.isChecked }?.itemId?.let {
+            outState.putInt(KEY_SAVED_FRAGMENT, it)
         }
     }
 
