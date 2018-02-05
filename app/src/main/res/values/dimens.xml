@@ -13,6 +13,14 @@
     <dimen name="week_at_a_glance_meal_period_title_padding">8dp</dimen>
     <dimen name="week_at_a_glance_meal_padding">8dp</dimen>
 
+    <dimen name="profile_label_text_size">10sp</dimen>
+    <dimen name="profile_padding_vertical_default">12dp</dimen>
+    <dimen name="profile_padding_horizontal_default">8dp</dimen>
+    <dimen name="profile_padding_spinner_offset">10dp</dimen>
+    <dimen name="profile_padding_divider">6dp</dimen>
+    <dimen name="profile_button_top_padding">64dp</dimen>
+    <dimen name="profile_spinner_top_padding">10dp</dimen>
+
     <dimen name="login_icon_padding">60dp</dimen>
     <dimen name="login_app_name_size">24sp</dimen>
     <dimen name="login_button_padding_top">80dp</dimen>

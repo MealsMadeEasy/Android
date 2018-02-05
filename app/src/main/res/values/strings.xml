@@ -9,9 +9,30 @@
     <string name="meal_dinner">Dinner</string>
 
     <string name="week_at_a_glance">Week at a glance</string>
-    <string name="grocery_list">Grocery list</string>
 
+    <string name="grocery_list">Grocery list</string>
     <string name="error_grocery_list_load">Failed to load grocery list</string>
 
+    <string name="profile">Profile</string>
+    <string name="profile_birthday_prompt">Birthday</string>
+    <string name="profile_height_prompt">Height</string>
+    <string name="profile_weight_prompt">Weight</string>
+    <string name="profile_sex_prompt">Gender</string>
+    <string name="profile_height_inches_prompt">0\"</string>
+    <string name="profile_height_feet_units">Feet</string>
+    <string name="profile_height_inches_units">Inches</string>
+    <string name="profile_weight_lbs_units">lbs</string>
+    <string name="profile_button_text">Save Changes</string>
+    <string name="profile_spinner_prompt">Sex</string>
+    <string name="profile_prompt_positive_ack">OK</string>
+    <string name="error_profile_underage">You must be at least 13 years old to use this application</string>
+    <string name="error_profile_invalid_bmi">Please enter a valid height and weight combination</string>
+    <string name="error_profile_invalid_height_inches">Inches must be between 0 and 11, inclusive</string>
+    <string name="success_profile_updated">Your information has been updated</string>
+
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_other">Other</string>
+    <string name="gender_undisclosed">Undisclosed</string>
 
 </resources>
