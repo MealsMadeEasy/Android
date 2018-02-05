@@ -5,12 +5,15 @@ import com.mealsmadeeasy.data.service.MealsMadeEasyService
 import com.mealsmadeeasy.model.UserProfile
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.exceptions.Exceptions
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
 import java.io.IOException
 import java.util.concurrent.Semaphore
 
 class UserManager(private val service: MealsMadeEasyService) {
+
+    private var profile: Single<UserProfile>? = null
+    private var profileUpdateStatus: Single<Boolean>? = null
 
     fun getUserToken(): Single<String> = Single.fromCallable {
         val user = FirebaseAuth.getInstance().currentUser
@@ -33,39 +36,63 @@ class UserManager(private val service: MealsMadeEasyService) {
     }
 
     fun isUserOnboarded(): Single<Boolean> {
-        return getUserToken()
-                .subscribeOn(Schedulers.io())
-                .flatMap { service.getUserProfile(it) }
-                .map {
-                    if (it.isSuccessful) it.body() != null
-                    else throw IOException("${it.code()}: ${it.errorBody()?.string()}")
+        return getUserProfile()
+                .map { true }
+                .onErrorReturn {
+                    if (it is ProfileNotCreatedException) {
+                        false
+                    } else {
+                        throw Exceptions.propagate(it)
+                    }
                 }
-                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getUserProfile(): Single<UserProfile> {
-        return getUserToken()
+        profile?.let {
+            return it
+        }
+
+        val userProfile = getUserToken()
                 .subscribeOn(Schedulers.io())
                 .flatMap { service.getUserProfile(it) }
                 .map {
-                    if (it.isSuccessful) it.body()!!
+                    if (it.isSuccessful) it.body() ?: throw ProfileNotCreatedException()
                     else throw IOException("${it.code()}: ${it.errorBody()?.string()}")
                 }
+                .doOnError {
+                    profile = null
+                }
                 .observeOn(AndroidSchedulers.mainThread())
+                .cache()
+
+        profile = userProfile
+        return userProfile
+    }
+
+    fun getUserProfileUpdateState(): Single<Boolean>? {
+        return profileUpdateStatus
     }
 
     fun updateUserProfile(userProfile: UserProfile): Single<Boolean> {
+        require(profileUpdateStatus == null) {
+            "Cannot update the user profile. Another request is already in-flight."
+        }
+
         return getUserToken()
                 .subscribeOn(Schedulers.io())
                 .flatMap { service.setUserProfile(it, userProfile) }
                 .map { it.isSuccessful }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess {
+                    profileUpdateStatus = null
+                }
+                .cache()
     }
 
-    private fun <T: Any> Single<Response<T>>.unwrapResponse(): Single<T> =
-            map {
-                if (it.isSuccessful) it.body()
-                else throw IOException("${it.code()}: ${it.errorBody()?.string()}")
-            }
+    /**
+     * Thrown when trying to read a user profile, but the user doesn't have a profile yet because
+     * they haven't completed onboarding.
+     */
+    class ProfileNotCreatedException : RuntimeException()
 
 }
