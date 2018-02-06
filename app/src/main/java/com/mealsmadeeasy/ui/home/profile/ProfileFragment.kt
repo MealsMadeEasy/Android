@@ -145,9 +145,9 @@ class ProfileFragment : BaseFragment() {
 
         outState.putInt(KEY_SAVED_SEX, sexSpinner.selectedItemPosition)
         outState.putLong(KEY_SAVED_BDAY, cal.timeInMillis)
-        outState.putInt(KEY_SAVED_HEIGHT_FT, feetText.text.toString().toInt())
-        outState.putInt(KEY_SAVED_HEIGHT_IN, inchesText.text.toString().toInt())
-        outState.putInt(KEY_SAVED_WEIGHT_LBS, weightText.text.toString().toInt())
+        outState.putString(KEY_SAVED_HEIGHT_FT, feetText.text.toString())
+        outState.putString(KEY_SAVED_HEIGHT_IN, inchesText.text.toString())
+        outState.putString(KEY_SAVED_WEIGHT_LBS, weightText.text.toString())
     }
 
     private fun loadData(savedInstanceState: Bundle?) {
@@ -171,9 +171,9 @@ class ProfileFragment : BaseFragment() {
                     })
         } else {
             sexSpinner.setSelection(savedInstanceState.getInt(KEY_SAVED_SEX))
-            feetText.setText(savedInstanceState.getInt(KEY_SAVED_HEIGHT_FT).toString())
-            inchesText.setText(savedInstanceState.getInt(KEY_SAVED_HEIGHT_IN).toString())
-            weightText.setText(savedInstanceState.getInt(KEY_SAVED_WEIGHT_LBS).toString())
+            feetText.setText(savedInstanceState.getString(KEY_SAVED_HEIGHT_FT))
+            inchesText.setText(savedInstanceState.getString(KEY_SAVED_HEIGHT_IN))
+            weightText.setText(savedInstanceState.getString(KEY_SAVED_WEIGHT_LBS))
 
             cal.timeInMillis = savedInstanceState.getLong(KEY_SAVED_BDAY)
             bdayPicker.text = DateFormat.getDateFormat(context).format(Date(cal.timeInMillis))
