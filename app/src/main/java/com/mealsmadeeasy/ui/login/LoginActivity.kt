@@ -12,9 +12,10 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.ui.BaseActivity
-import com.mealsmadeeasy.ui.home.HomeActivity
+import com.mealsmadeeasy.ui.splash.SplashActivity
 
 private const val RC_SIGN_IN = 9001
 
@@ -29,6 +30,8 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MealsApplication.component(this).inject(this)
+
         setContentView(R.layout.activity_login)
         findViewById<SignInButton>(R.id.sign_in_button).setOnClickListener{signIn()}
 
@@ -58,26 +61,30 @@ class LoginActivity : BaseActivity() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account)
+                finishLogin(account)
             } catch (e: ApiException) {
                 // Google Sign In failed, display a message to the user.
-                Snackbar.make(findViewById(R.id.activity_login), "R.string.google_login_fail", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(findViewById(R.id.activity_login), R.string.google_login_fail, Snackbar.LENGTH_SHORT).show()
             }
 
         }
     }
 
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+    private fun finishLogin(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success
-                        startActivity(HomeActivity.newIntent(this))
+                        onLoginSuccessful()
                     } else {
                         // If sign in fails, display a message to the user.
-                        Snackbar.make(findViewById(R.id.activity_login), "R.string.auth_fail", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(findViewById(R.id.activity_login), R.string.auth_fail, Snackbar.LENGTH_SHORT).show()
                     }
                 }
+    }
+
+    private fun onLoginSuccessful() {
+        startActivity(SplashActivity.newIntent(this))
+        finish()
     }
 }

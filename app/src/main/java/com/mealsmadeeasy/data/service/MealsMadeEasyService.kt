@@ -13,7 +13,7 @@ interface MealsMadeEasyService {
     @GET("user/profile")
     fun getUserProfile(
             @Header("Authorization") token: String
-    ): Single<Response<UserProfile>>
+    ): Single<Response<UserProfile?>>
 
     @POST("user/profile")
     fun setUserProfile(

@@ -16,6 +16,8 @@ import com.mealsmadeeasy.ui.home.profile.ProfileFragment
 import com.mealsmadeeasy.utils.first
 import com.mealsmadeeasy.utils.forEach
 
+private const val KEY_SAVED_FRAGMENT = "HomeActivity.SelectedPage"
+
 class HomeActivity : BaseActivity() {
 
     private val homeDrawerNavigationView: NavigationView
@@ -31,7 +33,10 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        setSelectedFragment(R.id.menu_item_week_at_a_glance)
+
+        val savedFragment = savedInstanceState?.getInt(KEY_SAVED_FRAGMENT, 0)?.takeIf { it != 0 }
+        setSelectedFragment(savedFragment ?: R.id.menu_item_week_at_a_glance,
+                navigateTo = savedInstanceState == null)
 
         homeDrawerNavigationView.setNavigationItemSelectedListener { menuItem ->
             setSelectedFragment(menuItem.itemId)
@@ -50,25 +55,25 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        homeDrawerNavigationView.menu.first { it.isChecked }?.itemId?.let {
+            outState.putInt(KEY_SAVED_FRAGMENT, it)
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         homeDrawerLayout.openDrawer(GravityCompat.START)
         return true
     }
 
-    private fun setSelectedFragment(menuItemId: Int) {
+    private fun setSelectedFragment(menuItemId: Int, navigateTo: Boolean = true) {
         val menu = homeDrawerNavigationView.menu
         if (menu.first { it.isChecked }?.itemId == menuItemId) {
             return
         }
 
         menu.forEach { it.isChecked = (it.itemId == menuItemId) }
-
-        val fragment = when (menuItemId) {
-            R.id.menu_item_week_at_a_glance -> WeekAtAGlanceFragment.newInstance()
-            R.id.menu_item_grocery_list -> GroceryListFragment.newInstance()
-            R.id.menu_item_user_profile -> ProfileFragment.newInstance()
-            else -> throw IllegalArgumentException("No fragment found for $menuItemId")
-        }
 
         val title = getString(when (menuItemId) {
             R.id.menu_item_grocery_list -> R.string.grocery_list
@@ -78,9 +83,18 @@ class HomeActivity : BaseActivity() {
 
         supportActionBar?.title = title
 
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.home_fragment_container, fragment)
-                .commit()
+        if (navigateTo) {
+            val fragment = when (menuItemId) {
+                R.id.menu_item_week_at_a_glance -> WeekAtAGlanceFragment.newInstance()
+                R.id.menu_item_grocery_list -> GroceryListFragment.newInstance()
+                R.id.menu_item_user_profile -> ProfileFragment.newInstance()
+                else -> throw IllegalArgumentException("No fragment found for $menuItemId")
+            }
+
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.home_fragment_container, fragment)
+                    .commit()
+        }
     }
 
 }

@@ -13,6 +13,9 @@
     <string name="grocery_list">Grocery list</string>
     <string name="error_grocery_list_load">Failed to load grocery list</string>
 
+    <string name="action_try_again">Try again</string>
+    <string name="action_cancel">Cancel</string>
+
     <string name="profile">Profile</string>
     <string name="profile_birthday_prompt">Birthday</string>
     <string name="profile_height_prompt">Height</string>
@@ -29,7 +32,12 @@
     <string name="error_profile_invalid_bmi">Please enter a valid height and weight combination</string>
     <string name="error_profile_invalid_height_inches">Inches must be between 0 and 11, inclusive</string>
     <string name="success_profile_updated">Your information has been updated</string>
+    <string name="error_profile_not_updated">Couldn\'t update your profile right now</string>
+    <string name="error_profile_not_loaded">Your profile couldn\'t be loaded right now</string>
 
+    <string name="onboarding_header">You\'re almost ready</string>
+    <string name="onboarding_message">We have a few questions for you to make sure we give you the most relevant information possible</string>
+    
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="gender_other">Other</string>

@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#f57c00</color>
     <color name="colorAccent">#ff5722</color>
 
+    <color name="text_color_primary">@android:color/black</color>
+    <color name="text_color_secondary">#616161</color>
+
     <color name="week_at_a_glance_tile_background">#C9BBB6</color>
 </resources>
