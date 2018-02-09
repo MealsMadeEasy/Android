@@ -7,7 +7,7 @@ import org.joda.time.DateTime
 
 class FakeMealStore : MealStore {
 
-    private val mealPlan: BehaviorSubject<MealPlan>
+    private var mealPlan: BehaviorSubject<MealPlan>
     private val ingredients: Map<String, BehaviorSubject<List<Ingredient>>>
 
     init {
@@ -91,4 +91,24 @@ class FakeMealStore : MealStore {
             ?: Observable.just(emptyList<Ingredient>())!!
 
 
+    override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
+        var added = false
+        mealPlan.value.meals
+                .filter { it.date.dayOfMonth() == date.dayOfMonth() && it.mealPeriod == mealPeriod }
+                .forEach {
+                    it.meals += meal
+                    added = true
+                }
+
+        if (!added) {
+            mealPlan = BehaviorSubject.createDefault(MealPlan(mealPlan.value.meals
+                    + MealPlanEntry(date, mealPeriod, listOf(meal))))
+        }
+    }
+
+    override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
+        mealPlan.value.meals
+                .filter { it.date.dayOfMonth() == date.dayOfMonth() && it.mealPeriod == mealPeriod }
+                .forEach { it.meals -= meal }
+    }
 }
