@@ -2,6 +2,7 @@ package com.mealsmadeeasy.data
 
 import com.mealsmadeeasy.model.*
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.DateTime
 
@@ -110,5 +111,24 @@ class FakeMealStore : MealStore {
         mealPlan.value.meals
                 .filter { it.date.dayOfMonth() == date.dayOfMonth() && it.mealPeriod == mealPeriod }
                 .forEach { it.meals -= meal }
+    }
+
+    override fun getSuggestedMeals(): Single<List<Meal>> {
+        val tacos = Meal(
+                id = "tacos", name = "Tacos",
+                description = """
+                    It's the best food product.
+                """.trimIndent(),
+                thumbnailUrl = "https://www.forksoverknives.com/wp-content/uploads/lentiltacos-6553WP-edit.jpg")
+
+        val iceCream = Meal(
+                id = "ice_cream", name = "Chocolate ice cream",
+                description = """
+                    It's chocolate ice cream. Yup.
+                """.trimIndent(),
+                thumbnailUrl = "https://chocolatecoveredkatie.com/wp-content/uploads/2017/02/nice-cream.jpg"
+        )
+
+        return Single.just(listOf(tacos, iceCream))
     }
 }
