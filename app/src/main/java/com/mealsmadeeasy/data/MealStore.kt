@@ -2,8 +2,11 @@ package com.mealsmadeeasy.data
 
 import com.mealsmadeeasy.model.Ingredient
 import com.mealsmadeeasy.model.Meal
+import com.mealsmadeeasy.model.MealPeriod
 import com.mealsmadeeasy.model.MealPlan
 import io.reactivex.Observable
+import io.reactivex.Single
+import org.joda.time.DateTime
 
 interface MealStore {
 
@@ -25,5 +28,11 @@ interface MealStore {
                 }
                 .map { it.sortedBy(Ingredient::name) }
     }
+
+    fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod)
+
+    fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod)
+
+    fun getSuggestedMeals(): Single<List<Meal>>
 
 }

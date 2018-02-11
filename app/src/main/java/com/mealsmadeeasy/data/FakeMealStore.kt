@@ -1,7 +1,9 @@
 package com.mealsmadeeasy.data
 
 import com.mealsmadeeasy.model.*
+import com.mealsmadeeasy.utils.replace
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.DateTime
 
@@ -91,4 +93,54 @@ class FakeMealStore : MealStore {
             ?: Observable.just(emptyList<Ingredient>())!!
 
 
+    override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
+        val entry = mealPlan.value.meals
+                .filter { it.date.dayOfMonth() == date.dayOfMonth() }
+                .filter { it.mealPeriod == mealPeriod }
+                .firstOrNull()
+
+        if (entry != null) {
+            val updatedEntry = entry.copy(meals = entry.meals + meal)
+            mealPlan.onNext(mealPlan.value.copy(
+                    meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
+            ))
+        } else {
+            mealPlan.onNext(mealPlan.value.copy(
+                    meals = mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(meal))
+            ))
+        }
+    }
+
+    override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
+        val entry = mealPlan.value.meals
+                .filter { it.date.dayOfMonth() == date.dayOfMonth() }
+                .filter { it.mealPeriod == mealPeriod }
+                .firstOrNull()
+
+        if (entry != null) {
+            val updatedEntry = entry.copy(meals = entry.meals - meal)
+            mealPlan.onNext(mealPlan.value.copy(
+                    meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
+            ))
+        }
+    }
+
+    override fun getSuggestedMeals(): Single<List<Meal>> {
+        val tacos = Meal(
+                id = "tacos", name = "Tacos",
+                description = """
+                    It's the best food product.
+                """.trimIndent(),
+                thumbnailUrl = "https://www.forksoverknives.com/wp-content/uploads/lentiltacos-6553WP-edit.jpg")
+
+        val iceCream = Meal(
+                id = "ice_cream", name = "Chocolate ice cream",
+                description = """
+                    It's chocolate ice cream. Yup.
+                """.trimIndent(),
+                thumbnailUrl = "https://chocolatecoveredkatie.com/wp-content/uploads/2017/02/nice-cream.jpg"
+        )
+
+        return Single.just(listOf(tacos, iceCream))
+    }
 }
