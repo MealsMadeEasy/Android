@@ -8,7 +8,7 @@ import org.joda.time.DateTime
 
 class FakeMealStore : MealStore {
 
-    private var mealPlan: BehaviorSubject<MealPlan>
+    private val mealPlan: BehaviorSubject<MealPlan>
     private val ingredients: Map<String, BehaviorSubject<List<Ingredient>>>
 
     init {
@@ -94,23 +94,44 @@ class FakeMealStore : MealStore {
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
         var added = false
+        var changedPlan = mealPlan.value
         mealPlan.value.meals
                 .filter { it.date.dayOfMonth() == date.dayOfMonth() && it.mealPeriod == mealPeriod }
                 .forEach {
-                    it.meals += meal
+                    var temp = emptyList<MealPlanEntry>()
+                    mealPlan.value.meals.forEach {
+                        if (it.date.dayOfMonth() == date.dayOfMonth()
+                                && it.mealPeriod == mealPeriod) {
+                            temp += it.copy(meals = it.meals + meal)
+                        } else {
+                            temp += it
+                        }
+                    }
+                    changedPlan = mealPlan.value.copy(meals = temp)
                     added = true
                 }
 
         if (!added) {
-            mealPlan = BehaviorSubject.createDefault(MealPlan(mealPlan.value.meals
-                    + MealPlanEntry(date, mealPeriod, listOf(meal))))
+            changedPlan = MealPlan(mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(meal)))
         }
+        mealPlan.onNext(changedPlan)
     }
 
     override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
         mealPlan.value.meals
                 .filter { it.date.dayOfMonth() == date.dayOfMonth() && it.mealPeriod == mealPeriod }
-                .forEach { it.meals -= meal }
+                .forEach {
+                    var temp = emptyList<MealPlanEntry>()
+                    mealPlan.value.meals.forEach {
+                        if (it.date.dayOfMonth() == date.dayOfMonth()
+                                && it.mealPeriod == mealPeriod) {
+                            temp += it.copy(meals = it.meals - meal)
+                        } else {
+                            temp += it
+                        }
+                    }
+                    mealPlan.onNext(mealPlan.value.copy(meals = temp))
+                }
     }
 
     override fun getSuggestedMeals(): Single<List<Meal>> {
