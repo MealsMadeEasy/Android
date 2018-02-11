@@ -1,6 +1,7 @@
 package com.mealsmadeeasy.data
 
 import com.mealsmadeeasy.model.*
+import com.mealsmadeeasy.utils.replace
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
@@ -93,45 +94,35 @@ class FakeMealStore : MealStore {
 
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
-        var added = false
-        var changedPlan = mealPlan.value
-        mealPlan.value.meals
-                .filter { it.date.dayOfMonth() == date.dayOfMonth() && it.mealPeriod == mealPeriod }
-                .forEach {
-                    var temp = emptyList<MealPlanEntry>()
-                    mealPlan.value.meals.forEach {
-                        if (it.date.dayOfMonth() == date.dayOfMonth()
-                                && it.mealPeriod == mealPeriod) {
-                            temp += it.copy(meals = it.meals + meal)
-                        } else {
-                            temp += it
-                        }
-                    }
-                    changedPlan = mealPlan.value.copy(meals = temp)
-                    added = true
-                }
+        val entry = mealPlan.value.meals
+                .filter { it.date.dayOfMonth() == date.dayOfMonth() }
+                .filter { it.mealPeriod == mealPeriod }
+                .firstOrNull()
 
-        if (!added) {
-            changedPlan = MealPlan(mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(meal)))
+        if (entry != null) {
+            val updatedEntry = entry.copy(meals = entry.meals + meal)
+            mealPlan.onNext(mealPlan.value.copy(
+                    meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
+            ))
+        } else {
+            mealPlan.onNext(mealPlan.value.copy(
+                    meals = mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(meal))
+            ))
         }
-        mealPlan.onNext(changedPlan)
     }
 
     override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
-        mealPlan.value.meals
-                .filter { it.date.dayOfMonth() == date.dayOfMonth() && it.mealPeriod == mealPeriod }
-                .forEach {
-                    var temp = emptyList<MealPlanEntry>()
-                    mealPlan.value.meals.forEach {
-                        if (it.date.dayOfMonth() == date.dayOfMonth()
-                                && it.mealPeriod == mealPeriod) {
-                            temp += it.copy(meals = it.meals - meal)
-                        } else {
-                            temp += it
-                        }
-                    }
-                    mealPlan.onNext(mealPlan.value.copy(meals = temp))
-                }
+        val entry = mealPlan.value.meals
+                .filter { it.date.dayOfMonth() == date.dayOfMonth() }
+                .filter { it.mealPeriod == mealPeriod }
+                .firstOrNull()
+
+        if (entry != null) {
+            val updatedEntry = entry.copy(meals = entry.meals - meal)
+            mealPlan.onNext(mealPlan.value.copy(
+                    meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
+            ))
+        }
     }
 
     override fun getSuggestedMeals(): Single<List<Meal>> {
