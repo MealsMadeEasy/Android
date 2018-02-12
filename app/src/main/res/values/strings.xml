@@ -9,6 +9,9 @@
     <string name="meal_dinner">Dinner</string>
 
     <string name="week_at_a_glance">Week at a glance</string>
+    <string name="week_at_a_glance_delete_prompt">Do you really want to remove this meal from your meal plan?</string>
+    <string name="week_at_a_glance_delete_prompt_positive_ack">Yes</string>
+    <string name="week_at_a_glance_delete_prompt_negative_ack">No</string>
 
     <string name="grocery_list">Grocery list</string>
     <string name="error_grocery_list_load">Failed to load grocery list</string>
@@ -37,7 +40,7 @@
 
     <string name="onboarding_header">You\'re almost ready</string>
     <string name="onboarding_message">We have a few questions for you to make sure we give you the most relevant information possible</string>
-    
+
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="gender_other">Other</string>
