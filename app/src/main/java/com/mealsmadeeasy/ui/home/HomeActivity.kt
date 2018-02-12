@@ -13,6 +13,7 @@ import com.mealsmadeeasy.ui.BaseActivity
 import com.mealsmadeeasy.ui.home.glance.WeekAtAGlanceFragment
 import com.mealsmadeeasy.ui.home.grocery.GroceryListFragment
 import com.mealsmadeeasy.ui.home.profile.ProfileFragment
+import com.mealsmadeeasy.ui.home.suggestions.SuggestionsFragment
 import com.mealsmadeeasy.utils.first
 import com.mealsmadeeasy.utils.forEach
 
@@ -78,6 +79,7 @@ class HomeActivity : BaseActivity() {
         val title = getString(when (menuItemId) {
             R.id.menu_item_grocery_list -> R.string.grocery_list
             R.id.menu_item_user_profile -> R.string.profile
+            R.id.menu_item_suggestions -> R.string.suggestions
             else -> R.string.app_name
         })
 
@@ -88,6 +90,7 @@ class HomeActivity : BaseActivity() {
                 R.id.menu_item_week_at_a_glance -> WeekAtAGlanceFragment.newInstance()
                 R.id.menu_item_grocery_list -> GroceryListFragment.newInstance()
                 R.id.menu_item_user_profile -> ProfileFragment.newInstance()
+                R.id.menu_item_suggestions -> SuggestionsFragment.newInstance()
                 else -> throw IllegalArgumentException("No fragment found for $menuItemId")
             }
 

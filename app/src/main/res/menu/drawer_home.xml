@@ -4,6 +4,9 @@
     <item android:id="@+id/menu_item_week_at_a_glance"
         android:title="@string/week_at_a_glance"/>
 
+    <item android:id="@+id/menu_item_suggestions"
+        android:title="@string/suggestions"/>
+
     <item android:id="@+id/menu_item_grocery_list"
         android:title="@string/grocery_list"/>
 
