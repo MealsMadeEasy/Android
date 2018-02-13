@@ -44,6 +44,6 @@
     <string name="gender_undisclosed">Undisclosed</string>
 
     <string name="suggestions">Suggestions</string>
-    <string name="suggestions_failed">Couldn\'t access suggestions</string>
+    <string name="failed_to_load_suggestions">Couldn\'t access suggestions</string>
 
 </resources>

@@ -37,7 +37,7 @@ class SuggestionsFragment : BaseFragment() {
             list.layoutManager = LinearLayoutManager(root.context)
         }, { throwable ->
             Log.e(TAG, "Failed to load suggestions", throwable)
-            Snackbar.make(root, R.string.suggestions_failed, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(root, R.string.failed_to_load_suggestions, Snackbar.LENGTH_LONG).show()
         })
         return root
     }
