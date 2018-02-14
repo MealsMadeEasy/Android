@@ -19,4 +19,8 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
+    <style name="PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="overlapAnchor">true</item>
+    </style>
+
 </resources>

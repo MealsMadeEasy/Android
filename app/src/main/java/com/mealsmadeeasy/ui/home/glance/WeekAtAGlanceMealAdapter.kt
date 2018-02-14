@@ -7,7 +7,8 @@ import com.mealsmadeeasy.R
 import com.mealsmadeeasy.model.Meal
 
 class WeekAtAGlanceMealAdapter(
-        meals: List<Meal> = emptyList()
+        meals: List<Meal> = emptyList(),
+        private val onDeleteMeal: (Meal) -> Unit
 ) : RecyclerView.Adapter<WeekAtAGlanceMealViewHolder>() {
 
     var meals: List<Meal> = meals
@@ -25,7 +26,7 @@ class WeekAtAGlanceMealAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekAtAGlanceMealViewHolder {
         val root = LayoutInflater.from(parent.context).inflate(
                 R.layout.view_week_at_a_glance_meal, parent, false)
-        return WeekAtAGlanceMealViewHolder(root)
+        return WeekAtAGlanceMealViewHolder(root, onDeleteMeal)
     }
 
 }

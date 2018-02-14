@@ -29,15 +29,13 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Ice Cream"/>
 
-    <TextView
-        android:id="@+id/week_at_a_glance_meal_delete"
+    <ImageView
+        android:id="@+id/week_at_a_glance_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Del"
-        android:textAlignment="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-        android:textColor="@android:color/black"
+        android:text="@string/week_at_a_glance_delete_menu"
         android:padding="@dimen/week_at_a_glance_meal_padding"
+        app:srcCompat="@drawable/ic_more_vert_black_24dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="@id/week_at_a_glance_meal_background" />
 

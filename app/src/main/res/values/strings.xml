@@ -10,8 +10,11 @@
 
     <string name="week_at_a_glance">Week at a glance</string>
     <string name="week_at_a_glance_delete_prompt">Do you really want to remove this meal from your meal plan?</string>
-    <string name="week_at_a_glance_delete_prompt_positive_ack">Yes</string>
-    <string name="week_at_a_glance_delete_prompt_negative_ack">No</string>
+    <string name="week_at_a_glance_delete_prompt_positive_ack">Delete</string>
+    <string name="week_at_a_glance_delete_prompt_negative_ack">Cancel</string>
+    <string name="week_at_a_glance_meal_deleted">Removed meal</string>
+    <string name="week_at_a_glance_undo_delete">Undo</string>
+    <string name="week_at_a_glance_delete_menu">Delete</string>
 
     <string name="grocery_list">Grocery list</string>
     <string name="error_grocery_list_load">Failed to load grocery list</string>
