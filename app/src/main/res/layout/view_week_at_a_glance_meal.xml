@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="@string/week_at_a_glance_delete_menu"
         android:padding="@dimen/week_at_a_glance_meal_padding"
-        app:srcCompat="@drawable/ic_more_vert_black_24dp"
+        android:src="@drawable/ic_more_vert_black_24dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="@id/week_at_a_glance_meal_background" />
 

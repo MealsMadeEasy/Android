@@ -33,13 +33,6 @@ class WeekAtAGlanceMealViewHolder(
             })
             popup.show()
         }
-
-//        val popup = PopupMenu(itemView.context!!, itemView, Gravity.END)
-//        popup.menuInflater.inflate(R.menu.instance_meal, popup.menu)
-//        popup.setOnMenuItemClickListener({ menuItem ->
-//            onMenuItemClick(menuItem)
-//        })
-//        popup.show()
     }
 
     fun bind(meal: Meal) {
@@ -58,17 +51,7 @@ class WeekAtAGlanceMealViewHolder(
     private fun onMenuItemClick(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.menu_item_delete_meal -> {
-                val builder = AlertDialog.Builder(itemView.context!!)
-                builder.setPositiveButton(
-                        itemView.context.getString(R.string.week_at_a_glance_delete_prompt_positive_ack),  {_, _ ->
-                    onDeleteMeal(meal)
-                })
-                builder.setNegativeButton(
-                        itemView.context.getString(R.string.week_at_a_glance_delete_prompt_negative_ack), { _, _ ->
-                    // Do nothing.
-                })
-                builder.setMessage(itemView.context.getString(R.string.week_at_a_glance_delete_prompt))
-                builder.show()
+                onDeleteMeal(meal)
                 return true
             }
             else -> {
