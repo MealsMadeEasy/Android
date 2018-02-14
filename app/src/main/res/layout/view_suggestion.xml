@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:padding="@dimen/suggestion_entry_padding">
+
+    <ImageView
+        android:id="@+id/suggestion_thumbnail"
+        android:layout_width="@dimen/suggestion_thumbnail_width"
+        android:layout_height="@dimen/suggestion_thumbnail_height"/>
+
+    <TextView
+        android:id="@+id/suggestion_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:ellipsize="end"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginStart="@dimen/suggestion_text_margin"/>
+</LinearLayout>

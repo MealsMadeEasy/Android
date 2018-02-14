@@ -25,4 +25,9 @@
     <dimen name="login_app_name_size">24sp</dimen>
     <dimen name="login_button_padding_top">80dp</dimen>
     <dimen name="login_button_padding_bottom">60dp</dimen>
+
+    <dimen name="suggestion_thumbnail_width">40dp</dimen>
+    <dimen name="suggestion_thumbnail_height">40dp</dimen>
+    <dimen name="suggestion_entry_padding">16dp</dimen>
+    <dimen name="suggestion_text_margin">16dp</dimen>
 </resources>
