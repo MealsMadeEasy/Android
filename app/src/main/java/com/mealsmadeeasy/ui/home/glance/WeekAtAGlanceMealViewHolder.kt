@@ -1,12 +1,10 @@
 package com.mealsmadeeasy.ui.home.glance
 
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
-import android.widget.PopupMenu
+import android.support.v7.widget.PopupMenu
 import android.widget.TextView
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.model.Meal
@@ -25,14 +23,7 @@ class WeekAtAGlanceMealViewHolder(
 
     init {
         val menu = root.findViewById<ImageView>(R.id.week_at_a_glance_menu)
-        menu.setOnClickListener {
-            val popup = PopupMenu(itemView.context!!, itemView, Gravity.END)
-            popup.menuInflater.inflate(R.menu.instance_meal, popup.menu)
-            popup.setOnMenuItemClickListener({ menuItem ->
-                onMenuItemClick(menuItem)
-            })
-            popup.show()
-        }
+        menu.setOnClickListener { onClickPopupMenu(menu) }
     }
 
     fun bind(meal: Meal) {
@@ -58,5 +49,14 @@ class WeekAtAGlanceMealViewHolder(
                 return false
             }
         }
+    }
+
+    private fun onClickPopupMenu(menu : ImageView) {
+        val popup = PopupMenu(itemView.context!!, menu, Gravity.END)
+        popup.menuInflater.inflate(R.menu.instance_meal, popup.menu)
+        popup.setOnMenuItemClickListener({ menuItem ->
+            onMenuItemClick(menuItem)
+        })
+        popup.show()
     }
 }
