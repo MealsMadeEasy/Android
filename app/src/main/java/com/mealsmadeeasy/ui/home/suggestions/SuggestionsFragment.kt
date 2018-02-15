@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.ui.home.suggestions
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
@@ -12,9 +13,10 @@ import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.ui.BaseFragment
+import com.mealsmadeeasy.ui.meal.MealActivity
 import javax.inject.Inject
 
-class SuggestionsFragment : BaseFragment() {
+class SuggestionsFragment : BaseFragment(), SuggestionClickListener {
 
     @Inject lateinit var mealStore: MealStore
 
@@ -33,12 +35,18 @@ class SuggestionsFragment : BaseFragment() {
         val root = inflater.inflate(R.layout.fragment_suggestions, container, false)
         val list = root.findViewById<RecyclerView>(R.id.suggestion_list)
         mealStore.getSuggestedMeals().subscribe({ suggestions ->
-            list.adapter = SuggestionsAdapter(suggestions)
+            list.adapter = SuggestionsAdapter(suggestions, this)
             list.layoutManager = LinearLayoutManager(root.context)
         }, { throwable ->
             Log.e(TAG, "Failed to load suggestions", throwable)
             Snackbar.make(root, R.string.failed_to_load_suggestions, Snackbar.LENGTH_LONG).show()
         })
         return root
+    }
+
+    override fun suggestionClicked(view: View, id: String) {
+        val intent = Intent(context, MealActivity::class.java)
+        intent.putExtra("meal_id", id)
+        startActivity(intent)
     }
 }

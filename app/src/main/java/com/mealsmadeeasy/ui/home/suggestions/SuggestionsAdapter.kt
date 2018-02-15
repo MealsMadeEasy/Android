@@ -6,12 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.model.Meal
 import com.squareup.picasso.Picasso
 
-class SuggestionsAdapter(meals: List<Meal> = emptyList()) : RecyclerView.Adapter<SuggestionViewHolder>() {
+private lateinit var suggestionListener : SuggestionClickListener
+
+class SuggestionsAdapter(meals: List<Meal> = emptyList(), suggestionClickListener: SuggestionClickListener) : RecyclerView.Adapter<SuggestionViewHolder>() {
+
+    init {
+        suggestionListener = suggestionClickListener
+    }
 
     var meals = meals
         set(value) {
@@ -35,14 +40,16 @@ class SuggestionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val thumbnailView = view.findViewById<ImageView>(R.id.suggestion_thumbnail)
     private val nameView = view.findViewById<TextView>(R.id.suggestion_name)
+    private lateinit var meal: Meal
 
     init {
         view.setOnClickListener {
-            Toast.makeText(itemView.context, "TODO", Toast.LENGTH_SHORT).show()
+            suggestionListener.suggestionClicked(view, meal.id)
         }
     }
 
     fun bind(meal: Meal) {
+        this.meal = meal
         nameView.text = meal.name
         Picasso.with(itemView.context)
                 .load(meal.thumbnailUrl)

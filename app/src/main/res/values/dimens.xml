@@ -30,4 +30,23 @@
     <dimen name="suggestion_thumbnail_height">40dp</dimen>
     <dimen name="suggestion_entry_padding">16dp</dimen>
     <dimen name="suggestion_text_margin">16dp</dimen>
+
+    <dimen name="meal_page_image_height">200dp</dimen>
+    <dimen name="meal_page_text_margin">8dp</dimen>
+    <dimen name="meal_page_fab_margin">16dp</dimen>
+    <dimen name="meal_page_name_margin_top">12dp</dimen>
+    <dimen name="meal_page_name_margin_bottom">24dp</dimen>
+
+    <dimen name="add_to_plan_text_margin">8dp</dimen>
+    <dimen name="add_to_plan_name_margin_top">16dp</dimen>
+    <dimen name="add_to_plan_image_width">120dp</dimen>
+    <dimen name="add_to_plan_image_height">120dp</dimen>
+    <dimen name="add_to_plan_image_margin">16dp</dimen>
+    <dimen name="add_to_plan_servings_picker_margin">12dp</dimen>
+    <dimen name="add_to_plan_plus_minus_margin">48dp</dimen>
+    <dimen name="add_to_plan_date_picker_width">150dp</dimen>
+    <dimen name="add_to_plan_date_picker_margin_top">12dp</dimen>
+    <dimen name="add_to_plan_meal_spinner_width">160dp</dimen>
+    <dimen name="add_to_plan_meal_spinner_margin_top">24dp</dimen>
+    <dimen name="add_to_plan_button_margin_bottom">12dp</dimen>
 </resources>

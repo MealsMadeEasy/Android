@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_add_to_plan"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ToolbarStyle"
+            app:title="@string/add_to_plan_title"
+            app:titleTextColor="@android:color/white"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:id="@+id/add_to_plan_name"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_toStartOf="@+id/add_to_plan_thumbnail"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginStart="@dimen/add_to_plan_text_margin"
+        android:layout_marginTop="@dimen/add_to_plan_name_margin_top"/>
+
+    <ImageView
+        android:id="@+id/add_to_plan_thumbnail"
+        android:layout_width="@dimen/add_to_plan_image_width"
+        android:layout_height="@dimen/add_to_plan_image_height"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_margin="@dimen/add_to_plan_image_margin"/>
+
+    <TextView
+        android:id="@+id/servings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/add_to_plan_thumbnail"
+        android:layout_marginStart="@dimen/add_to_plan_text_margin"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:text="@string/add_to_plan_servings"
+        android:textColor="@color/colorAccent"/>
+
+    <LinearLayout
+        android:id="@+id/set_servings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/servings"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/add_to_plan_servings_picker_margin">
+
+        <ImageButton
+            android:id="@+id/add_to_plan_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/add_to_plan_plus_minus_margin"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_remove_circle_black_24dp"
+            android:backgroundTint="@android:color/transparent"
+            android:tint="@color/selector_button_disable"/>
+
+        <TextView
+            android:id="@+id/add_to_plan_servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/Base.TextAppearance.AppCompat.Display1"/>
+
+        <ImageButton
+            android:id="@+id/add_to_plan_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/add_to_plan_plus_minus_margin"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_add_circle_black_24dp"
+            android:backgroundTint="@android:color/transparent"
+            android:tint="@color/selector_button_disable"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/meals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/set_servings"
+        android:layout_marginStart="@dimen/add_to_plan_text_margin"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:text="@string/add_to_plan_meal"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/add_to_plan_date"
+        android:layout_width="@dimen/add_to_plan_date_picker_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/meals"
+        android:layout_marginTop="@dimen/add_to_plan_date_picker_margin_top"
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.AppCompat.EditText"
+        android:focusable="false"
+        android:hint="@string/add_to_plan_date_hint"/>
+
+    <Spinner
+        android:id="@+id/add_to_plan_spinner"
+        android:layout_width="@dimen/add_to_plan_meal_spinner_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_to_plan_date"
+        android:layout_marginTop="@dimen/add_to_plan_meal_spinner_margin_top"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/meal_spinner_entries"/>
+
+    <Button
+        android:id="@+id/add_to_plan_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/add_to_plan_button_margin_bottom"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/add_to_plan_button"
+        android:textColor="@android:color/white"/>
+</RelativeLayout>

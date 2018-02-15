@@ -29,10 +29,11 @@ interface MealStore {
                 .map { it.sortedBy(Ingredient::name) }
     }
 
-    fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod)
+    fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int)
 
     fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod)
 
     fun getSuggestedMeals(): Single<List<Meal>>
 
+    fun findMealById(id: String): Meal
 }

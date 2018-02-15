@@ -46,4 +46,14 @@
     <string name="suggestions">Suggestions</string>
     <string name="failed_to_load_suggestions">Couldn\'t access suggestions</string>
 
+    <string name="add_to_plan_title">Add to meal plan&#8230;</string>
+    <string name="add_to_plan_servings">Servings</string>
+    <string name="add_to_plan_meal">Meal</string>
+    <string name="add_to_plan_date_hint">Choose a date</string>
+    <string-array name="meal_spinner_entries">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+    </string-array>
+    <string name="add_to_plan_button">Add to meal plan</string>
 </resources>
