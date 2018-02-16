@@ -35,5 +35,5 @@ interface MealStore {
 
     fun getSuggestedMeals(): Single<List<Meal>>
 
-    fun findMealById(id: String): Meal
+    fun findMealById(id: String): Single<Meal>
 }

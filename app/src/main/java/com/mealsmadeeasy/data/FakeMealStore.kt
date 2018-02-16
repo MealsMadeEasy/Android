@@ -144,7 +144,7 @@ class FakeMealStore : MealStore {
         return Single.just(listOf(tacos, iceCream))
     }
 
-    override fun findMealById(id: String): Meal {
+    override fun findMealById(id: String): Single<Meal> {
         val tacos = Meal(
                 id = "tacos", name = "Tacos",
                 description = """
@@ -160,8 +160,8 @@ class FakeMealStore : MealStore {
                 thumbnailUrl = "https://chocolatecoveredkatie.com/wp-content/uploads/2017/02/nice-cream.jpg"
         )
         when (id) {
-            "tacos" -> return tacos
-            else -> return iceCream
+            "tacos" -> return Single.just(tacos)
+            else -> return Single.just(iceCream)
         }
     }
 }

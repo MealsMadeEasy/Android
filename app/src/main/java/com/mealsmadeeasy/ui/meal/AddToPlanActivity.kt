@@ -3,18 +3,16 @@ package com.mealsmadeeasy.ui.meal
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.widget.TextView
-import android.widget.ImageView
-import android.widget.ImageButton
-import android.widget.Spinner
-import android.widget.Button
-import android.widget.Toast
+import android.util.Log
+import android.widget.*
 import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
+import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.MealPeriod
 import com.mealsmadeeasy.ui.BaseActivity
 import com.squareup.picasso.Picasso
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import org.joda.time.DateTime
 import java.util.Calendar
 import java.util.Date
@@ -24,7 +22,11 @@ class AddToPlanActivity : BaseActivity() {
 
     @Inject lateinit var mealStore: MealStore
     private var cal = Calendar.getInstance()
-    var chosenTime: Long = 0
+    private var chosenTime: Long = 0
+
+    companion object {
+        private const val TAG = "AddToPlanActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,23 @@ class AddToPlanActivity : BaseActivity() {
 
         setContentView(R.layout.activity_add_to_plan)
 
-        val meal = mealStore.findMealById(intent.getStringExtra("meal_id"))
+        val toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.add_to_plan_toolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        mealStore.findMealById(intent.getStringExtra("meal_id"))
+                .bindToLifecycle(this)
+                .subscribe({meal ->
+                    finishSetup(meal)
+                }, { throwable ->
+                    Log.e(TAG, "Failed to load suggestions", throwable)
+                    Toast.makeText(this, "Couldn't find that meal", Toast.LENGTH_SHORT).show()
+                })
+    }
+
+    private fun finishSetup(meal: Meal) {
         val thumbnailView = findViewById<ImageView>(R.id.add_to_plan_thumbnail)
         val nameView = findViewById<TextView>(R.id.add_to_plan_name)
         val servingsView = findViewById<TextView>(R.id.add_to_plan_servings)
@@ -77,7 +95,6 @@ class AddToPlanActivity : BaseActivity() {
             if (dateView.text == "") {
                 Toast.makeText(this, "Choose a date for the meal", Toast.LENGTH_SHORT).show()
             } else {
-
                 var mealPeriod = MealPeriod.BREAKFAST
                 when (mealSpinner.selectedItem) {
                     "Lunch" -> mealPeriod = MealPeriod.LUNCH
@@ -86,6 +103,7 @@ class AddToPlanActivity : BaseActivity() {
 
                 mealStore.addMealToMealPlan(meal, DateTime(chosenTime), mealPeriod, numServings)
                 Toast.makeText(this, "Meal has been added to your meal plan", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
@@ -105,5 +123,10 @@ class AddToPlanActivity : BaseActivity() {
                     cal.get(Calendar.MONTH),
                     cal.get(Calendar.DAY_OF_MONTH)).show()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
