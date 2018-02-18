@@ -5,13 +5,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.MealPeriod
+import com.mealsmadeeasy.model.MealPortion
 import org.joda.time.DateTime
 
 class WeekAtAGlanceViewHolder(
         root: View,
-        private val onDeleteMeal: (Meal, MealPeriod, DateTime) -> Unit
+        private val onDeleteMeal: (MealPortion, MealPeriod, DateTime) -> Unit
 ) : RecyclerView.ViewHolder(root) {
 
     private lateinit var dateTime: DateTime
@@ -27,7 +27,7 @@ class WeekAtAGlanceViewHolder(
         mealList.layoutManager = LinearLayoutManager(root.context)
     }
 
-    fun bind(date: DateTime, meals: Map<MealPeriod, List<Meal>>) {
+    fun bind(date: DateTime, meals: Map<MealPeriod, List<MealPortion>>) {
         this.dateTime = date
         day.text = date.dayOfMonth.toString()
         month.text = date.monthOfYear().asShortText

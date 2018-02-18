@@ -53,9 +53,9 @@ class FakeMealStore : MealStore {
         )
 
         mealPlan = BehaviorSubject.createDefault(MealPlan(listOf(
-                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.BREAKFAST, meals = listOf(bagels, banana), servings = 1),
-                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.LUNCH, meals = listOf(sandwich), servings = 1),
-                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.DINNER, meals = listOf(tacos, iceCream), servings = 1)
+                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.BREAKFAST, meals = listOf(MealPortion(bagels, 1), MealPortion(banana, 1))),
+                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.LUNCH, meals = listOf(MealPortion(sandwich, 1))),
+                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.DINNER, meals = listOf(MealPortion(tacos, 3), MealPortion(iceCream, 2)))
         )))
 
         ingredients = mapOf(
@@ -100,13 +100,13 @@ class FakeMealStore : MealStore {
                 .firstOrNull()
 
         if (entry != null) {
-            val updatedEntry = entry.copy(meals = entry.meals + meal)
+            val updatedEntry = entry.copy(meals = entry.meals + MealPortion(meal, servings))
             mealPlan.onNext(mealPlan.value.copy(
                     meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
             ))
         } else {
             mealPlan.onNext(mealPlan.value.copy(
-                    meals = mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(meal), servings)
+                    meals = mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, servings)))
             ))
         }
     }
@@ -118,7 +118,7 @@ class FakeMealStore : MealStore {
                 .firstOrNull()
 
         if (entry != null) {
-            val updatedEntry = entry.copy(meals = entry.meals - meal)
+            val updatedEntry = entry.copy(meals = entry.meals.filter { it.meal == meal })
             mealPlan.onNext(mealPlan.value.copy(
                     meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
             ))

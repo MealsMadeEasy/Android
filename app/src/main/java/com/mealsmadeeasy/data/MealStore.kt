@@ -20,6 +20,7 @@ interface MealStore {
                 .flatMap { meals ->
                     Observable.fromIterable(meals)
                             .flatMap { Observable.fromIterable(it.meals) }
+                            .map { it.meal }
                             .flatMapSingle { getIngredientsForRecipe(it).first(emptyList()) }
                             .collect<MutableList<Ingredient>>(::mutableListOf, { all, meal ->
                                 all.addAll(meal)

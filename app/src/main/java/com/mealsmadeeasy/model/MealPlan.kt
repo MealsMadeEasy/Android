@@ -6,7 +6,7 @@ data class MealPlan(
         val meals: List<MealPlanEntry>
 ) {
 
-    operator fun get(date: DateTime): Map<MealPeriod, List<Meal>> {
+    operator fun get(date: DateTime): Map<MealPeriod, List<MealPortion>> {
         return meals.filter { it.date.withTimeAtStartOfDay() == date.withTimeAtStartOfDay() }
                 .map { it.mealPeriod to it.meals }
                 .toMap()

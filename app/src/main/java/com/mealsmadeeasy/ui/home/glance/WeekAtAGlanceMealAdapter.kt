@@ -4,14 +4,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.model.Meal
+import com.mealsmadeeasy.model.MealPortion
 
 class WeekAtAGlanceMealAdapter(
-        meals: List<Meal> = emptyList(),
-        private val onDeleteMeal: (Meal) -> Unit
+        meals: List<MealPortion> = emptyList(),
+        private val onDeleteMeal: (MealPortion) -> Unit
 ) : RecyclerView.Adapter<WeekAtAGlanceMealViewHolder>() {
 
-    var meals: List<Meal> = meals
+    var meals: List<MealPortion> = meals
         set(value) {
             field = value
             notifyDataSetChanged()
