@@ -44,6 +44,7 @@
     <dimen name="add_to_plan_image_margin">16dp</dimen>
     <dimen name="add_to_plan_servings_picker_margin">12dp</dimen>
     <dimen name="add_to_plan_plus_minus_margin">48dp</dimen>
+    <dimen name="add_to_plan_serving_button_padding">4dp</dimen>
     <dimen name="add_to_plan_date_picker_width">150dp</dimen>
     <dimen name="add_to_plan_date_picker_margin_top">12dp</dimen>
     <dimen name="add_to_plan_meal_spinner_width">160dp</dimen>
