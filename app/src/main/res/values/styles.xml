@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="AppThemeWithActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -17,6 +18,10 @@
 
     <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="overlapAnchor">true</item>
     </style>
 
 </resources>
