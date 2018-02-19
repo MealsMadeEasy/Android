@@ -1,6 +1,8 @@
 package com.mealsmadeeasy.ui.meal
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
@@ -26,6 +28,8 @@ class AddToPlanActivity : BaseActivity() {
 
     companion object {
         private const val TAG = "AddToPlanActivity"
+        fun newIntent(context: Context, id: String) = Intent(context, AddToPlanActivity::class.java)
+                .putExtra("meal_id", id)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,16 +79,12 @@ class AddToPlanActivity : BaseActivity() {
             if (numServings != 1) {
                 numServings--
                 servingsView.text = numServings.toString()
-                if (numServings == 1) {
-                    minusButton.isEnabled = false
-                }
+                minusButton.isEnabled = (numServings > 1)
             }
         }
 
         plusButton.setOnClickListener {
-            if (numServings == 1) {
-                minusButton.isEnabled = true
-            }
+            minusButton.isEnabled = (numServings == 1)
             numServings++
             servingsView.text = numServings.toString()
         }
@@ -93,7 +93,7 @@ class AddToPlanActivity : BaseActivity() {
 
         addButton.setOnClickListener {
             if (dateView.text == "") {
-                Toast.makeText(this, "Choose a date for the meal", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.add_to_plan_date_not_selected, Toast.LENGTH_SHORT).show()
             } else {
                 var mealPeriod = MealPeriod.BREAKFAST
                 when (mealSpinner.selectedItem) {
@@ -102,7 +102,7 @@ class AddToPlanActivity : BaseActivity() {
                 }
 
                 mealStore.addMealToMealPlan(meal, DateTime(chosenTime), mealPeriod, numServings)
-                Toast.makeText(this, "Meal has been added to your meal plan", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.add_to_plan_meal_added, Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

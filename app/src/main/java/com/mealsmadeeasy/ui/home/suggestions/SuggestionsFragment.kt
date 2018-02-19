@@ -45,8 +45,6 @@ class SuggestionsFragment : BaseFragment(), SuggestionClickListener {
     }
 
     override fun suggestionClicked(view: View, id: String) {
-        val intent = Intent(context, MealActivity::class.java)
-        intent.putExtra("meal_id", id)
-        startActivity(intent)
+        startActivity(MealActivity.newIntent(context, id))
     }
 }

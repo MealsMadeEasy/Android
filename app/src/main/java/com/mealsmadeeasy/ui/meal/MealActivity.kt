@@ -1,7 +1,9 @@
 package com.mealsmadeeasy.ui.meal
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,6 +23,8 @@ class MealActivity : BaseActivity() {
 
     companion object {
         private const val TAG = "AddToPlanActivity"
+        fun newIntent(context: Context?, id: String) = Intent(context, MealActivity::class.java)
+                .putExtra("meal_id", id)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +38,6 @@ class MealActivity : BaseActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        //supportActionBar?.setDisplayShowTitleEnabled(false)
 
         mealStore.findMealById(intent.getStringExtra("meal_id"))
                 .bindToLifecycle(this)
@@ -42,7 +45,7 @@ class MealActivity : BaseActivity() {
                     finishSetup(meal)
                 }, { throwable ->
                     Log.e(TAG, "Failed to load suggestions", throwable)
-                    Toast.makeText(this, "Couldn't find that meal", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.meal_page_failed_to_load_meal, Toast.LENGTH_SHORT).show()
                 })
     }
 
@@ -60,11 +63,9 @@ class MealActivity : BaseActivity() {
         nameView.text = meal.name
         descriptionView.text = meal.description
 
-        val addButton = findViewById<android.support.design.widget.FloatingActionButton>(R.id.meal_add_to_plan)
+        val addButton = findViewById<FloatingActionButton>(R.id.meal_add_to_plan)
         addButton.setOnClickListener {
-            val intent = Intent(this, AddToPlanActivity::class.java)
-            intent.putExtra("meal_id", meal.id)
-            startActivity(intent)
+            startActivity(AddToPlanActivity.newIntent(this, meal.id))
         }
     }
 
