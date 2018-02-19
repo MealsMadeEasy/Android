@@ -4,11 +4,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.MealPeriod
+import com.mealsmadeeasy.model.MealPortion
 
 class WeekAtAGlanceMealPeriodAdapter(
-        meals: Map<MealPeriod, List<Meal>> = emptyMap()
+        meals: Map<MealPeriod, List<MealPortion>> = emptyMap(),
+        private val onDeleteMeal: (MealPortion, MealPeriod) -> Unit
 ) : RecyclerView.Adapter<WeekAtAGlanceMealPeriodViewHolder>() {
 
     var meals = meals
@@ -30,7 +31,7 @@ class WeekAtAGlanceMealPeriodAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekAtAGlanceMealPeriodViewHolder {
         val root = LayoutInflater.from(parent.context).inflate(
                 R.layout.view_week_at_a_glance_meal_period, parent, false)
-        return WeekAtAGlanceMealPeriodViewHolder(root)
+        return WeekAtAGlanceMealPeriodViewHolder(root, onDeleteMeal)
     }
 
 }

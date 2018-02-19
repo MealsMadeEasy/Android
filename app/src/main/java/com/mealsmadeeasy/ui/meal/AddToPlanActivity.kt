@@ -16,8 +16,7 @@ import com.mealsmadeeasy.ui.BaseActivity
 import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import org.joda.time.DateTime
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 class AddToPlanActivity : BaseActivity() {
@@ -58,8 +57,8 @@ class AddToPlanActivity : BaseActivity() {
         val thumbnailView = findViewById<ImageView>(R.id.add_to_plan_thumbnail)
         val nameView = findViewById<TextView>(R.id.add_to_plan_name)
         val servingsView = findViewById<TextView>(R.id.add_to_plan_servings)
-        val minusButton = findViewById<ImageButton>(R.id.add_to_plan_minus)
-        val plusButton = findViewById<ImageButton>(R.id.add_to_plan_plus)
+        val minusButton = findViewById<ImageView>(R.id.add_to_plan_minus)
+        val plusButton = findViewById<ImageView>(R.id.add_to_plan_plus)
         val dateView = findViewById<TextView>(R.id.add_to_plan_date)
         val mealSpinner = findViewById<Spinner>(R.id.add_to_plan_spinner)
         val addButton = findViewById<Button>(R.id.add_to_plan_button)
