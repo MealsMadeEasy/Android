@@ -10,13 +10,10 @@ import com.mealsmadeeasy.R
 import com.mealsmadeeasy.model.Meal
 import com.squareup.picasso.Picasso
 
-private lateinit var suggestionListener : SuggestionClickListener
-
-class SuggestionsAdapter(meals: List<Meal> = emptyList(), suggestionClickListener: SuggestionClickListener) : RecyclerView.Adapter<SuggestionViewHolder>() {
-
-    init {
-        suggestionListener = suggestionClickListener
-    }
+class SuggestionsAdapter(
+        meals: List<Meal> = emptyList(),
+        private val suggestionClickListener: (View, String) -> Unit
+) : RecyclerView.Adapter<SuggestionViewHolder>() {
 
     var meals = meals
         set(value) {
@@ -26,7 +23,7 @@ class SuggestionsAdapter(meals: List<Meal> = emptyList(), suggestionClickListene
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuggestionViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.view_suggestion, parent, false)
-        return SuggestionViewHolder(layout)
+        return SuggestionViewHolder(layout, suggestionClickListener)
     }
 
     override fun getItemCount() = meals.size
@@ -36,7 +33,10 @@ class SuggestionsAdapter(meals: List<Meal> = emptyList(), suggestionClickListene
     }
 }
 
-class SuggestionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class SuggestionViewHolder(
+        view: View,
+        private val suggestionClickListener: (View, String) -> Unit
+) : RecyclerView.ViewHolder(view) {
 
     private val thumbnailView = view.findViewById<ImageView>(R.id.suggestion_thumbnail)
     private val nameView = view.findViewById<TextView>(R.id.suggestion_name)
@@ -44,7 +44,7 @@ class SuggestionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     init {
         view.setOnClickListener {
-            suggestionListener.suggestionClicked(view, meal.id)
+            suggestionClickListener(view, meal.id)
         }
     }
 

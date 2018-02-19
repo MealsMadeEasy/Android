@@ -83,8 +83,8 @@ class AddToPlanActivity : BaseActivity() {
         }
 
         plusButton.setOnClickListener {
-            minusButton.isEnabled = (numServings == 1)
             numServings++
+            minusButton.isEnabled = (numServings > 1)
             servingsView.text = numServings.toString()
         }
 
