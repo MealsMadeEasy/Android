@@ -1,23 +1,22 @@
 package com.mealsmadeeasy.ui.home.glance
 
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.support.v7.widget.PopupMenu
 import android.widget.TextView
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.model.Meal
+import com.mealsmadeeasy.model.MealPortion
 import com.squareup.picasso.Picasso
-import android.view.MenuItem
-
 
 class WeekAtAGlanceMealViewHolder(
         root: View,
-        private val onDeleteMeal: (Meal) -> Unit
+        private val onDeleteMeal: (MealPortion) -> Unit
 ) : RecyclerView.ViewHolder(root) {
 
-    private lateinit var meal : Meal
+    private lateinit var mealPortion : MealPortion
     private val mealName = root.findViewById<TextView>(R.id.week_at_a_glance_meal_name)
     private val mealImage = root.findViewById<ImageView>(R.id.week_at_a_glance_meal_background)
 
@@ -26,13 +25,13 @@ class WeekAtAGlanceMealViewHolder(
         menu.setOnClickListener { onClickPopupMenu(menu) }
     }
 
-    fun bind(meal: Meal) {
-        this.meal = meal
-        mealName.text = meal.name
-        if (meal.thumbnailUrl != null) {
+    fun bind(meal: MealPortion) {
+        mealPortion = meal
+        mealName.text = mealPortion.meal.name
+        if (mealPortion.meal.thumbnailUrl != null) {
             mealImage.visibility = View.VISIBLE
             Picasso.with(itemView.context)
-                    .load(meal.thumbnailUrl)
+                    .load(mealPortion.meal.thumbnailUrl)
                     .into(mealImage)
         } else {
             mealImage.visibility = View.GONE
@@ -42,7 +41,7 @@ class WeekAtAGlanceMealViewHolder(
     private fun onMenuItemClick(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.menu_item_delete_meal -> {
-                onDeleteMeal(meal)
+                onDeleteMeal(mealPortion)
                 return true
             }
             else -> {

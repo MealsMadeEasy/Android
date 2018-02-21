@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.MealPeriod
 import com.mealsmadeeasy.model.MealPlan
+import com.mealsmadeeasy.model.MealPortion
 import org.joda.time.DateTime
 
 private const val NUMBER_OF_DAYS_TO_SHOW = 7
@@ -14,7 +14,7 @@ private const val NUMBER_OF_DAYS_TO_SHOW = 7
 class WeekAtAGlanceAdapter(
         startDate: DateTime = DateTime.now(),
         mealPlan: MealPlan,
-        private val onDeleteMeal: (Meal, MealPeriod, DateTime) -> Unit
+        private val onDeleteMeal: (MealPortion, MealPeriod, DateTime) -> Unit
 ) : RecyclerView.Adapter<WeekAtAGlanceViewHolder>() {
 
     var startDate = startDate.withTimeAtStartOfDay()

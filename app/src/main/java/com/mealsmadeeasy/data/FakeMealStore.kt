@@ -53,9 +53,9 @@ class FakeMealStore : MealStore {
         )
 
         mealPlan = BehaviorSubject.createDefault(MealPlan(listOf(
-                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.BREAKFAST, meals = listOf(bagels, banana)),
-                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.LUNCH, meals = listOf(sandwich)),
-                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.DINNER, meals = listOf(tacos, iceCream))
+                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.BREAKFAST, meals = listOf(MealPortion(bagels, 1), MealPortion(banana, 1))),
+                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.LUNCH, meals = listOf(MealPortion(sandwich, 1))),
+                MealPlanEntry(date = DateTime.now(), mealPeriod = MealPeriod.DINNER, meals = listOf(MealPortion(tacos, 3), MealPortion(iceCream, 2)))
         )))
 
         ingredients = mapOf(
@@ -93,20 +93,20 @@ class FakeMealStore : MealStore {
             ?: Observable.just(emptyList<Ingredient>())!!
 
 
-    override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
+    override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
         val entry = mealPlan.value.meals
                 .filter { it.date.dayOfMonth() == date.dayOfMonth() }
                 .filter { it.mealPeriod == mealPeriod }
                 .firstOrNull()
 
         if (entry != null) {
-            val updatedEntry = entry.copy(meals = entry.meals + meal)
+            val updatedEntry = entry.copy(meals = entry.meals + MealPortion(meal, servings))
             mealPlan.onNext(mealPlan.value.copy(
                     meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
             ))
         } else {
             mealPlan.onNext(mealPlan.value.copy(
-                    meals = mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(meal))
+                    meals = mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, servings)))
             ))
         }
     }
@@ -118,7 +118,7 @@ class FakeMealStore : MealStore {
                 .firstOrNull()
 
         if (entry != null) {
-            val updatedEntry = entry.copy(meals = entry.meals - meal)
+            val updatedEntry = entry.copy(meals = entry.meals.filter { it.meal == meal })
             mealPlan.onNext(mealPlan.value.copy(
                     meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
             ))
@@ -142,5 +142,26 @@ class FakeMealStore : MealStore {
         )
 
         return Single.just(listOf(tacos, iceCream))
+    }
+
+    override fun findMealById(id: String): Single<Meal> {
+        val tacos = Meal(
+                id = "tacos", name = "Tacos",
+                description = """
+                    It's the best food product.
+                """.trimIndent(),
+                thumbnailUrl = "https://www.forksoverknives.com/wp-content/uploads/lentiltacos-6553WP-edit.jpg")
+
+        val iceCream = Meal(
+                id = "ice_cream", name = "Chocolate ice cream",
+                description = """
+                    It's chocolate ice cream. Yup.
+                """.trimIndent(),
+                thumbnailUrl = "https://chocolatecoveredkatie.com/wp-content/uploads/2017/02/nice-cream.jpg"
+        )
+        when (id) {
+            "tacos" -> return Single.just(tacos)
+            else -> return Single.just(iceCream)
+        }
     }
 }

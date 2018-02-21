@@ -20,6 +20,7 @@ interface MealStore {
                 .flatMap { meals ->
                     Observable.fromIterable(meals)
                             .flatMap { Observable.fromIterable(it.meals) }
+                            .map { it.meal }
                             .flatMapSingle { getIngredientsForRecipe(it).first(emptyList()) }
                             .collect<MutableList<Ingredient>>(::mutableListOf, { all, meal ->
                                 all.addAll(meal)
@@ -29,10 +30,11 @@ interface MealStore {
                 .map { it.sortedBy(Ingredient::name) }
     }
 
-    fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod)
+    fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int)
 
     fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod)
 
     fun getSuggestedMeals(): Single<List<Meal>>
 
+    fun findMealById(id: String): Single<Meal>
 }

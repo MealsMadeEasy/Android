@@ -12,6 +12,7 @@ import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.ui.BaseFragment
+import com.mealsmadeeasy.ui.meal.MealActivity
 import javax.inject.Inject
 
 class SuggestionsFragment : BaseFragment() {
@@ -33,7 +34,9 @@ class SuggestionsFragment : BaseFragment() {
         val root = inflater.inflate(R.layout.fragment_suggestions, container, false)
         val list = root.findViewById<RecyclerView>(R.id.suggestion_list)
         mealStore.getSuggestedMeals().subscribe({ suggestions ->
-            list.adapter = SuggestionsAdapter(suggestions)
+            list.adapter = SuggestionsAdapter(suggestions) { _, mealId ->
+                startActivity(MealActivity.newIntent(context, mealId))
+            }
             list.layoutManager = LinearLayoutManager(root.context)
         }, { throwable ->
             Log.e(TAG, "Failed to load suggestions", throwable)
@@ -41,4 +44,5 @@ class SuggestionsFragment : BaseFragment() {
         })
         return root
     }
+
 }

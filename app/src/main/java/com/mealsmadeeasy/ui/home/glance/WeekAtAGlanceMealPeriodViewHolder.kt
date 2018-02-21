@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.MealPeriod
+import com.mealsmadeeasy.model.MealPortion
 
 class WeekAtAGlanceMealPeriodViewHolder(
         root: View,
-        private val onDeleteMeal: (Meal, MealPeriod) -> Unit
+        private val onDeleteMeal: (MealPortion, MealPeriod) -> Unit
 ) : RecyclerView.ViewHolder(root) {
 
     private lateinit var mealPeriod: MealPeriod
@@ -25,7 +25,7 @@ class WeekAtAGlanceMealPeriodViewHolder(
         mealList.layoutManager = LinearLayoutManager(root.context)
     }
 
-    fun bind(mealPeriod: MealPeriod, meals: List<Meal>) {
+    fun bind(mealPeriod: MealPeriod, meals: List<MealPortion>) {
         this.mealPeriod = mealPeriod
         periodName.setText(mealPeriod.title)
         mealAdapter.meals = meals

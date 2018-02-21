@@ -42,12 +42,12 @@ class WeekAtAGlanceFragment : BaseFragment() {
                 .subscribe({ mealPlan ->
                     (rv.adapter as? WeekAtAGlanceAdapter).let {
                         if (it == null) {
-                            rv.adapter = WeekAtAGlanceAdapter(mealPlan = mealPlan) { meal, mealPeriod, date ->
-                                mealStore.removeMealFromMealPlan(meal, date, mealPeriod)
+                            rv.adapter = WeekAtAGlanceAdapter(mealPlan = mealPlan) { mealPortion, mealPeriod, date ->
+                                mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
                                 Snackbar.make(root.findViewById<RecyclerView>(R.id.week_at_a_glance_recycler_view),
                                         R.string.week_at_a_glance_meal_deleted, Snackbar.LENGTH_SHORT)
                                         .setAction(R.string.week_at_a_glance_undo_delete) {
-                                            mealStore.addMealToMealPlan(meal, date, mealPeriod)
+                                            mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
                                         }
                                         .show()
                             }
