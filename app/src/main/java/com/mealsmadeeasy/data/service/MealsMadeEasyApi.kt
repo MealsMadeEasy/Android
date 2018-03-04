@@ -1,10 +1,13 @@
 package com.mealsmadeeasy.data.service
 
+import com.mealsmadeeasy.model.toDate
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import io.reactivex.schedulers.Schedulers
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -31,6 +34,16 @@ private fun createMoshi(): Moshi {
                         writer.endObject()
                     }
                 }
+            })
+            .add(DateTime::class.java, object : JsonAdapter<DateTime>() {
+                override fun fromJson(reader: JsonReader): DateTime {
+                    return reader.nextLong().toDate()
+                }
+
+                override fun toJson(writer: JsonWriter, value: DateTime?) {
+                    value?.let { writer.value(it.withZone(DateTimeZone.UTC).millis) }
+                }
+
             })
             .build()
 }

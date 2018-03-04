@@ -7,7 +7,7 @@ data class MealPlan(
 ) {
 
     operator fun get(date: DateTime): Map<MealPeriod, List<MealPortion>> {
-        return meals.filter { it.date.withTimeAtStartOfDay() == date.withTimeAtStartOfDay() }
+        return meals.filter { it.date.withZone(date.zone).withTimeAtStartOfDay() == date.withTimeAtStartOfDay() }
                 .map { it.mealPeriod to it.meals }
                 .toMap()
     }
