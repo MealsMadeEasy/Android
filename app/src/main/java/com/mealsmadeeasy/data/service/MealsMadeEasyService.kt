@@ -5,10 +5,7 @@ import com.mealsmadeeasy.model.MealPlan
 import com.mealsmadeeasy.model.UserProfile
 import io.reactivex.Single
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface MealsMadeEasyService {
 
@@ -32,5 +29,10 @@ interface MealsMadeEasyService {
     fun getSuggestedMeals(
             @Header("Authorization") token: String
     ): Single<Response<List<Meal>>>
+
+    @GET("/meal/{id}")
+    fun getMeal(
+            @Path("id") mealId: String
+    ): Single<Response<Meal>>
 
 }

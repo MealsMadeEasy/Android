@@ -56,7 +56,9 @@ class NetMealStore(
     }
 
     override fun findMealById(id: String): Single<Meal> {
-        TODO("not implemented")
+        return service.getMeal(id).subscribeOn(Schedulers.io())
+                .map { it.unwrap() }
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun <T> Response<T>.unwrap(): T {
