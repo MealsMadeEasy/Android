@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.data.service
 
+import com.mealsmadeeasy.data.service.model.SparseMealPlan
 import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.MealPlan
 import com.mealsmadeeasy.model.UserProfile
@@ -24,6 +25,12 @@ interface MealsMadeEasyService {
     fun getMealPlan(
             @Header("Authorization") token: String
     ): Single<Response<MealPlan>>
+
+    @POST("/user/plan")
+    fun setMealPlan(
+            @Header("Authorization") token: String,
+            @Body mealPlan: SparseMealPlan
+    ): Single<Response<Unit>>
 
     @GET("/meals/suggested")
     fun getSuggestedMeals(

@@ -1,10 +1,8 @@
 package com.mealsmadeeasy.data
 
 import com.mealsmadeeasy.data.service.MealsMadeEasyService
-import com.mealsmadeeasy.model.Ingredient
-import com.mealsmadeeasy.model.Meal
-import com.mealsmadeeasy.model.MealPeriod
-import com.mealsmadeeasy.model.MealPlan
+import com.mealsmadeeasy.data.service.model.SparseMealPlan
+import com.mealsmadeeasy.model.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,11 +40,28 @@ class NetMealStore(
     }
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
-        TODO("not implemented")
+        mealPlan.getOrComputeValue().firstOrError()
+                .subscribeOn(Schedulers.io())
+                .map { it + MealPlanEntry(date.withTimeAtStartOfDay(), mealPeriod, listOf(MealPortion(meal, servings))) }
+                .flatMap { updateMealPlan(it)}
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
     }
 
     override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
-        TODO("not implemented")
+        mealPlan.getOrComputeValue().firstOrError()
+                .subscribeOn(Schedulers.io())
+                .map { it - MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, Int.MAX_VALUE))) }
+                .flatMap { updateMealPlan(it)}
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+    }
+
+    private fun updateMealPlan(updatedPlan: MealPlan): Single<Unit> {
+        return userManager.getUserToken()
+                .flatMap { token -> service.setMealPlan(token, SparseMealPlan(updatedPlan)) }
+                .map { it.unwrap() }
+                .doOnSuccess { mealPlan.setValue(updatedPlan) }
     }
 
     override fun getSuggestedMeals(): Single<List<Meal>> {
