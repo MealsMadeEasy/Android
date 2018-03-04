@@ -2,8 +2,8 @@ package com.mealsmadeeasy.inject
 
 import android.content.Context
 import android.preference.PreferenceManager
-import com.mealsmadeeasy.data.FakeMealStore
 import com.mealsmadeeasy.data.MealStore
+import com.mealsmadeeasy.data.NetMealStore
 import com.mealsmadeeasy.data.UserManager
 import com.mealsmadeeasy.data.service.MealsMadeEasyService
 import com.mealsmadeeasy.data.service.createMealsMadeEasyApi
@@ -22,7 +22,8 @@ class MealsModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideMealStore(): MealStore = FakeMealStore()
+    fun provideMealStore(service: MealsMadeEasyService, userManager: UserManager): MealStore
+            = NetMealStore(userManager, service)
 
     @Provides
     @Singleton

@@ -1,5 +1,7 @@
 package com.mealsmadeeasy.data.service
 
+import com.mealsmadeeasy.model.Meal
+import com.mealsmadeeasy.model.MealPlan
 import com.mealsmadeeasy.model.UserProfile
 import io.reactivex.Single
 import retrofit2.Response
@@ -20,5 +22,15 @@ interface MealsMadeEasyService {
             @Header("Authorization") token: String,
             @Body profile: UserProfile
     ): Single<Response<Unit>>
+
+    @GET("/user/plan")
+    fun getMealPlan(
+            @Header("Authorization") token: String
+    ): Single<Response<MealPlan>>
+
+    @GET("/meals/suggested")
+    fun getSuggestedMeals(
+            @Header("Authorization") token: String
+    ): Single<Response<List<Meal>>>
 
 }
