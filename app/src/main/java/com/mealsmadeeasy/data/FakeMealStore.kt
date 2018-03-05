@@ -178,11 +178,11 @@ class FakeMealStore : MealStore {
                                 "Top evenly with lettuce and tomato.")
                 ),
                 ingredients = listOf(
-                        Ingredient(id = "taco-shell", name = "Flour tortilla shells", quantity = 3, unitName = ""),
+                        Ingredient(id = "taco-shell", name = "Flour tortilla shells", quantity = 3, unitName = "Shells", isMeasurable = false),
                         Ingredient(id = "taco-meat_chicken", name = "Chicken", quantity = 0.5, unitName = "lbs"),
                         Ingredient(id = "shredded_cheese", name = "Shredded cheese", quantity = 0.75, unitName = "Cups"),
                         Ingredient(id = "lettuce", name = "Lettuce", quantity = 2, unitName = "Leaves"),
-                        Ingredient(id = "tomato", name = "", quantity = 0.5, unitName = "Tomatoes")
+                        Ingredient(id = "tomato", name = "Tomato", quantity = 0.5, unitName = "Tomatoes", isMeasurable = false)
                 )
         )
 

@@ -17,6 +17,7 @@ import com.mealsmadeeasy.model.Recipe
 import com.mealsmadeeasy.ui.BaseActivity
 import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 class MealActivity : BaseActivity() {
@@ -44,14 +45,14 @@ class MealActivity : BaseActivity() {
         mealStore.findMealById(intent.getStringExtra("meal_id"))
                 .bindToLifecycle(this)
                 .subscribe({meal ->
-                    mealSetup(meal)
+                    onMealLoaded(meal)
                 }, { throwable ->
                     Log.e(TAG, "Failed to load meal", throwable)
                     Toast.makeText(this, R.string.meal_page_failed_to_load_meal, Toast.LENGTH_SHORT).show()
                 })
     }
 
-    private fun mealSetup(meal: Meal) {
+    private fun onMealLoaded(meal: Meal) {
         supportActionBar?.title = meal.name
 
         val thumbnailView = findViewById<ImageView>(R.id.meal_thumbnail)
@@ -71,14 +72,14 @@ class MealActivity : BaseActivity() {
         mealStore.getRecipe(meal.id)
                 .bindToLifecycle(this)
                 .subscribe({recipe ->
-                    recipeSetup(recipe)
+                    onRecipeLoaded(recipe)
                 }, { throwable ->
                     Log.e(TAG, "Failed to load recipe", throwable)
                     Toast.makeText(this, R.string.meal_page_failed_to_load_recipe, Toast.LENGTH_SHORT).show()
                 })
     }
 
-    private fun recipeSetup(recipe: Recipe) {
+    private fun onRecipeLoaded(recipe: Recipe) {
         val prepView = findViewById<TextView>(R.id.meal_page_prep_time)
         val stepsView = findViewById<TextView>(R.id.meal_page_steps)
         val ingredientsView = findViewById<TextView>(R.id.meal_page_ingredients)
@@ -86,24 +87,26 @@ class MealActivity : BaseActivity() {
         val prepTime = recipe.prepTime.toString() + " " + getString(R.string.meal_page_minutes)
         prepView.text = prepTime
 
-        val newLine = System.getProperty("line.separator")
-
         var stepsList = ""
-        recipe.steps.forEach{step ->
-            stepsList += " • " +
-                step.stepDescription +
-                newLine +
-                newLine
+        recipe.steps.forEachIndexed {i, step ->
+            val number = i + 1
+            stepsList += number.toString() + ". " +
+                step.stepDescription + "\n\n"
         }
         stepsView.text = stepsList
 
+        val format = DecimalFormat("#,###.#")
         var ingredientsList = ""
-        recipe.ingredients.forEach{ingredient ->
-            ingredientsList += ingredient.quantity.toString() + " " +
-                    ingredient.unitName + " " +
-                    ingredient.name +
-                    newLine +
-                    newLine
+        recipe.ingredients.forEach {ingredient ->
+            if (ingredient.isMeasurable) {
+                ingredientsList += format.format(ingredient.quantity).toString() + " " +
+                        ingredient.unitName + " " +
+                        ingredient.name + "\n\n"
+            } else {
+                ingredientsList += ingredient.quantity.toString() + " " +
+                        ingredient.name + "\n\n"
+            }
+
         }
         ingredientsView.text = ingredientsList
     }
