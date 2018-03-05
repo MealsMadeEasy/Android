@@ -14,6 +14,7 @@ import com.mealsmadeeasy.ui.BaseFragment
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_add_to_plan.view.*
 import javax.inject.Inject
 
 class WeekAtAGlanceFragment : BaseFragment() {
@@ -42,15 +43,19 @@ class WeekAtAGlanceFragment : BaseFragment() {
                 .subscribe({ mealPlan ->
                     (rv.adapter as? WeekAtAGlanceAdapter).let {
                         if (it == null) {
-                            rv.adapter = WeekAtAGlanceAdapter(mealPlan = mealPlan) { mealPortion, mealPeriod, date ->
-                                mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
-                                Snackbar.make(root.findViewById<RecyclerView>(R.id.week_at_a_glance_recycler_view),
-                                        R.string.week_at_a_glance_meal_deleted, Snackbar.LENGTH_SHORT)
-                                        .setAction(R.string.week_at_a_glance_undo_delete) {
-                                            mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
-                                        }
-                                        .show()
-                            }
+                            rv.adapter = WeekAtAGlanceAdapter(mealPlan = mealPlan,
+                                    onDeleteMeal = { mealPortion, mealPeriod, date ->
+                                        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
+                                        Snackbar.make(root.findViewById<RecyclerView>(R.id.week_at_a_glance_recycler_view),
+                                                R.string.week_at_a_glance_meal_deleted, Snackbar.LENGTH_SHORT)
+                                                .setAction(R.string.week_at_a_glance_undo_delete) {
+                                                    mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
+                                                }
+                                                .show()
+                                    }, onUpdateMeal = { mealPortion, mealPeriod, date ->
+                                        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
+                                        mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
+                            })
                         } else {
                             it.mealPlan = mealPlan
                         }

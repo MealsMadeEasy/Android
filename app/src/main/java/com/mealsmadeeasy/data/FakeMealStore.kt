@@ -118,7 +118,7 @@ class FakeMealStore : MealStore {
                 .firstOrNull()
 
         if (entry != null) {
-            val updatedEntry = entry.copy(meals = entry.meals.filter { it.meal == meal })
+            val updatedEntry = entry.copy(meals = entry.meals.filter { it.meal != meal })
             mealPlan.onNext(mealPlan.value.copy(
                     meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
             ))
