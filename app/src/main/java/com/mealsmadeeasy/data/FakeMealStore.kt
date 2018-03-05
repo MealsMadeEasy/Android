@@ -131,7 +131,8 @@ class FakeMealStore : MealStore {
                 description = """
                     It's the best food product.
                 """.trimIndent(),
-                thumbnailUrl = "https://www.forksoverknives.com/wp-content/uploads/lentiltacos-6553WP-edit.jpg")
+                thumbnailUrl = "https://www.forksoverknives.com/wp-content/uploads/lentiltacos-6553WP-edit.jpg"
+        )
 
         val iceCream = Meal(
                 id = "ice_cream", name = "Chocolate ice cream",
@@ -150,7 +151,8 @@ class FakeMealStore : MealStore {
                 description = """
                     It's the best food product.
                 """.trimIndent(),
-                thumbnailUrl = "https://www.forksoverknives.com/wp-content/uploads/lentiltacos-6553WP-edit.jpg")
+                thumbnailUrl = "https://www.forksoverknives.com/wp-content/uploads/lentiltacos-6553WP-edit.jpg"
+        )
 
         val iceCream = Meal(
                 id = "ice_cream", name = "Chocolate ice cream",
@@ -162,6 +164,43 @@ class FakeMealStore : MealStore {
         when (id) {
             "tacos" -> return Single.just(tacos)
             else -> return Single.just(iceCream)
+        }
+    }
+
+    override fun getRecipe(id: String): Single<Recipe> {
+        val tacosRecipe = Recipe(
+                prepTime = 20,
+                steps = listOf(
+                        RecipeStep("Cut chicken into 1/2 inch strips."),
+                        RecipeStep("Heat oil in large skillet over medium-high heat, adding chicken once hot. " +
+                                "Cook and stir for 10 minutes or until cooked through."),
+                        RecipeStep("Spoon 1/3 of the chicken into each tortilla and sprinkle with cheese. " +
+                                "Top evenly with lettuce and tomato.")
+                ),
+                ingredients = listOf(
+                        Ingredient(id = "taco-shell", name = "Flour tortilla shells", quantity = 3, unitName = ""),
+                        Ingredient(id = "taco-meat_chicken", name = "Chicken", quantity = 0.5, unitName = "lbs"),
+                        Ingredient(id = "shredded_cheese", name = "Shredded cheese", quantity = 0.75, unitName = "Cups"),
+                        Ingredient(id = "lettuce", name = "Lettuce", quantity = 2, unitName = "Leaves"),
+                        Ingredient(id = "tomato", name = "", quantity = 0.5, unitName = "Tomatoes")
+                )
+        )
+
+        val iceCreamRecipe = Recipe(
+                prepTime = 5,
+                steps = listOf(
+                        RecipeStep("Take the ice cream out of the freezer, letting it thaw for 5 minutes."),
+                        RecipeStep("Scoop desired amount into bowl and top evenly with chocolate syrup.")
+                ),
+                ingredients = listOf(
+                        Ingredient(id = "ice-cream_chocolate", name = "Chocolate ice cream", quantity = 1, unitName = "Pint"),
+                        Ingredient(id = "chocolate-syrup", name = "Chocolate syrup", quantity = 1, unitName = "Fl.oz.")
+                )
+        )
+
+        when (id) {
+            "tacos" -> return Single.just(tacosRecipe)
+            else -> return Single.just(iceCreamRecipe)
         }
     }
 }
