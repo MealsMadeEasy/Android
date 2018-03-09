@@ -84,14 +84,11 @@ class MealActivity : BaseActivity() {
         val stepsView = findViewById<TextView>(R.id.meal_page_steps)
         val ingredientsView = findViewById<TextView>(R.id.meal_page_ingredients)
 
-        val prepTime = recipe.prepTime.toString() + " " + getString(R.string.meal_page_minutes)
-        prepView.text = prepTime
+        prepView.text = resources.getQuantityString(R.plurals.minutes, recipe.prepTime, recipe.prepTime)
 
         var stepsList = ""
         recipe.steps.forEachIndexed {i, step ->
-            val number = i + 1
-            stepsList += number.toString() + ". " +
-                step.stepDescription + "\n\n"
+            stepsList += "${i + 1}. ${step.stepDescription}\n\n"
         }
         stepsView.text = stepsList
 
@@ -99,14 +96,12 @@ class MealActivity : BaseActivity() {
         var ingredientsList = ""
         recipe.ingredients.forEach {ingredient ->
             if (ingredient.isMeasurable) {
-                ingredientsList += format.format(ingredient.quantity).toString() + " " +
-                        ingredient.unitName + " " +
-                        ingredient.name + "\n\n"
+                ingredientsList += "${format.format(ingredient.quantity)} " +
+                        "${ingredient.unitName} ${ingredient.name}\n\n"
             } else {
-                ingredientsList += ingredient.quantity.toString() + " " +
-                        ingredient.name + "\n\n"
+                ingredientsList += "${format.format(ingredient.quantity)} " +
+                        "${ingredient.name}\n\n"
             }
-
         }
         ingredientsView.text = ingredientsList
     }
