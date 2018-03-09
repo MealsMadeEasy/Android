@@ -1,6 +1,7 @@
 package com.mealsmadeeasy.ui.home.glance
 
 import android.app.AlertDialog
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
@@ -90,12 +91,16 @@ class WeekAtAGlanceMealViewHolder(
         }
 
 
+        val res = itemView.context.resources
         AlertDialog.Builder(itemView.context)
                 .setView(root)
-                .setPositiveButton("Confirm") { _, _ ->
+                .setTitle(res.getString(R.string.week_at_a_glance_edit_servings_title, mealName.text))
+                .setPositiveButton(R.string.week_at_a_glance_edit_servings_confirm) { _, _ ->
                     onUpdateMeal(MealPortion(mealPortion.meal, numServings))
+                    Snackbar.make(itemView, R.string.week_at_a_glance_edit_servings_updated, Snackbar.LENGTH_SHORT)
+                            .show()
                 }
-                .setNegativeButton("Cancel") { _, _ ->
+                .setNegativeButton(R.string.week_at_a_glance_edit_servings_cancel) { _, _ ->
                     // Do nothing.
                 }
                 .show()

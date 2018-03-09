@@ -51,4 +51,5 @@
     <dimen name="add_to_plan_meal_spinner_margin_top">24dp</dimen>
     <dimen name="add_to_plan_button_margin_top">48dp</dimen>
     <dimen name="add_to_plan_button_margin_bottom">12dp</dimen>
+    <dimen name="edit_servings_title_padding">8dp</dimen>
 </resources>

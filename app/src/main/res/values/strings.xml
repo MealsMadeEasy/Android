@@ -16,6 +16,10 @@
     <string name="week_at_a_glance_undo_delete">Undo</string>
     <string name="week_at_a_glance_delete_menu">Delete</string>
     <string name="week_at_a_glance_edit_servings_menu">Edit Servings&#8230;</string>
+    <string name="week_at_a_glance_edit_servings_title">Edit servings for "%1$s"</string>
+    <string name="week_at_a_glance_edit_servings_confirm">Confirm</string>
+    <string name="week_at_a_glance_edit_servings_cancel">Cancel</string>
+    <string name="week_at_a_glance_edit_servings_updated">Servings updated</string>
 
     <string name="grocery_list">Grocery list</string>
     <string name="error_grocery_list_load">Failed to load grocery list</string>
