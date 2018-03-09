@@ -14,7 +14,6 @@ import com.mealsmadeeasy.ui.BaseFragment
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_add_to_plan.view.*
 import javax.inject.Inject
 
 class WeekAtAGlanceFragment : BaseFragment() {
