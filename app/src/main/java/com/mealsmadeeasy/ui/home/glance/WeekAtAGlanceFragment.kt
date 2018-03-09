@@ -10,10 +10,14 @@ import android.view.ViewGroup
 import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
+import com.mealsmadeeasy.model.MealPeriod
+import com.mealsmadeeasy.model.MealPlan
+import com.mealsmadeeasy.model.MealPortion
 import com.mealsmadeeasy.ui.BaseFragment
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 class WeekAtAGlanceFragment : BaseFragment() {
@@ -43,18 +47,8 @@ class WeekAtAGlanceFragment : BaseFragment() {
                     (rv.adapter as? WeekAtAGlanceAdapter).let {
                         if (it == null) {
                             rv.adapter = WeekAtAGlanceAdapter(mealPlan = mealPlan,
-                                    onDeleteMeal = { mealPortion, mealPeriod, date ->
-                                        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
-                                        Snackbar.make(root.findViewById<RecyclerView>(R.id.week_at_a_glance_recycler_view),
-                                                R.string.week_at_a_glance_meal_deleted, Snackbar.LENGTH_SHORT)
-                                                .setAction(R.string.week_at_a_glance_undo_delete) {
-                                                    mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
-                                                }
-                                                .show()
-                                    }, onUpdateMeal = { mealPortion, mealPeriod, date ->
-                                        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
-                                        mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
-                            })
+                                    onDeleteMeal = this::deleteMeal,
+                                    onUpdateMeal = this::updateMeal)
                         } else {
                             it.mealPlan = mealPlan
                         }
@@ -62,6 +56,21 @@ class WeekAtAGlanceFragment : BaseFragment() {
                 })
 
         return root
+    }
+
+    private fun deleteMeal(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime) {
+        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
+        Snackbar.make(view!!.findViewById<RecyclerView>(R.id.week_at_a_glance_recycler_view),
+                R.string.week_at_a_glance_meal_deleted, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.week_at_a_glance_undo_delete) {
+                    mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
+                }
+                .show()
+    }
+
+    private fun updateMeal(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime) {
+        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
+        mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
     }
 
 }
