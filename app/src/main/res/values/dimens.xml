@@ -11,7 +11,7 @@
     <dimen name="week_at_a_glance_meal_period_corner_radius">4dp</dimen>
     <dimen name="week_at_a_glance_meal_period_title_size">18sp</dimen>
     <dimen name="week_at_a_glance_meal_period_title_padding">8dp</dimen>
-    <dimen name="week_at_a_glance_meal_padding">8dp</dimen>
+    <dimen name="week_at_a_glance_meal_padding">12dp</dimen>
 
     <dimen name="profile_label_text_size">10sp</dimen>
     <dimen name="profile_padding_vertical_default">12dp</dimen>
@@ -35,7 +35,7 @@
     <dimen name="meal_page_text_margin">8dp</dimen>
     <dimen name="meal_page_fab_margin">16dp</dimen>
     <dimen name="meal_page_name_margin_top">12dp</dimen>
-    <dimen name="meal_page_name_margin_bottom">24dp</dimen>
+    <dimen name="meal_page_name_margin_bottom">12dp</dimen>
 
     <dimen name="add_to_plan_text_margin">8dp</dimen>
     <dimen name="add_to_plan_name_margin_top">16dp</dimen>
