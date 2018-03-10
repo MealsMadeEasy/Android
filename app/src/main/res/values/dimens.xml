@@ -35,7 +35,7 @@
     <dimen name="meal_page_text_margin">8dp</dimen>
     <dimen name="meal_page_fab_margin">16dp</dimen>
     <dimen name="meal_page_name_margin_top">12dp</dimen>
-    <dimen name="meal_page_name_margin_bottom">24dp</dimen>
+    <dimen name="meal_page_name_margin_bottom">12dp</dimen>
 
     <dimen name="add_to_plan_text_margin">8dp</dimen>
     <dimen name="add_to_plan_name_margin_top">16dp</dimen>
