@@ -19,14 +19,13 @@ data class MealPlanEntry(
     }
 
     operator fun minus(mealPortions: List<MealPortion>): MealPlanEntry {
-        val originalCounts = meals.map { it.meal to it.servings }.toMap().withDefault { 0 }
-        val newMeals = mealPortions.filter { new -> meals.none { it.meal == new.meal } }
-        val duplicateMeals = mealPortions - newMeals
-        val unmodifiedMeals = meals - duplicateMeals
-        val updatedDuplicates = duplicateMeals.map { it.copy(servings = Math.max(0, originalCounts[it.meal]!! - it.servings)) }
+        val newServings = meals.map { it.meal to it.servings }.toMap()
+                .mapValues { (meal, servings) ->
+                    servings - mealPortions.filter { it.meal == meal }.sumBy { it.servings }
+                }
+                .filterValues { it > 0 }
 
-        return copy(meals = newMeals + updatedDuplicates + unmodifiedMeals)
+        return copy(meals = newServings.map { (meal, servings) -> MealPortion(meal, servings) })
     }
-
 
 }
