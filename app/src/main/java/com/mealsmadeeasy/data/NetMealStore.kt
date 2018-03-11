@@ -36,7 +36,15 @@ class NetMealStore(
     }
 
     override fun getIngredientsForRecipe(meal: Meal): Observable<List<Ingredient>> {
-        TODO("not implemented")
+        return Observable.fromCallable {
+            TODO("not implemented")
+        }
+    }
+
+    override fun getRecipe(id: String): Single<Recipe> {
+        return Single.fromCallable {
+            TODO("not implemented")
+        }
     }
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
