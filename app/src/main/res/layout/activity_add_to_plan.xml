@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_add_to_plan"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -98,7 +99,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/meals"
+                android:id="@+id/meal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -108,31 +109,18 @@
                 android:text="@string/add_to_plan_meal"
                 android:textColor="@android:color/black"/>
 
-            <TextView
-                android:id="@+id/add_to_plan_date"
-                android:layout_width="@dimen/add_to_plan_date_picker_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/meals"
-                android:layout_marginTop="@dimen/add_to_plan_date_picker_margin_top"
-                android:layout_centerHorizontal="true"
-                style="@style/Widget.AppCompat.EditText"
-                android:focusable="false"
-                android:hint="@string/add_to_plan_date_hint"/>
-
-            <Spinner
-                android:id="@+id/add_to_plan_spinner"
-                android:layout_width="@dimen/add_to_plan_meal_spinner_width"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/add_to_plan_date"
-                android:layout_marginTop="@dimen/add_to_plan_meal_spinner_margin_top"
-                android:layout_centerHorizontal="true"
-                android:entries="@array/meal_spinner_entries"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/add_to_plan_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/meal"
+                tools:listitem="@layout/view_week_at_a_glance_day"/>
 
             <Button
                 android:id="@+id/add_to_plan_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/add_to_plan_spinner"
+                android:layout_below="@+id/add_to_plan_calendar"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/add_to_plan_button_margin_top"
                 android:layout_marginBottom="@dimen/add_to_plan_button_margin_bottom"

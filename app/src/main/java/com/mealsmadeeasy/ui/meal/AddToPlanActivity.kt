@@ -1,29 +1,27 @@
 package com.mealsmadeeasy.ui.meal
 
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.format.DateFormat
+import android.support.design.widget.Snackbar
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.*
 import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.model.Meal
-import com.mealsmadeeasy.model.MealPeriod
 import com.mealsmadeeasy.ui.BaseActivity
 import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import org.joda.time.DateTime
-import java.util.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class AddToPlanActivity : BaseActivity() {
 
     @Inject lateinit var mealStore: MealStore
-    private var cal = Calendar.getInstance()
-    private var chosenTime: Long = 0
 
     companion object {
         private const val TAG = "AddToPlanActivity"
@@ -46,21 +44,19 @@ class AddToPlanActivity : BaseActivity() {
         mealStore.findMealById(intent.getStringExtra("meal_id"))
                 .bindToLifecycle(this)
                 .subscribe({meal ->
-                    finishSetup(meal)
+                    onMealLoaded(meal)
                 }, { throwable ->
                     Log.e(TAG, "Failed to load suggestions", throwable)
                     Toast.makeText(this, "Couldn't find that meal", Toast.LENGTH_SHORT).show()
                 })
     }
 
-    private fun finishSetup(meal: Meal) {
+    private fun onMealLoaded(meal: Meal) {
         val thumbnailView = findViewById<ImageView>(R.id.add_to_plan_thumbnail)
         val nameView = findViewById<TextView>(R.id.add_to_plan_name)
         val servingsView = findViewById<TextView>(R.id.add_to_plan_servings)
         val minusButton = findViewById<ImageView>(R.id.add_to_plan_minus)
         val plusButton = findViewById<ImageView>(R.id.add_to_plan_plus)
-        val dateView = findViewById<TextView>(R.id.add_to_plan_date)
-        val mealSpinner = findViewById<Spinner>(R.id.add_to_plan_spinner)
         val addButton = findViewById<Button>(R.id.add_to_plan_button)
 
         Picasso.with(this)
@@ -88,40 +84,35 @@ class AddToPlanActivity : BaseActivity() {
             servingsView.text = numServings.toString()
         }
 
-        setupDatePicker(dateView)
 
-        addButton.setOnClickListener {
-            if (dateView.text == "") {
-                Toast.makeText(this, R.string.add_to_plan_date_not_selected, Toast.LENGTH_SHORT).show()
-            } else {
-                var mealPeriod = MealPeriod.BREAKFAST
-                when (mealSpinner.selectedItem) {
-                    "Lunch" -> mealPeriod = MealPeriod.LUNCH
-                    "Dinner" -> mealPeriod = MealPeriod.DINNER
-                }
+        val rv = findViewById<RecyclerView>(R.id.add_to_plan_calendar)
+        rv.layoutManager = LinearLayoutManager(this)
 
-                mealStore.addMealToMealPlan(meal, DateTime(chosenTime), mealPeriod, numServings)
-                Toast.makeText(this, R.string.add_to_plan_meal_added, Toast.LENGTH_SHORT).show()
-                finish()
-            }
-        }
-    }
+        mealStore.getMealPlan()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .bindToLifecycle(this)
+                .subscribe({ mealPlan ->
+                    (rv.adapter as? MealPlanPickerAdapter).let {
+                        if (it == null) {
+                            rv.adapter = MealPlanPickerAdapter(mealPlan = mealPlan)
+                        } else {
+                            it.mealPlan = mealPlan
+                        }
+                    }
+                })
 
-    private fun setupDatePicker(date: TextView) {
-        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            date.text = DateFormat.getDateFormat(this).format(Date(cal.timeInMillis))
-            chosenTime = cal.timeInMillis
-        }
-
-        date.setOnClickListener {
-            DatePickerDialog(this, dateSetListener,
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
-        }
+//        addButton.setOnClickListener {
+//            if () {
+//                Toast.makeText(this, R.string.add_to_plan_date_not_selected, Toast.LENGTH_SHORT).show()
+//            } else {
+//
+//
+//                mealStore.addMealToMealPlan(meal, DateTime(chosenTime), mealPeriod, numServings)
+//                Toast.makeText(this, R.string.add_to_plan_meal_added, Toast.LENGTH_SHORT).show()
+//                finish()
+//            }
+//        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
