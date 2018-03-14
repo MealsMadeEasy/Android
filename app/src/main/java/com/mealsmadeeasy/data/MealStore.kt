@@ -1,9 +1,6 @@
 package com.mealsmadeeasy.data
 
-import com.mealsmadeeasy.model.Ingredient
-import com.mealsmadeeasy.model.Meal
-import com.mealsmadeeasy.model.MealPeriod
-import com.mealsmadeeasy.model.MealPlan
+import com.mealsmadeeasy.model.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.joda.time.DateTime
@@ -37,4 +34,6 @@ interface MealStore {
     fun getSuggestedMeals(): Single<List<Meal>>
 
     fun findMealById(id: String): Single<Meal>
+
+    fun getRecipe(id: String): Single<Recipe>
 }

@@ -10,3 +10,5 @@ fun Timestamp.toDate(): DateTime = DateTime(this, DateTimeZone.UTC)
 typealias Pounds = Int
 
 typealias Inches = Int
+
+typealias Minutes = Int
