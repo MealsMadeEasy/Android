@@ -66,10 +66,10 @@ class NetMealStore(
     }
 
     private fun updateMealPlan(updatedPlan: MealPlan): Single<Unit> {
+        mealPlan.setValue(updatedPlan)
         return userManager.getUserToken()
                 .flatMap { token -> service.setMealPlan(token, SparseMealPlan(updatedPlan)) }
                 .map { it.unwrap() }
-                .doOnSuccess { mealPlan.setValue(updatedPlan) }
     }
 
     override fun getSuggestedMeals(): Single<List<Meal>> {
