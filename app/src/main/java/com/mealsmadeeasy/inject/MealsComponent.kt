@@ -12,9 +12,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(
-    MealsModule::class
-))
+@Component(modules = [MealsModule::class])
 interface MealsComponent {
 
     fun inject(activity: SplashActivity)
