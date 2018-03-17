@@ -30,6 +30,8 @@ class NetMealStore(
                 .map { it.unwrap() }
     }
 
+    private val recipes = mutableMapOf<MealId, RxLoader<Recipe>>()
+
     override fun getMealPlan(): Observable<MealPlan> {
         return mealPlan.getOrComputeValue()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -42,9 +44,17 @@ class NetMealStore(
     }
 
     override fun getRecipe(id: String): Single<Recipe> {
-        return Single.fromCallable {
-            TODO("not implemented")
+        val loader = recipes[id] ?: run {
+            RxLoader {
+                service.getRecipe(id)
+                        .subscribeOn(Schedulers.io())
+                        .map { it.unwrap() }
+            }.also { recipes[id] = it }
         }
+
+        return loader.getOrComputeValue()
+                .firstOrError()
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {

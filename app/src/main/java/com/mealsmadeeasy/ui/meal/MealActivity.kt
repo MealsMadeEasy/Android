@@ -2,6 +2,7 @@ package com.mealsmadeeasy.ui.meal
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.text.Html
@@ -15,9 +16,10 @@ import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.Recipe
 import com.mealsmadeeasy.ui.BaseActivity
+import com.mealsmadeeasy.utils.PicassoImageGetter
+import com.mealsmadeeasy.utils.whenMeasured
 import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import java.text.DecimalFormat
 import javax.inject.Inject
 
 class MealActivity : BaseActivity() {
@@ -80,30 +82,22 @@ class MealActivity : BaseActivity() {
     }
 
     private fun onRecipeLoaded(recipe: Recipe) {
-        val prepView = findViewById<TextView>(R.id.meal_page_prep_time)
-        val stepsView = findViewById<TextView>(R.id.meal_page_steps)
-        val ingredientsView = findViewById<TextView>(R.id.meal_page_ingredients)
+        findViewById<TextView>(R.id.meal_page_steps).setHtml(recipe.content)
+    }
 
-        prepView.text = resources.getQuantityString(R.plurals.minutes, recipe.prepTime, recipe.prepTime)
+    private fun TextView.setHtml(html: String) {
+        whenMeasured {
+            val imageGetter =  PicassoImageGetter(context,
+                    maxWidth = measuredWidth - paddingStart - paddingEnd,
+                    onChangeCallback = { text = text })
 
-        var stepsList = ""
-        recipe.steps.forEachIndexed {i, step ->
-            stepsList += "${i + 1}. ${step.stepDescription}\n\n"
-        }
-        stepsView.text = stepsList
-
-        val format = DecimalFormat("#,###.#")
-        var ingredientsList = ""
-        recipe.ingredients.forEach {ingredient ->
-            if (ingredient.isMeasurable) {
-                ingredientsList += "${format.format(ingredient.quantity)} " +
-                        "${ingredient.unitName} ${ingredient.name}\n\n"
+            text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY, imageGetter, null)
             } else {
-                ingredientsList += "${format.format(ingredient.quantity)} " +
-                        "${ingredient.name}\n\n"
+                @Suppress("DEPRECATION")
+                Html.fromHtml(html, imageGetter, null)
             }
         }
-        ingredientsView.text = ingredientsList
     }
 
     override fun onSupportNavigateUp(): Boolean {
