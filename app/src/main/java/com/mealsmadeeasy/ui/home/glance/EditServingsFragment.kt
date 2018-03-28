@@ -31,11 +31,10 @@ class EditServingsFragment : DialogFragment() {
     companion object {
         fun newInstance(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime): EditServingsFragment {
             val frag = EditServingsFragment()
-            val args = Bundle()
             frag.arguments = Bundle().apply {
-                args.putParcelable(KEY_SAVED_MEALPORTION, mealPortion)
-                args.putInt(KEY_SAVED_MEALPERIOD, mealPeriod.ordinal)
-                args.putLong(KEY_SAVED_DATETIME, date.millis)
+                putParcelable(KEY_SAVED_MEALPORTION, mealPortion)
+                putInt(KEY_SAVED_MEALPERIOD, mealPeriod.ordinal)
+                putLong(KEY_SAVED_DATETIME, date.millis)
             }
             return frag
         }
@@ -61,7 +60,7 @@ class EditServingsFragment : DialogFragment() {
         numServings = savedInstanceState?.getInt(KEY_SAVED_NUMSERVINGS) ?:
                 arguments!!.getParcelable<MealPortion>(KEY_SAVED_MEALPORTION).servings
 
-        val view = View.inflate(activity, R.layout.view_edit_servings, null)
+        val view = View.inflate(context, R.layout.view_edit_servings, null)
         setPlusAndMinusButtonListeners(view)
         return AlertDialog.Builder(activity)
                 .setView(view)

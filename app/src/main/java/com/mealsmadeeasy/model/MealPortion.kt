@@ -8,25 +8,19 @@ data class MealPortion(
         val servings: Int
 ): Parcelable {
     companion object CREATOR : Parcelable.Creator<MealPortion> {
-        override fun createFromParcel(source: Parcel?): MealPortion {
-            return MealPortion(source!!)
+        override fun createFromParcel(source: Parcel): MealPortion {
+            return MealPortion(source)
         }
 
-        override fun newArray(size: Int): Array<MealPortion?> {
-            return arrayOfNulls(size)
-        }
+        override fun newArray(size: Int) = arrayOfNulls<MealPortion>(size)
     }
 
     constructor(parcel: Parcel): this(parcel.readParcelable(null), parcel.readInt())
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        if (dest != null) {
-            dest.writeParcelable(meal, flags)
-            dest.writeInt(servings)
-        }
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeParcelable(meal, flags)
+        dest.writeInt(servings)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 }
