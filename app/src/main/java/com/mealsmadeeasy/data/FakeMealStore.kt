@@ -1,7 +1,6 @@
 package com.mealsmadeeasy.data
 
 import com.mealsmadeeasy.model.*
-import com.mealsmadeeasy.utils.replace
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
@@ -94,35 +93,11 @@ class FakeMealStore : MealStore {
 
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
-        val entry = mealPlan.value.meals
-                .filter { it.date.dayOfMonth() == date.dayOfMonth() }
-                .filter { it.mealPeriod == mealPeriod }
-                .firstOrNull()
-
-        if (entry != null) {
-            val updatedEntry = entry.copy(meals = entry.meals + MealPortion(meal, servings))
-            mealPlan.onNext(mealPlan.value.copy(
-                    meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
-            ))
-        } else {
-            mealPlan.onNext(mealPlan.value.copy(
-                    meals = mealPlan.value.meals + MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, servings)))
-            ))
-        }
+        mealPlan.onNext(mealPlan.value + MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, Int.MAX_VALUE))))
     }
 
     override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
-        val entry = mealPlan.value.meals
-                .filter { it.date.dayOfMonth() == date.dayOfMonth() }
-                .filter { it.mealPeriod == mealPeriod }
-                .firstOrNull()
-
-        if (entry != null) {
-            val updatedEntry = entry.copy(meals = entry.meals.filter { it.meal != meal })
-            mealPlan.onNext(mealPlan.value.copy(
-                    meals = mealPlan.value.meals.replace(old = entry, new = updatedEntry)
-            ))
-        }
+        mealPlan.onNext(mealPlan.value - MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, Int.MAX_VALUE))))
     }
 
     override fun getSuggestedMeals(): Single<List<Meal>> {
