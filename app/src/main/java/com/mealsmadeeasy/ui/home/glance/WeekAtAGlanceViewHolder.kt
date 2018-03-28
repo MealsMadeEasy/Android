@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.ui.home.glance
 
+import android.support.v4.app.DialogFragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -12,7 +13,7 @@ import org.joda.time.DateTime
 class WeekAtAGlanceViewHolder(
         root: View,
         private val onDeleteMeal: (MealPortion, MealPeriod, DateTime) -> Unit,
-        private val onUpdateMeal: (MealPortion, MealPeriod, DateTime) -> Unit
+        servingsFragment: (MealPortion, MealPeriod, DateTime) -> DialogFragment
 ) : RecyclerView.ViewHolder(root) {
 
     private lateinit var dateTime: DateTime
@@ -22,7 +23,7 @@ class WeekAtAGlanceViewHolder(
     private val mealAdapter = WeekAtAGlanceMealPeriodAdapter(emptyMap(), { meal, mealPeriod ->
         onDeleteMeal(meal, mealPeriod, dateTime)
     }, { meal, mealPeriod ->
-        onUpdateMeal(meal, mealPeriod, dateTime)
+        servingsFragment(meal, mealPeriod, dateTime)
     })
 
     init {

@@ -2,16 +2,15 @@ package com.mealsmadeeasy.ui.home.glance
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.model.MealPeriod
-import com.mealsmadeeasy.model.MealPlan
 import com.mealsmadeeasy.model.MealPortion
 import com.mealsmadeeasy.ui.BaseFragment
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -25,6 +24,7 @@ class WeekAtAGlanceFragment : BaseFragment() {
     @Inject lateinit var mealStore: MealStore
 
     companion object {
+        private const val TAG = "WeekAtAGlanceFragment"
         fun newInstance(): WeekAtAGlanceFragment = WeekAtAGlanceFragment()
     }
 
@@ -48,7 +48,8 @@ class WeekAtAGlanceFragment : BaseFragment() {
                         if (it == null) {
                             rv.adapter = WeekAtAGlanceAdapter(mealPlan = mealPlan,
                                     onDeleteMeal = this::deleteMeal,
-                                    onUpdateMeal = this::updateMeal)
+                                    servingsFragment = this::makeFragment
+                            )
                         } else {
                             it.mealPlan = mealPlan
                         }
@@ -68,9 +69,9 @@ class WeekAtAGlanceFragment : BaseFragment() {
                 .show()
     }
 
-    private fun updateMeal(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime) {
-        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
-        mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, mealPortion.servings)
+    private fun makeFragment(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime): DialogFragment {
+        val temp = EditServingsFragment.newInstance(mealPortion, mealPeriod, date)
+        temp.show((context as FragmentActivity).supportFragmentManager, TAG)
+        return temp
     }
-
 }
