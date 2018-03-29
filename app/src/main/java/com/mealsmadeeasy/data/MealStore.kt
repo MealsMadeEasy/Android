@@ -36,4 +36,9 @@ interface MealStore {
     fun findMealById(id: String): Single<Meal>
 
     fun getRecipe(id: String): Single<Recipe>
+
+    fun search(query: String, filters: List<Filter> = emptyList()): Single<List<Meal>>
+
+    fun getAvailableFilters(): Single<List<FilterGroup>>
+
 }

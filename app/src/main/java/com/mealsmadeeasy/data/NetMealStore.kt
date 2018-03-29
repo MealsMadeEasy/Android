@@ -32,6 +32,12 @@ class NetMealStore(
 
     private val recipes = mutableMapOf<MealId, RxLoader<Recipe>>()
 
+    private val searchFilters = RxLoader {
+        service.getAvailableFilters()
+                .subscribeOn(Schedulers.io())
+                .map { it.unwrap() }
+    }
+
     override fun getMealPlan(): Observable<MealPlan> {
         return mealPlan.getOrComputeValue()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -92,6 +98,17 @@ class NetMealStore(
         return service.getMeal(id).subscribeOn(Schedulers.io())
                 .map { it.unwrap() }
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun search(query: String, filters: List<Filter>): Single<List<Meal>> {
+        return service.getSearchResults(query, filters)
+                .subscribeOn(Schedulers.io())
+                .map { it.unwrap() }
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun getAvailableFilters(): Single<List<FilterGroup>> {
+        return searchFilters.getOrComputeValue().firstOrError()
     }
 
     private fun <T> Response<T>.unwrap(): T {
