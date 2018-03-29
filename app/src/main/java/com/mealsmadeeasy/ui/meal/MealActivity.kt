@@ -55,7 +55,8 @@ class MealActivity : BaseActivity() {
     }
 
     private fun onMealLoaded(meal: Meal) {
-        supportActionBar?.title = meal.name
+        val collapsingToolbar = findViewById<android.support.design.widget.CollapsingToolbarLayout>(R.id.collapsing_toolbar)
+        collapsingToolbar.title = meal.name
 
         val thumbnailView = findViewById<ImageView>(R.id.meal_thumbnail)
         val nameView = findViewById<TextView>(R.id.meal_name)
