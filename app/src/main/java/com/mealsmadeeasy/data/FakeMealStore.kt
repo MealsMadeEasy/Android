@@ -178,4 +178,12 @@ class FakeMealStore : MealStore {
             else -> return Single.just(iceCreamRecipe)
         }
     }
+
+    override fun search(query: String, filters: List<Filter>): Single<List<Meal>> {
+        throw NotImplementedError("FakeMealStore doesn't support searching.")
+    }
+
+    override fun getAvailableFilters(): Single<List<FilterGroup>> {
+        return Single.just(emptyList())
+    }
 }
