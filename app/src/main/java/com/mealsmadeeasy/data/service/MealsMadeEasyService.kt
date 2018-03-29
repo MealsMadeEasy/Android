@@ -40,6 +40,11 @@ interface MealsMadeEasyService {
             @Path("id") mealId: String
     ): Single<Response<Meal>>
 
+    @GET("/recipe/{id}")
+    fun getRecipe(
+            @Path("id") mealId: String
+    ): Single<Response<Recipe>>
+
     @GET("/meal/search")
     fun getSearchResults(
             @Query("q") query: String,
