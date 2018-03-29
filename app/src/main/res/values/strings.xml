@@ -52,8 +52,6 @@
     <string name="suggestions">Suggestions</string>
     <string name="failed_to_load_suggestions">Couldn\'t access suggestions</string>
 
-    <string name="meal_page_steps_header">Directions:</string>
-    <string name="meal_page_ingredients_header">Ingredients:</string>
     <string name="meal_page_minutes">Minutes</string>
     <string name="meal_page_bullet">&#8226;</string>
     <string name="meal_page_failed_to_load_meal">Couldn\'t find that meal</string>

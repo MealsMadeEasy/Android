@@ -3,6 +3,7 @@ package com.mealsmadeeasy.data.service
 import com.mealsmadeeasy.data.service.model.SparseMealPlan
 import com.mealsmadeeasy.model.Meal
 import com.mealsmadeeasy.model.MealPlan
+import com.mealsmadeeasy.model.Recipe
 import com.mealsmadeeasy.model.UserProfile
 import io.reactivex.Single
 import retrofit2.Response
@@ -41,5 +42,10 @@ interface MealsMadeEasyService {
     fun getMeal(
             @Path("id") mealId: String
     ): Single<Response<Meal>>
+
+    @GET("/recipe/{id}")
+    fun getRecipe(
+            @Path("id") mealId: String
+    ): Single<Response<Recipe>>
 
 }
