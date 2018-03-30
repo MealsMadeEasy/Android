@@ -15,7 +15,10 @@ data class MealPortion(
         override fun newArray(size: Int) = arrayOfNulls<MealPortion>(size)
     }
 
-    constructor(parcel: Parcel): this(parcel.readParcelable(null), parcel.readInt())
+    constructor(parcel: Parcel): this(
+            meal = parcel.readParcelable(Meal::class.java.classLoader),
+            servings = parcel.readInt()
+    )
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(meal, flags)
