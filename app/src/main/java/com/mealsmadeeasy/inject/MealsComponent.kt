@@ -1,6 +1,6 @@
 package com.mealsmadeeasy.inject
 
-import com.mealsmadeeasy.ui.home.glance.EditServingsFragment
+import com.mealsmadeeasy.ui.home.glance.EditServingsDialogFragment
 import com.mealsmadeeasy.ui.home.glance.WeekAtAGlanceFragment
 import com.mealsmadeeasy.ui.home.grocery.GroceryListFragment
 import com.mealsmadeeasy.ui.home.profile.ProfileFragment
@@ -25,5 +25,5 @@ interface MealsComponent {
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: GroceryListFragment)
     fun inject(fragment: SuggestionsFragment)
-    fun inject(fragment: EditServingsFragment)
+    fun inject(fragment: EditServingsDialogFragment)
 }

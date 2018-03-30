@@ -16,12 +16,12 @@ import com.mealsmadeeasy.model.MealPortion
 import org.joda.time.DateTime
 import javax.inject.Inject
 
-private const val KEY_SAVED_MEALPORTION = "EditServingsFragment.MEALPORTION"
-private const val KEY_SAVED_MEALPERIOD = "EditServingsFragment.MEALPERIOD"
-private const val KEY_SAVED_DATETIME = "EditServingsFragment.DATETIME"
-private const val KEY_SAVED_NUMSERVINGS = "EditServingsFragment.NUMSERVINGS"
+private const val KEY_SAVED_MEALPORTION = "EditServingsDialogFragment.MEALPORTION"
+private const val KEY_SAVED_MEALPERIOD = "EditServingsDialogFragment.MEALPERIOD"
+private const val KEY_SAVED_DATETIME = "EditServingsDialogFragment.DATETIME"
+private const val KEY_SAVED_NUMSERVINGS = "EditServingsDialogFragment.NUMSERVINGS"
 
-class EditServingsFragment : DialogFragment() {
+class EditServingsDialogFragment : DialogFragment() {
     @Inject lateinit var mealStore: MealStore
     private lateinit var mealPortion: MealPortion
     private lateinit var mealPeriod: MealPeriod
@@ -29,8 +29,8 @@ class EditServingsFragment : DialogFragment() {
     private var numServings = -1
 
     companion object {
-        fun newInstance(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime): EditServingsFragment {
-            val frag = EditServingsFragment()
+        fun newInstance(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime): EditServingsDialogFragment {
+            val frag = EditServingsDialogFragment()
             frag.arguments = Bundle().apply {
                 putParcelable(KEY_SAVED_MEALPORTION, mealPortion)
                 putInt(KEY_SAVED_MEALPERIOD, mealPeriod.ordinal)

@@ -70,7 +70,7 @@ class WeekAtAGlanceFragment : BaseFragment() {
     }
 
     private fun makeFragment(mealPortion: MealPortion, mealPeriod: MealPeriod, date: DateTime): DialogFragment {
-        val temp = EditServingsFragment.newInstance(mealPortion, mealPeriod, date)
+        val temp = EditServingsDialogFragment.newInstance(mealPortion, mealPeriod, date)
         temp.show((context as FragmentActivity).supportFragmentManager, TAG)
         return temp
     }
