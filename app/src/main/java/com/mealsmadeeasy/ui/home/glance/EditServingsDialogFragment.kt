@@ -66,8 +66,7 @@ class EditServingsDialogFragment : DialogFragment() {
                 .setView(view)
                 .setTitle(context!!.resources.getString(R.string.week_at_a_glance_edit_servings_title, title))
                 .setPositiveButton(R.string.week_at_a_glance_edit_servings_confirm) { _, _ ->
-                        mealStore.removeMealFromMealPlan(mealPortion.meal, date, mealPeriod)
-                        mealStore.addMealToMealPlan(mealPortion.meal, date, mealPeriod, numServings)
+                        mealStore.editMealPlanServings(mealPortion.meal, date, mealPeriod, numServings)
                     Snackbar.make(activity!!.findViewById(R.id.week_at_a_glance_recycler_view),
                             R.string.week_at_a_glance_edit_servings_updated, Snackbar.LENGTH_SHORT)
                             .show()

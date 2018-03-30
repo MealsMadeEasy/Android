@@ -8,6 +8,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import retrofit2.Response
 import java.io.IOException
 
@@ -66,7 +67,32 @@ class NetMealStore(
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
         mealPlan.getOrComputeValue().firstOrError()
                 .subscribeOn(Schedulers.io())
-                .map { it + MealPlanEntry(date.withTimeAtStartOfDay(), mealPeriod, listOf(MealPortion(meal, servings))) }
+                .map {
+                    it + MealPlanEntry(
+                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            mealPeriod = mealPeriod,
+                            meals = listOf(MealPortion(meal, servings)))
+                }
+                .flatMap { updateMealPlan(it)}
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+    }
+
+    override fun editMealPlanServings(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
+        mealPlan.getOrComputeValue().firstOrError()
+                .subscribeOn(Schedulers.io())
+                .map {
+                    it - MealPlanEntry(
+                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            mealPeriod = mealPeriod,
+                            meals = listOf(MealPortion(meal, Int.MAX_VALUE)))
+                }
+                .map {
+                    it + MealPlanEntry(
+                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            mealPeriod = mealPeriod,
+                            meals = listOf(MealPortion(meal, servings)))
+                }
                 .flatMap { updateMealPlan(it)}
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
@@ -75,7 +101,12 @@ class NetMealStore(
     override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {
         mealPlan.getOrComputeValue().firstOrError()
                 .subscribeOn(Schedulers.io())
-                .map { it - MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, Int.MAX_VALUE))) }
+                .map {
+                    it - MealPlanEntry(
+                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            mealPeriod = mealPeriod,
+                            meals = listOf(MealPortion(meal, Int.MAX_VALUE)))
+                }
                 .flatMap { updateMealPlan(it)}
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
