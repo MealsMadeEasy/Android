@@ -3,8 +3,10 @@ package com.mealsmadeeasy.model
 import android.os.Parcel
 import android.os.Parcelable
 
+typealias MealId = String
+
 data class Meal (
-        val id: String,
+        val id: MealId,
         val name: String,
         val description: String,
         val thumbnailUrl: String?

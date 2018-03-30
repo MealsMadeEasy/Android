@@ -30,6 +30,14 @@ class NetMealStore(
                 .map { it.unwrap() }
     }
 
+    private val recipes = mutableMapOf<MealId, RxLoader<Recipe>>()
+
+    private val searchFilters = RxLoader {
+        service.getAvailableFilters()
+                .subscribeOn(Schedulers.io())
+                .map { it.unwrap() }
+    }
+
     override fun getMealPlan(): Observable<MealPlan> {
         return mealPlan.getOrComputeValue()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -42,9 +50,17 @@ class NetMealStore(
     }
 
     override fun getRecipe(id: String): Single<Recipe> {
-        return Single.fromCallable {
-            TODO("not implemented")
+        val loader = recipes[id] ?: run {
+            RxLoader {
+                service.getRecipe(id)
+                        .subscribeOn(Schedulers.io())
+                        .map { it.unwrap() }
+            }.also { recipes[id] = it }
         }
+
+        return loader.getOrComputeValue()
+                .firstOrError()
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
@@ -82,6 +98,17 @@ class NetMealStore(
         return service.getMeal(id).subscribeOn(Schedulers.io())
                 .map { it.unwrap() }
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun search(query: String, filters: List<Filter>): Single<List<Meal>> {
+        return service.getSearchResults(query, filters)
+                .subscribeOn(Schedulers.io())
+                .map { it.unwrap() }
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun getAvailableFilters(): Single<List<FilterGroup>> {
+        return searchFilters.getOrComputeValue().firstOrError()
     }
 
     private fun <T> Response<T>.unwrap(): T {

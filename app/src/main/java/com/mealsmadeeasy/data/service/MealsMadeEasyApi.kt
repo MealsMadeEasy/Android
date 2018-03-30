@@ -1,11 +1,13 @@
 package com.mealsmadeeasy.data.service
 
+import com.mealsmadeeasy.BuildConfig
 import com.mealsmadeeasy.model.toDate
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import retrofit2.Retrofit
@@ -19,9 +21,23 @@ fun createMealsMadeEasyApi(): MealsMadeEasyService = Retrofit.Builder()
             baseUrl(BASE_URL)
             addConverterFactory(MoshiConverterFactory.create(createMoshi()))
             addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            client(createClient())
         }
         .build()
         .create(MealsMadeEasyService::class.java)
+
+private fun createClient(): OkHttpClient {
+    return OkHttpClient.Builder().apply {
+        addInterceptor {
+            it.proceed(it.request().newBuilder()
+                    .apply {
+                        addHeader("ApplicationID", BuildConfig.API_APPLICATION_ID)
+                        addHeader("ApiKey", BuildConfig.API_KEY)
+                    }.build()
+            )
+        }
+    }.build()
+}
 
 private fun createMoshi(): Moshi {
     return Moshi.Builder()

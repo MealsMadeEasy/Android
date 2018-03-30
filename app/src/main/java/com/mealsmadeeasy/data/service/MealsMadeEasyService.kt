@@ -1,9 +1,7 @@
 package com.mealsmadeeasy.data.service
 
 import com.mealsmadeeasy.data.service.model.SparseMealPlan
-import com.mealsmadeeasy.model.Meal
-import com.mealsmadeeasy.model.MealPlan
-import com.mealsmadeeasy.model.UserProfile
+import com.mealsmadeeasy.model.*
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
@@ -41,5 +39,22 @@ interface MealsMadeEasyService {
     fun getMeal(
             @Path("id") mealId: String
     ): Single<Response<Meal>>
+
+    @GET("/recipe/{id}")
+    fun getRecipe(
+            @Path("id") mealId: String
+    ): Single<Response<Recipe>>
+
+    @GET("/meal/search")
+    fun getSearchResults(
+            @Query("q") query: String,
+            @Query("filters") filters: String
+    ): Single<Response<List<Meal>>>
+
+    @GET("/meal/search/filters")
+    fun getAvailableFilters(): Single<Response<List<FilterGroup>>>
+
+    fun getSearchResults(query: String, filters: List<Filter>)
+            = getSearchResults(query, filters.joinToString(separator = ",") { it.id })
 
 }
