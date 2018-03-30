@@ -29,6 +29,8 @@ interface MealStore {
 
     fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int)
 
+    fun editMealPlanServings(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int)
+
     fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod)
 
     fun getSuggestedMeals(): Single<List<Meal>>
