@@ -1,13 +1,11 @@
-package com.mealsmadeeasy.ui.home.suggestions
+package com.mealsmadeeasy.ui.home.discover
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
@@ -15,23 +13,39 @@ import com.mealsmadeeasy.ui.BaseFragment
 import com.mealsmadeeasy.ui.meal.MealActivity
 import javax.inject.Inject
 
-class SuggestionsFragment : BaseFragment() {
+class DiscoverFragment : BaseFragment() {
 
     @Inject lateinit var mealStore: MealStore
 
     companion object {
-        private const val TAG = "SuggestionsFragment"
-        fun newInstance(): SuggestionsFragment = SuggestionsFragment()
+        private const val TAG = "DiscoverFragment"
+        fun newInstance(): DiscoverFragment = DiscoverFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MealsApplication.component(this).inject(this)
+        setHasOptionsMenu(true)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_discover, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_item_search -> {
+                startActivity(SearchActivity.newIntent(context))
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_suggestions, container, false)
+        val root = inflater.inflate(R.layout.fragment_discover, container, false)
         val list = root.findViewById<RecyclerView>(R.id.suggestion_list)
         mealStore.getSuggestedMeals().subscribe({ suggestions ->
             list.adapter = SuggestionsAdapter(suggestions) { _, mealId ->

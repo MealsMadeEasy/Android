@@ -24,6 +24,7 @@
             android:theme="@style/AppThemeWithActionBar"/>
         <activity android:name=".ui.meal.MealActivity"/>
         <activity android:name=".ui.meal.AddToPlanActivity"/>
+        <activity android:name=".ui.home.discover.SearchActivity"/>
 
     </application>
 

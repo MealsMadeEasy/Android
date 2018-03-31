@@ -6,6 +6,9 @@ import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
 
+fun MealsMadeEasyService.getSearchResults(query: String, filters: List<Filter>)
+        = getSearchResults(query, filters.joinToString(separator = ",") { it.id })
+
 interface MealsMadeEasyService {
 
     @GET("user/profile")
@@ -45,16 +48,13 @@ interface MealsMadeEasyService {
             @Path("id") mealId: String
     ): Single<Response<Recipe>>
 
-    @GET("/meal/search")
+    @GET("/meals/search")
     fun getSearchResults(
             @Query("q") query: String,
             @Query("filters") filters: String
     ): Single<Response<List<Meal>>>
 
-    @GET("/meal/search/filters")
+    @GET("/meals/search/filters")
     fun getAvailableFilters(): Single<Response<List<FilterGroup>>>
-
-    fun getSearchResults(query: String, filters: List<Filter>)
-            = getSearchResults(query, filters.joinToString(separator = ",") { it.id })
 
 }
