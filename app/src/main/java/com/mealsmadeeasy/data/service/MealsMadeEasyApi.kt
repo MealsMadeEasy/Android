@@ -53,7 +53,7 @@ private fun createMoshi(): Moshi {
             })
             .add(DateTime::class.java, object : JsonAdapter<DateTime>() {
                 override fun fromJson(reader: JsonReader): DateTime {
-                    return reader.nextLong().toDate().toDateTime(DateTimeZone.getDefault())
+                    return reader.nextLong().toDate()
                 }
 
                 override fun toJson(writer: JsonWriter, value: DateTime?) {
