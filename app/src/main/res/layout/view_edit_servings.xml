@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_centerHorizontal="true">
+
+    <ImageView
+        android:id="@+id/add_to_plan_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_servings_title_padding"
+        android:layout_marginEnd="@dimen/add_to_plan_plus_minus_margin"
+        android:padding="@dimen/add_to_plan_serving_button_padding"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_remove_circle_black_24dp"
+        android:tint="@color/selector_button_disable"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+    <TextView
+        android:id="@+id/add_to_plan_servings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_servings_title_padding"
+        android:layout_gravity="center"
+        style="@style/Base.TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/black"/>
+
+    <ImageView
+        android:id="@+id/add_to_plan_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_servings_title_padding"
+        android:layout_marginStart="@dimen/add_to_plan_plus_minus_margin"
+        android:padding="@dimen/add_to_plan_serving_button_padding"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_add_circle_black_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+</FrameLayout>
