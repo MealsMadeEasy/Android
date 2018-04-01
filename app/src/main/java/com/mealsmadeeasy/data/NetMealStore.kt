@@ -3,12 +3,12 @@ package com.mealsmadeeasy.data
 import com.mealsmadeeasy.data.service.MealsMadeEasyService
 import com.mealsmadeeasy.data.service.model.SparseMealPlan
 import com.mealsmadeeasy.model.*
+import com.mealsmadeeasy.utils.forceUtc
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import retrofit2.Response
 import java.io.IOException
 
@@ -69,7 +69,7 @@ class NetMealStore(
                 .subscribeOn(Schedulers.io())
                 .map {
                     it + MealPlanEntry(
-                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            date = date.forceUtc().withTimeAtStartOfDay(),
                             mealPeriod = mealPeriod,
                             meals = listOf(MealPortion(meal, servings)))
                 }
@@ -83,13 +83,13 @@ class NetMealStore(
                 .subscribeOn(Schedulers.io())
                 .map {
                     it - MealPlanEntry(
-                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            date = date.forceUtc().withTimeAtStartOfDay(),
                             mealPeriod = mealPeriod,
                             meals = listOf(MealPortion(meal, Int.MAX_VALUE)))
                 }
                 .map {
                     it + MealPlanEntry(
-                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            date = date.forceUtc().withTimeAtStartOfDay(),
                             mealPeriod = mealPeriod,
                             meals = listOf(MealPortion(meal, servings)))
                 }
@@ -103,7 +103,7 @@ class NetMealStore(
                 .subscribeOn(Schedulers.io())
                 .map {
                     it - MealPlanEntry(
-                            date = date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay(),
+                            date = date.forceUtc().withTimeAtStartOfDay(),
                             mealPeriod = mealPeriod,
                             meals = listOf(MealPortion(meal, Int.MAX_VALUE)))
                 }
