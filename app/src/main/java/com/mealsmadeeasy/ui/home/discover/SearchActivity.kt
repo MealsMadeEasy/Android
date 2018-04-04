@@ -12,6 +12,7 @@ import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.ui.BaseActivity
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.widget.Toast
 import com.mealsmadeeasy.ui.meal.MealActivity
@@ -24,10 +25,11 @@ class SearchActivity : BaseActivity() {
 
     @Inject lateinit var mealStore: MealStore
     private var querySubject : BehaviorSubject<String> = BehaviorSubject.create()
+    private val KEY_SAVED_QUERY = "key saved query"
 
     companion object {
         private const val TAG = "SearchActivity"
-        fun newIntent(context: Context?) = Intent(context, SearchActivity::class.java)
+        fun newIntent(context: Context) = Intent(context, SearchActivity::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +38,7 @@ class SearchActivity : BaseActivity() {
 
         setContentView(R.layout.activity_search)
 
-        val toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.search_toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.search_toolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -45,7 +47,7 @@ class SearchActivity : BaseActivity() {
         val searchResults = findViewById<RecyclerView>(R.id.search_results_list)
 
         getQueryObservable()
-                .debounce(2, TimeUnit.SECONDS)
+                .debounce(500, TimeUnit.MILLISECONDS)
                 .flatMapSingle { query ->
                     mealStore.search(query)
                 }
@@ -64,6 +66,7 @@ class SearchActivity : BaseActivity() {
         menuInflater.inflate(R.menu.activity_search, menu)
         val searchItem = menu.findItem(R.id.menu_recipe_search)
         val searchView = searchItem.actionView as SearchView
+        searchView.isIconified = false
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -85,5 +88,10 @@ class SearchActivity : BaseActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_SAVED_QUERY,querySubject.value)
     }
 }

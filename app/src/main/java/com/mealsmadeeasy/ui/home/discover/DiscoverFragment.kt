@@ -36,7 +36,7 @@ class DiscoverFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_search -> {
-                startActivity(SearchActivity.newIntent(context))
+                startActivity(SearchActivity.newIntent(context!!))
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
