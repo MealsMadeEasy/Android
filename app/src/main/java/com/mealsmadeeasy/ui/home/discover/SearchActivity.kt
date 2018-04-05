@@ -25,7 +25,7 @@ class SearchActivity : BaseActivity() {
 
     @Inject lateinit var mealStore: MealStore
     private var querySubject : BehaviorSubject<String> = BehaviorSubject.create()
-    private val KEY_SAVED_QUERY = "key saved query"
+    private val KEY_SAVED_QUERY = "SearchActivity.SavedQuery"
 
     companion object {
         private const val TAG = "SearchActivity"
@@ -60,6 +60,11 @@ class SearchActivity : BaseActivity() {
                     Log.e(SearchActivity.TAG, "Failed to load search results", throwable)
                     Toast.makeText(this, R.string.failed_to_load_search_results, Toast.LENGTH_SHORT).show()
                 })
+
+        if (savedInstanceState != null) {
+            val savedQuery = savedInstanceState.getString(KEY_SAVED_QUERY, "")
+            querySubject.onNext(savedQuery)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,6 +75,7 @@ class SearchActivity : BaseActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
+                searchView.clearFocus()
                 return true
             }
 
@@ -78,6 +84,11 @@ class SearchActivity : BaseActivity() {
                 return true
             }
         })
+
+        if (querySubject.value != null && querySubject.value != "") {
+            searchView.setQuery(querySubject.value as String, false)
+        }
+
         return true
     }
 
@@ -92,6 +103,6 @@ class SearchActivity : BaseActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_SAVED_QUERY,querySubject.value)
+        outState.putString(KEY_SAVED_QUERY, querySubject.value)
     }
 }
