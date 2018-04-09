@@ -2,13 +2,14 @@ package com.mealsmadeeasy.model
 
 import com.mealsmadeeasy.utils.replace
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 
 data class MealPlan(
         val meals: List<MealPlanEntry>
 ) {
 
     operator fun get(date: DateTime): Map<MealPeriod, List<MealPortion>> {
-        return meals.filter { it.date.withZone(date.zone).withTimeAtStartOfDay() == date.withTimeAtStartOfDay() }
+        return meals.filter { it.date == date.toDateTime(DateTimeZone.UTC).withTimeAtStartOfDay() }
                 .map { it.mealPeriod to it.meals }
                 .toMap()
     }

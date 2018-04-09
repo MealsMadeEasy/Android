@@ -21,11 +21,11 @@ data class MealPlanEntry(
     operator fun minus(mealPortions: List<MealPortion>): MealPlanEntry {
         val newServings = meals.map { it.meal to it.servings }.toMap()
                 .mapValues { (meal, servings) ->
-                    servings - mealPortions.filter { it.meal == meal }.sumBy { it.servings }
+                    servings.toLong() - mealPortions.filter { it.meal == meal }.sumBy { it.servings }
                 }
                 .filterValues { it > 0 }
 
-        return copy(meals = newServings.map { (meal, servings) -> MealPortion(meal, servings) })
+        return copy(meals = newServings.map { (meal, servings) -> MealPortion(meal, servings.toInt()) })
     }
 
 }

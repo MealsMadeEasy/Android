@@ -93,7 +93,12 @@ class FakeMealStore : MealStore {
 
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
-        mealPlan.onNext(mealPlan.value + MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, Int.MAX_VALUE))))
+        mealPlan.onNext(mealPlan.value + MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, servings))))
+    }
+
+    override fun editMealPlanServings(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
+        removeMealFromMealPlan(meal, date, mealPeriod)
+        addMealToMealPlan(meal, date, mealPeriod, servings)
     }
 
     override fun removeMealFromMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod) {

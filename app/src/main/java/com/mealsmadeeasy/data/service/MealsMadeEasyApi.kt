@@ -57,7 +57,7 @@ private fun createMoshi(): Moshi {
                 }
 
                 override fun toJson(writer: JsonWriter, value: DateTime?) {
-                    value?.let { writer.value(it.withZone(DateTimeZone.UTC).millis) }
+                    value?.let { writer.value(it.toDateTime(DateTimeZone.UTC).millis) }
                 }
 
             })

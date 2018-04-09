@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.ui.home.glance
 
+import android.support.v4.app.DialogFragment
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
@@ -13,7 +14,8 @@ import com.squareup.picasso.Picasso
 
 class WeekAtAGlanceMealViewHolder(
         root: View,
-        private val onDeleteMeal: (MealPortion) -> Unit
+        private val onDeleteMeal: (MealPortion) -> Unit,
+        private val servingsFragment: (MealPortion) -> DialogFragment
 ) : RecyclerView.ViewHolder(root) {
 
     private lateinit var mealPortion : MealPortion
@@ -42,6 +44,10 @@ class WeekAtAGlanceMealViewHolder(
         when (menuItem.itemId) {
             R.id.menu_item_delete_meal -> {
                 onDeleteMeal(mealPortion)
+                return true
+            }
+            R.id.menu_item_edit_servings -> {
+                servingsFragment(mealPortion)
                 return true
             }
             else -> {

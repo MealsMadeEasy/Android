@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.ui.home.glance
 
+import android.support.v4.app.DialogFragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +15,8 @@ private const val NUMBER_OF_DAYS_TO_SHOW = 7
 class WeekAtAGlanceAdapter(
         startDate: DateTime = DateTime.now(),
         mealPlan: MealPlan,
-        private val onDeleteMeal: (MealPortion, MealPeriod, DateTime) -> Unit
+        private val onDeleteMeal: (MealPortion, MealPeriod, DateTime) -> Unit,
+        private val servingsFragment: (MealPortion, MealPeriod, DateTime) -> DialogFragment
 ) : RecyclerView.Adapter<WeekAtAGlanceViewHolder>() {
 
     var startDate = startDate.withTimeAtStartOfDay()
@@ -39,7 +41,7 @@ class WeekAtAGlanceAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekAtAGlanceViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
                 R.layout.view_week_at_a_glance_day, parent, false)
-        return WeekAtAGlanceViewHolder(view, onDeleteMeal)
+        return WeekAtAGlanceViewHolder(view, onDeleteMeal, servingsFragment)
     }
 
 

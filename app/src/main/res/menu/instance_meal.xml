@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_item_edit_servings"
+        android:title="@string/week_at_a_glance_edit_servings_menu" />
+
+    <item
         android:id="@+id/menu_item_delete_meal"
         android:title="@string/week_at_a_glance_delete_menu" />
 

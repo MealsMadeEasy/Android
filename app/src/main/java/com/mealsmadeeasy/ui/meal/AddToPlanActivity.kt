@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.os.PersistableBundle
 import android.text.format.DateFormat
 import android.util.Log
 import android.widget.*
@@ -20,11 +21,15 @@ import org.joda.time.DateTime
 import java.util.*
 import javax.inject.Inject
 
+private const val KEY_SAVED_SERVINGS = "AddToPlanActivity.Servings"
+private const val DEFAULT_NUMSERVINGS = 1
+
 class AddToPlanActivity : BaseActivity() {
 
     @Inject lateinit var mealStore: MealStore
     private var cal = Calendar.getInstance()
     private var chosenTime: Long = 0
+    private var numServings: Int = -1
 
     companion object {
         private const val TAG = "AddToPlanActivity"
@@ -44,6 +49,8 @@ class AddToPlanActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        numServings = savedInstanceState?.getInt(KEY_SAVED_SERVINGS) ?: DEFAULT_NUMSERVINGS
+
         mealStore.findMealById(intent.getStringExtra("meal_id"))
                 .bindToLifecycle(this)
                 .subscribe({meal ->
@@ -52,6 +59,11 @@ class AddToPlanActivity : BaseActivity() {
                     Log.e(TAG, "Failed to load suggestions", throwable)
                     Toast.makeText(this, "Couldn't find that meal", Toast.LENGTH_SHORT).show()
                 })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putInt(KEY_SAVED_SERVINGS, numServings)
     }
 
     private fun finishSetup(meal: Meal) {
@@ -71,8 +83,7 @@ class AddToPlanActivity : BaseActivity() {
                 .into(thumbnailView)
         nameView.text = meal.name
 
-        servingsView.text = "1"
-        var numServings = 1
+        servingsView.text = numServings.toString()
         minusButton.isEnabled = false
 
         minusButton.setOnClickListener {
@@ -95,12 +106,7 @@ class AddToPlanActivity : BaseActivity() {
             if (dateView.text == "") {
                 Toast.makeText(this, R.string.add_to_plan_date_not_selected, Toast.LENGTH_SHORT).show()
             } else {
-                var mealPeriod = MealPeriod.BREAKFAST
-                when (mealSpinner.selectedItem) {
-                    "Lunch" -> mealPeriod = MealPeriod.LUNCH
-                    "Dinner" -> mealPeriod = MealPeriod.DINNER
-                }
-
+                val mealPeriod = MealPeriod.values()[mealSpinner.selectedItemPosition]
                 mealStore.addMealToMealPlan(meal, DateTime(chosenTime), mealPeriod, numServings)
                 Toast.makeText(this, R.string.add_to_plan_meal_added, Toast.LENGTH_SHORT).show()
                 finish()

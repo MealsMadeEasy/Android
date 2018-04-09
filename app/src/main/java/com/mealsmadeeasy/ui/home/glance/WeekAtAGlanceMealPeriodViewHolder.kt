@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.ui.home.glance
 
+import android.support.v4.app.DialogFragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -10,15 +11,18 @@ import com.mealsmadeeasy.model.MealPortion
 
 class WeekAtAGlanceMealPeriodViewHolder(
         root: View,
-        private val onDeleteMeal: (MealPortion, MealPeriod) -> Unit
+        private val onDeleteMeal: (MealPortion, MealPeriod) -> Unit,
+        servingsFragment: (MealPortion, MealPeriod) -> DialogFragment
 ) : RecyclerView.ViewHolder(root) {
 
     private lateinit var mealPeriod: MealPeriod
     private val periodName: TextView = root.findViewById(R.id.week_at_a_glance_meal_period_name)
     private val mealList: RecyclerView = root.findViewById(R.id.week_at_a_glance_meal_period_entries)
-    private val mealAdapter = WeekAtAGlanceMealAdapter(emptyList()) {
+    private val mealAdapter = WeekAtAGlanceMealAdapter(emptyList(), {
         onDeleteMeal(it, mealPeriod)
-    }
+    }, {
+        servingsFragment(it, mealPeriod)
+    })
 
     init {
         mealList.adapter = mealAdapter
