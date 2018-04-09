@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import android.os.PersistableBundle
 import android.text.format.DateFormat
 import android.util.Log
@@ -42,7 +43,7 @@ class AddToPlanActivity : BaseActivity() {
 
         setContentView(R.layout.activity_add_to_plan)
 
-        val toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.add_to_plan_toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.add_to_plan_toolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

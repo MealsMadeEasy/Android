@@ -1,4 +1,4 @@
-package com.mealsmadeeasy.ui.home.suggestions
+package com.mealsmadeeasy.ui.home.discover
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

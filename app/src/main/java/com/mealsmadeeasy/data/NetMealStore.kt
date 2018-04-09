@@ -11,6 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import retrofit2.Response
 import java.io.IOException
+import com.mealsmadeeasy.data.service.getSearchResults
 
 class NetMealStore(
         private val userManager: UserManager,

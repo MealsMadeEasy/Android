@@ -54,7 +54,7 @@
     <string name="gender_other">Other</string>
     <string name="gender_undisclosed">Undisclosed</string>
 
-    <string name="suggestions">Suggestions</string>
+    <string name="discover">Discover</string>
     <string name="failed_to_load_suggestions">Couldn\'t access suggestions</string>
 
     <string name="meal_page_minutes">Minutes</string>
@@ -74,4 +74,8 @@
     <string name="add_to_plan_button">Add to meal plan</string>
     <string name="add_to_plan_date_not_selected">Choose a date for the meal</string>
     <string name="add_to_plan_meal_added">Meal has been added to your meal plan</string>
+
+    <string name="search_bar_title">Search recipes</string>
+    <string name="failed_to_load_search_results">Couldn\'t access search results</string>
+    <string name="search_screen_title">Search recipes</string>
 </resources>
