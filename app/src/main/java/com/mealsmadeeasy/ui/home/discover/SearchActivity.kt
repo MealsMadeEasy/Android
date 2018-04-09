@@ -85,9 +85,7 @@ class SearchActivity : BaseActivity() {
             }
         })
 
-        if (querySubject.value != null && querySubject.value != "") {
-            searchView.setQuery(querySubject.value as String, false)
-        }
+        querySubject.value?.takeIf { it.isNotEmpty() }?.let{ searchView.setQuery(it, false) }
 
         return true
     }
