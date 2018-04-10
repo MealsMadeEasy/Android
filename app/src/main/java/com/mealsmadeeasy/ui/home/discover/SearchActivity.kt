@@ -14,6 +14,7 @@ import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import com.mealsmadeeasy.ui.meal.MealActivity
 import io.reactivex.Observable
@@ -88,6 +89,17 @@ class SearchActivity : BaseActivity() {
         querySubject.value?.takeIf { it.isNotEmpty() }?.let{ searchView.setQuery(it, false) }
 
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_recipe_filter -> {
+                val frag = FilterBottomDialogFragment.newInstance()
+                frag.show(supportFragmentManager, FilterBottomDialogFragment.TAG)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     private fun getQueryObservable(): Observable<String> {
