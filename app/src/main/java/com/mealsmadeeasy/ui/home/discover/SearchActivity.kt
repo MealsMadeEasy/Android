@@ -91,17 +91,6 @@ class SearchActivity : BaseActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_recipe_filter -> {
-                val frag = FilterBottomDialogFragment.newInstance()
-                frag.show(supportFragmentManager, FilterBottomDialogFragment.TAG)
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
     private fun getQueryObservable(): Observable<String> {
         return querySubject.distinctUntilChanged()
     }

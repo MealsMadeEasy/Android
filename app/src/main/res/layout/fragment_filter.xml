@@ -7,22 +7,30 @@
     <TextView
         android:id="@+id/filter_bottom_sheet_heading"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:gravity="center"
         android:text="@string/filter_bottom_sheet_title"
-        android:textSize="16sp" />
+        android:textColor="#757575"
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="start"
         android:text="@string/filter_categories_heading"
+        android:textColor="@color/colorPrimary"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/filter_clear_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="start"
         android:text="@string/filter_clear_button_text"
         android:textSize="16sp" />

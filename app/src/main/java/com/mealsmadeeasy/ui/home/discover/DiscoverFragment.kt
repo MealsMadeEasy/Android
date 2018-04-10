@@ -39,6 +39,11 @@ class DiscoverFragment : BaseFragment() {
                 startActivity(SearchActivity.newIntent(context!!))
                 return true
             }
+            R.id.menu_recipe_filter -> {
+                val frag = FilterBottomDialogFragment.newInstance()
+                frag.show(activity?.supportFragmentManager, FilterBottomDialogFragment.TAG)
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
