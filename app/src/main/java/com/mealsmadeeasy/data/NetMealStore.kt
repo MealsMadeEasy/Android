@@ -141,6 +141,7 @@ class NetMealStore(
 
     override fun getAvailableFilters(): Single<List<FilterGroup>> {
         return searchFilters.getOrComputeValue().firstOrError()
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun <T> Response<T>.unwrap(): T {
