@@ -7,6 +7,8 @@
     <dimen name="week_at_a_glance_padding">8dp</dimen>
     <dimen name="week_at_a_glance_date_column_width">48sp</dimen>
     <dimen name="week_at_a_glance_date_column_padding">8dp</dimen>
+    <dimen name="week_at_a_glance_thumbnail_width">40dp</dimen>
+    <dimen name="week_at_a_glance_thumbnail_height">40dp</dimen>
     <dimen name="week_at_a_glance_meal_period_margin_vertical">8dp</dimen>
     <dimen name="week_at_a_glance_meal_period_corner_radius">4dp</dimen>
     <dimen name="week_at_a_glance_meal_period_title_size">18sp</dimen>
