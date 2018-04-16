@@ -15,7 +15,6 @@
     <dimen name="week_at_a_glance_meal_period_title_padding">8dp</dimen>
     <dimen name="week_at_a_glance_meal_padding">12dp</dimen>
 
-    <dimen name="profile_label_text_size">10sp</dimen>
     <dimen name="profile_padding_vertical_default">12dp</dimen>
     <dimen name="profile_padding_horizontal_default">8dp</dimen>
     <dimen name="profile_padding_spinner_offset">10dp</dimen>
@@ -33,7 +32,6 @@
     <dimen name="suggestion_entry_padding">16dp</dimen>
     <dimen name="suggestion_text_margin">16dp</dimen>
 
-    <dimen name="meal_page_image_height">200dp</dimen>
     <dimen name="meal_page_text_margin">8dp</dimen>
     <dimen name="meal_page_fab_margin">16dp</dimen>
     <dimen name="meal_page_name_margin_top">12dp</dimen>
