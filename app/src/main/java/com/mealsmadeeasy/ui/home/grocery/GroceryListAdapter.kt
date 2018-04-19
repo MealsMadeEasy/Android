@@ -7,34 +7,32 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import com.mealsmadeeasy.R
-import com.mealsmadeeasy.model.Ingredient
+import com.mealsmadeeasy.model.GroceryList
+import com.mealsmadeeasy.model.GroceryListEntry
 
-class GroceryListAdapter(data: List<Ingredient> = emptyList()) : RecyclerView.Adapter<GroceryListViewHolder>() {
+class GroceryListAdapter(data: GroceryList = GroceryList()) : RecyclerView.Adapter<GroceryListViewHolder>() {
 
-    var data: List<Ingredient> = data
+    var data: GroceryList = data
         set(value) {
             field = value
             notifyDataSetChanged()
         }
-    val checkboxMap = mutableMapOf<Ingredient, Boolean>()
 
-    override fun getItemCount() = data.size
+    override fun getItemCount() = data.items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroceryListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return GroceryListViewHolder(inflater.inflate(R.layout.view_grocery_list, parent, false),
-                        checkboxMap)
+        return GroceryListViewHolder(inflater.inflate(R.layout.view_grocery_list, parent, false))
     }
 
     override fun onBindViewHolder(holder: GroceryListViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data.items[position])
     }
 }
 
-class GroceryListViewHolder(root: View, val checkboxMap : MutableMap<Ingredient, Boolean>)
-            : RecyclerView.ViewHolder(root) {
+class GroceryListViewHolder(root: View) : RecyclerView.ViewHolder(root) {
 
-    private lateinit var ingredient : Ingredient
+    private lateinit var item : GroceryListEntry
     private val quantity = root.findViewById<TextView>(R.id.ingredient_quantity)
     private val name = root.findViewById<TextView>(R.id.ingredient_name)
     private val unit = root.findViewById<TextView>(R.id.ingredient_unit)
@@ -42,19 +40,23 @@ class GroceryListViewHolder(root: View, val checkboxMap : MutableMap<Ingredient,
 
     init {
         checkbox.setOnCheckedChangeListener { _, checked ->
-            checkboxMap[ingredient] = checked
+            if (checked != item.purchased) {
+                TODO("Send this to a MealStore")
+            }
         }
         root.findViewById<View>(R.id.grocery_list_container).setOnClickListener { _ ->
             checkbox.isChecked = !checkbox.isChecked
         }
     }
 
-    fun bind(ingredient: Ingredient) {
-        this.ingredient = ingredient
+    fun bind(entry: GroceryListEntry) {
+        item = entry
+
+        val ingredient = entry.ingredient
         name.text = ingredient.name
         quantity.text = ingredient.quantity.toString()
-        unit.text = ingredient.unitName
-        checkbox.isChecked = checkboxMap[ingredient] ?: false
+        unit.text = ingredient.unit
+        checkbox.isChecked = entry.purchased
     }
 }
 
