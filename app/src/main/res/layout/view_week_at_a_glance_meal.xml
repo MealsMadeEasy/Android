@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="horizontal"
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/week_at_a_glance_meal_background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:foreground="@drawable/scrim_week_at_a_glance_meal"
+        android:layout_width="@dimen/week_at_a_glance_thumbnail_width"
+        android:layout_height="@dimen/week_at_a_glance_thumbnail_height"
+        android:layout_marginStart="@dimen/week_at_a_glance_meal_padding"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/week_at_a_glance_meal_name"
         android:contentDescription="@null"
         tools:src="@color/colorAccent"/>
 
     <TextView
         android:id="@+id/week_at_a_glance_meal_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-        android:textColor="@android:color/white"
         android:padding="@dimen/week_at_a_glance_meal_padding"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         tools:text="Ice Cream"/>
 
     <ImageView
@@ -36,8 +31,6 @@
         android:text="@string/week_at_a_glance_delete_menu"
         android:padding="@dimen/week_at_a_glance_meal_padding"
         android:src="@drawable/ic_more_vert_black_24dp"
-        android:background="?selectableItemBackgroundBorderless"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="@id/week_at_a_glance_meal_background" />
+        android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
