@@ -33,6 +33,23 @@ interface MealsMadeEasyService {
             @Body mealPlan: SparseMealPlan
     ): Single<Response<Unit>>
 
+    @GET("/user/groceries")
+    fun getGroceryList(
+            @Header("Authorization") token: String
+    ): Single<Response<GroceryList>>
+
+    @PUT("/user/groceries/purchased")
+    fun markIngredientPurchased(
+            @Header("Authorization") token: String,
+            @Body ingredient: Ingredient
+    ): Single<Response<Unit>>
+
+    @DELETE("/user/groceries/purchased")
+    fun markIngredientNotPurchased(
+            @Header("Authorization") token: String,
+            @Body ingredient: Ingredient
+    ): Single<Response<Unit>>
+
     @GET("/meals/suggested")
     fun getSuggestedMeals(
             @Header("Authorization") token: String

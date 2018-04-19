@@ -1,6 +1,7 @@
 package com.mealsmadeeasy.data
 
 import com.mealsmadeeasy.data.service.MealsMadeEasyService
+import com.mealsmadeeasy.data.service.getSearchResults
 import com.mealsmadeeasy.data.service.model.SparseMealPlan
 import com.mealsmadeeasy.model.*
 import com.mealsmadeeasy.utils.forceUtc
@@ -11,7 +12,6 @@ import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import retrofit2.Response
 import java.io.IOException
-import com.mealsmadeeasy.data.service.getSearchResults
 
 class NetMealStore(
         private val userManager: UserManager,
@@ -40,15 +40,43 @@ class NetMealStore(
                 .map { it.unwrap() }
     }
 
+    private val groceryList = RxLoader {
+        userManager.getUserToken()
+                .subscribeOn(Schedulers.io())
+                .flatMap { service.getGroceryList(it) }
+                .map { it.unwrap() }
+    }
+
     override fun getMealPlan(): Observable<MealPlan> {
         return mealPlan.getOrComputeValue()
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getIngredientsForRecipe(meal: Meal): Observable<List<Ingredient>> {
-        return Observable.fromCallable {
-            TODO("not implemented")
+    override fun getIngredientsForMealPlan(): Observable<GroceryList> {
+        return groceryList.getOrComputeValue()
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun markIngredientPurchased(ingredient: Ingredient, purchased: Boolean) {
+        check(groceryList.getValue() != null) {
+            "Grocery list hasn't loaded yet"
         }
+
+        val currentList = groceryList.getValue()!!.items
+        groceryList.setValue(GroceryList(currentList.map {
+            if (it.ingredient == ingredient) it.copy(purchased = purchased) else it
+        }))
+
+        userManager.getUserToken()
+                .subscribeOn(Schedulers.io())
+                .flatMap {
+                    if (purchased) {
+                        service.markIngredientPurchased(it, ingredient)
+                    } else {
+                        service.markIngredientNotPurchased(it, ingredient)
+                    }
+                }
+                .subscribe { result -> result.unwrap() }
     }
 
     override fun getRecipe(id: String): Single<Recipe> {
