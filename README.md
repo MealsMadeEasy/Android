@@ -22,10 +22,12 @@
 
 ### Installation
  - You must have an API key to access the server. For this, contact a member of this repository. These values will then need to be added to the system environmental variables. Learn [how to create custom environment variables](https://www.schrodinger.com/kb/1842), and add the following values:
+ 
  | KEY           | Notes         |
  | ------------- | ------------- |
  | `MME_APP_ID`  | 24 characters |
  | `MME_API_KEY` | 64 characters |
+ 
  - You will also need your SHA1 debug key. [Learn how to access this value in Android Studio.](https://stackoverflow.com/questions/27609442/how-to-get-the-sha-1-fingerprint-certificate-in-android-studio-for-debug-mode) This debug key will then need to be added to the server; to have this done, contact a member of this repository.
 - Open Android Studio and select `Import Project (Gradle, Eclipse, ADT, etc.)`. Navigate to this repository's location on your local computer and select the `Android` folder.
 - Connect your phone to your computer with a USB cable.
