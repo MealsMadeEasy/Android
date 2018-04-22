@@ -146,6 +146,7 @@ class NetMealStore(
         return userManager.getUserToken()
                 .flatMap { token -> service.setMealPlan(token, SparseMealPlan(updatedPlan)) }
                 .map { it.unwrap() }
+                .doOnSuccess { groceryList.invalidate() }
     }
 
     override fun getSuggestedMeals(): Single<List<Meal>> {

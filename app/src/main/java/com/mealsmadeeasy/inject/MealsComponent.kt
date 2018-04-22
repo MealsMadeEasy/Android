@@ -28,4 +28,5 @@ interface MealsComponent {
     fun inject(fragment: GroceryListFragment)
     fun inject(fragment: DiscoverFragment)
     fun inject(fragment: EditServingsDialogFragment)
+
 }
