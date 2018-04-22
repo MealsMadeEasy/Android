@@ -54,4 +54,11 @@ class RxLoader<T>(private val load: () -> Single<T>) {
 
     fun getError(): Observable<Throwable> = errorSubject
 
+    fun invalidate() {
+        if (subject.hasValue()) {
+            workerDisposable?.dispose()
+            computeValue()
+        }
+    }
+
 }
