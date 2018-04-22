@@ -7,39 +7,38 @@
     <TextView
         android:id="@+id/filter_bottom_sheet_heading"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/filter_frag_heading_height"
         android:gravity="center"
         android:text="@string/filter_bottom_sheet_title"
-        android:textColor="#757575"
-        android:textSize="20sp" />
+        android:textSize="@dimen/filter_frag_heading_size" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="@dimen/filter_frag_categories_height"
+        android:layout_marginStart="@dimen/filter_frag_categories_horiz_padding"
+        android:layout_marginEnd="@dimen/filter_frag_categories_horiz_padding"
         android:gravity="start"
         android:text="@string/filter_categories_heading"
         android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
+        android:textSize="@dimen/filter_frag_categories_font_size" />
 
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/filter_recycler_view"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_height="@dimen/filter_frag_rv_height"
+        android:layout_marginStart="@dimen/filter_frag_rv_horiz_padding"
+        android:layout_marginEnd="@dimen/filter_frag_rv_horiz_padding" />
 
     <Button
         android:id="@+id/filter_clear_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/filter_frag_clear_button_horiz_padding"
+        android:layout_marginEnd="@dimen/filter_frag_clear_button_horiz_padding"
+        android:layout_marginBottom="@dimen/filter_frag_clear_button_bottom_padding"
         android:layout_gravity="start"
         android:text="@string/filter_clear_button_text"
-        android:textSize="16sp" />
+        android:textSize="@dimen/filter_fragment_font_size" />
 
 </LinearLayout>

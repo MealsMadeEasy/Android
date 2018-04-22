@@ -1,5 +1,6 @@
 package com.mealsmadeeasy.ui.home.discover
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,17 +17,23 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
+import com.mealsmadeeasy.model.Filter
 import com.mealsmadeeasy.ui.meal.MealActivity
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
+private const val FILTER_REQUEST_CODE = 582
 
 class SearchActivity : BaseActivity() {
 
     @Inject lateinit var mealStore: MealStore
     private var querySubject : BehaviorSubject<String> = BehaviorSubject.create()
     private val KEY_SAVED_QUERY = "SearchActivity.SavedQuery"
+
+    private val filters = BehaviorSubject.createDefault(emptyList<Filter>())!!
+    private val selectedFilters = mutableSetOf<Filter>()
+    private lateinit var recyclerView: RecyclerView
 
     companion object {
         private const val TAG = "SearchActivity"
@@ -91,6 +98,17 @@ class SearchActivity : BaseActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_recipe_filter -> {
+                val frag = FilterBottomDialogFragment.newInstance()
+                frag.show(this.supportFragmentManager, FilterBottomDialogFragment.TAG)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun getQueryObservable(): Observable<String> {
         return querySubject.distinctUntilChanged()
     }
@@ -103,5 +121,28 @@ class SearchActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(KEY_SAVED_QUERY, querySubject.value)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == FILTER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.extras?.getParcelable<Filter>(FilterBottomDialogFragment.RETURN_FILTER)?.let {
+                selectedFilters += it
+                filters.onNext(selectedFilters.toList())
+            }
+
+            getQueryObservable()
+                    .flatMapSingle { query ->
+                        mealStore.search(query, filters.value)
+                    }
+                    .subscribe({ results ->
+                        recyclerView.adapter = SuggestionsAdapter(results) { _, mealId ->
+                            startActivity(MealActivity.newIntent(this, mealId))
+                        }
+                        recyclerView.layoutManager = LinearLayoutManager(this)
+                    }, { throwable ->
+                        Log.e(TAG, "Failed to load search results", throwable)
+                        Toast.makeText(this, R.string.failed_to_load_search_results, Toast.LENGTH_SHORT).show()
+                    })
+        }
     }
 }
