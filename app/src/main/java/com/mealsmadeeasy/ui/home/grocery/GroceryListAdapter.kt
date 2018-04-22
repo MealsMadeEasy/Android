@@ -11,6 +11,8 @@ import com.mealsmadeeasy.R
 import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.model.GroceryList
 import com.mealsmadeeasy.model.GroceryListEntry
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 class GroceryListAdapter(data: GroceryList = GroceryList(), val mealStore: MealStore) : RecyclerView.Adapter<GroceryListViewHolder>() {
@@ -38,6 +40,7 @@ class GroceryListViewHolder(root: View, mealStore: MealStore) : RecyclerView.Vie
     private lateinit var item : GroceryListEntry
     private val quantity = root.findViewById<TextView>(R.id.ingredient_quantity)
     private val name = root.findViewById<TextView>(R.id.ingredient_name)
+    private val dependants = root.findViewById<TextView>(R.id.ingredient_dependents)
     private val unit = root.findViewById<TextView>(R.id.ingredient_unit)
     private val checkbox = root.findViewById<CheckBox>(R.id.ingredient_checkbox)
 
@@ -54,10 +57,15 @@ class GroceryListViewHolder(root: View, mealStore: MealStore) : RecyclerView.Vie
 
     fun bind(entry: GroceryListEntry) {
         item = entry
-
         val ingredient = entry.ingredient
+
+        val df = DecimalFormat("####.##")
+        df.roundingMode = RoundingMode.HALF_UP
+        val roundedQuantity = df.format(ingredient.quantity)
+
         name.text = ingredient.name
-        quantity.text = ingredient.quantity.toString()
+        dependants.text = item.dependants.joinToString(limit = 3)
+        quantity.text = roundedQuantity.toString()
         unit.text = ingredient.unit
         checkbox.isChecked = entry.purchased
     }
