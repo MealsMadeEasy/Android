@@ -1,8 +1,6 @@
 package com.mealsmadeeasy.ui.home.discover
 
-import android.app.Activity
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v7.widget.LinearLayoutManager
@@ -29,7 +27,6 @@ class FilterBottomDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "FilterFragment"
-        const val RETURN_FILTER = "FilterFragment"
 
         fun newInstance(): FilterBottomDialogFragment {
             return FilterBottomDialogFragment()
@@ -43,6 +40,7 @@ class FilterBottomDialogFragment : BottomSheetDialogFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+
         outState.putParcelableArrayList(KEY_SAVED_SEL_FILTERS, ArrayList<Filter>(filterAdapter.selected.toList()))
     }
 
@@ -82,9 +80,6 @@ class FilterBottomDialogFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
-        val data = Intent().apply {
-            putParcelableArrayListExtra(RETURN_FILTER, ArrayList(filterAdapter.selected))
-        }
-        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, data)
+        (activity as SearchActivity).setFilters(filterAdapter.selected.toList())
     }
 }

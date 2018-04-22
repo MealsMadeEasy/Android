@@ -18,7 +18,7 @@ class DiscoverFragment : BaseFragment() {
     @Inject lateinit var mealStore: MealStore
 
     companion object {
-        private const val TAG = "DiscoverFragment"
+        const val TAG = "DiscoverFragment"
         fun newInstance(): DiscoverFragment = DiscoverFragment()
     }
 
@@ -37,11 +37,6 @@ class DiscoverFragment : BaseFragment() {
         when (item.itemId) {
             R.id.menu_item_search -> {
                 startActivity(SearchActivity.newIntent(context!!))
-                return true
-            }
-            R.id.menu_recipe_filter -> {
-                val frag = FilterBottomDialogFragment.newInstance()
-                frag.show(activity?.supportFragmentManager, FilterBottomDialogFragment.TAG)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

@@ -8,10 +8,4 @@
         android:icon="@drawable/ic_search_white_24dp"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/menu_recipe_filter"
-        android:icon="@drawable/ic_filter_list_white_24dp"
-        android:title="@string/filter_icon_title"
-        app:showAsAction="ifRoom" />
-
 </menu>
