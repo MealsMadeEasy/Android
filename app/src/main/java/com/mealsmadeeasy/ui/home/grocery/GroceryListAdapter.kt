@@ -13,9 +13,8 @@ import com.mealsmadeeasy.model.GroceryList
 import com.mealsmadeeasy.model.GroceryListEntry
 import javax.inject.Inject
 
-class GroceryListAdapter(data: GroceryList = GroceryList()) : RecyclerView.Adapter<GroceryListViewHolder>() {
+class GroceryListAdapter(data: GroceryList = GroceryList(), val mealStore: MealStore) : RecyclerView.Adapter<GroceryListViewHolder>() {
 
-    @Inject lateinit var mealStore: MealStore
     var data: GroceryList = data
         set(value) {
             field = value
@@ -26,7 +25,6 @@ class GroceryListAdapter(data: GroceryList = GroceryList()) : RecyclerView.Adapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroceryListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        MealsApplication.component(parent.context).inject(this)
         return GroceryListViewHolder(inflater.inflate(R.layout.view_grocery_list, parent, false), mealStore)
     }
 
@@ -46,7 +44,7 @@ class GroceryListViewHolder(root: View, mealStore: MealStore) : RecyclerView.Vie
     init {
         checkbox.setOnCheckedChangeListener { _, checked ->
             if (checked != item.purchased) {
-                mealStore.markIngredientPurchased(item.ingredient,checked)
+                mealStore.markIngredientPurchased(item.ingredient, checked)
             }
         }
         root.findViewById<View>(R.id.grocery_list_container).setOnClickListener { _ ->

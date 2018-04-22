@@ -35,7 +35,7 @@ class GroceryListFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.single_recycler_view, container, false)
         val rv = root.findViewById<RecyclerView>(R.id.grocery_list_recycler_view)
-        val adapter = GroceryListAdapter()
+        val adapter = GroceryListAdapter(mealStore = mealStore)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)
         mealStore.getIngredientsForMealPlan()
