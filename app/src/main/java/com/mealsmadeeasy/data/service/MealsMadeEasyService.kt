@@ -38,13 +38,13 @@ interface MealsMadeEasyService {
             @Header("Authorization") token: String
     ): Single<Response<GroceryList>>
 
-    @PUT("/user/groceries/purchased")
+    @HTTP(path = "/user/groceries/purchased", method = "PUT", hasBody = true)
     fun markIngredientPurchased(
             @Header("Authorization") token: String,
             @Body ingredient: Ingredient
     ): Single<Response<Unit>>
 
-    @DELETE("/user/groceries/purchased")
+    @HTTP(path = "/user/groceries/purchased", method = "DELETE", hasBody = true)
     fun markIngredientNotPurchased(
             @Header("Authorization") token: String,
             @Body ingredient: Ingredient
