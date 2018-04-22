@@ -1,5 +1,16 @@
 # Meals Made Easy Android Application
 
+## Release Notes
+Since the last sprint ending on April 6th, there have been a number of improvements to the application.
+ - The week at a glance screen has undergone visual changes to make thumbnails more clear.
+ - Users may now tap on items on the week at a glance screen to jump directly into the meal description for recipe information.
+ - The grocery list has been updated from our original implementation in the prototype. It now contains up-to-date information about your specific meal plan
+ - When searching for meals with keywords, users may now pick from a number of filters to find recipes that match their dietary restrictions.
+ 
+### Known Issues
+At this time, the Android client app has no known bugs/crashes. See the Backend repository for more information on the server. Additionally, ZenHub contains more information about stories we would like to have completed with more time and resources.
+
+## Setup
 ### Prerequisites
  - You must have version 1.8 or higher of the [Java runtime (JRE)](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) and the [Java development kit (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
  - Android Studio is not required, but highly recommended. The rest of this README will assume you have Android Studio with the latest varion of the Android build tools for API level 27. You can install the required build tools when launching Android Studio for the first time by following the wizard to download and install the Android SDK if you do not already have it.
