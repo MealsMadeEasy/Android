@@ -40,7 +40,7 @@ class GroceryListViewHolder(root: View, mealStore: MealStore) : RecyclerView.Vie
     private lateinit var item : GroceryListEntry
     private val quantity = root.findViewById<TextView>(R.id.ingredient_quantity)
     private val name = root.findViewById<TextView>(R.id.ingredient_name)
-    private val dependents = root.findViewById<TextView>(R.id.ingredient_dependents)
+    private val dependants = root.findViewById<TextView>(R.id.ingredient_dependants)
     private val unit = root.findViewById<TextView>(R.id.ingredient_unit)
     private val checkbox = root.findViewById<CheckBox>(R.id.ingredient_checkbox)
 
@@ -64,7 +64,7 @@ class GroceryListViewHolder(root: View, mealStore: MealStore) : RecyclerView.Vie
         val roundedQuantity = df.format(ingredient.quantity)
 
         name.text = ingredient.name
-        dependents.text = item.dependants.joinToString(limit = 3)
+        dependants.text = item.dependants.joinToString(limit = 3)
         quantity.text = roundedQuantity.toString()
         unit.text = ingredient.unit
         checkbox.isChecked = entry.purchased
