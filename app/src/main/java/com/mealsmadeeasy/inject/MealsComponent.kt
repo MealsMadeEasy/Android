@@ -6,6 +6,7 @@ import com.mealsmadeeasy.ui.home.grocery.GroceryListFragment
 import com.mealsmadeeasy.ui.home.profile.ProfileFragment
 import com.mealsmadeeasy.ui.home.discover.DiscoverFragment
 import com.mealsmadeeasy.ui.home.discover.SearchActivity
+import com.mealsmadeeasy.ui.home.grocery.GroceryListAdapter
 import com.mealsmadeeasy.ui.login.LoginActivity
 import com.mealsmadeeasy.ui.meal.AddToPlanActivity
 import com.mealsmadeeasy.ui.meal.MealActivity
@@ -28,4 +29,6 @@ interface MealsComponent {
     fun inject(fragment: GroceryListFragment)
     fun inject(fragment: DiscoverFragment)
     fun inject(fragment: EditServingsDialogFragment)
+
+    fun inject(activity: GroceryListAdapter)
 }

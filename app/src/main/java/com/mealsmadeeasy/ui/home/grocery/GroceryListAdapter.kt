@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import com.mealsmadeeasy.MealsApplication
 import com.mealsmadeeasy.R
+import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.model.GroceryList
 import com.mealsmadeeasy.model.GroceryListEntry
+import javax.inject.Inject
 
 class GroceryListAdapter(data: GroceryList = GroceryList()) : RecyclerView.Adapter<GroceryListViewHolder>() {
 
+    @Inject lateinit var mealStore: MealStore
     var data: GroceryList = data
         set(value) {
             field = value
@@ -22,7 +26,8 @@ class GroceryListAdapter(data: GroceryList = GroceryList()) : RecyclerView.Adapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroceryListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return GroceryListViewHolder(inflater.inflate(R.layout.view_grocery_list, parent, false))
+        MealsApplication.component(parent.context).inject(this)
+        return GroceryListViewHolder(inflater.inflate(R.layout.view_grocery_list, parent, false), mealStore)
     }
 
     override fun onBindViewHolder(holder: GroceryListViewHolder, position: Int) {
@@ -30,7 +35,7 @@ class GroceryListAdapter(data: GroceryList = GroceryList()) : RecyclerView.Adapt
     }
 }
 
-class GroceryListViewHolder(root: View) : RecyclerView.ViewHolder(root) {
+class GroceryListViewHolder(root: View, mealStore: MealStore) : RecyclerView.ViewHolder(root) {
 
     private lateinit var item : GroceryListEntry
     private val quantity = root.findViewById<TextView>(R.id.ingredient_quantity)
@@ -41,7 +46,7 @@ class GroceryListViewHolder(root: View) : RecyclerView.ViewHolder(root) {
     init {
         checkbox.setOnCheckedChangeListener { _, checked ->
             if (checked != item.purchased) {
-                TODO("Send this to a MealStore")
+                mealStore.markIngredientPurchased(item.ingredient,checked)
             }
         }
         root.findViewById<View>(R.id.grocery_list_container).setOnClickListener { _ ->
