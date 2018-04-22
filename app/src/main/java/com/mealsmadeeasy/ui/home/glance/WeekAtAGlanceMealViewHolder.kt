@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.model.MealPortion
+import com.mealsmadeeasy.ui.meal.MealActivity
 import com.squareup.picasso.Picasso
 
 class WeekAtAGlanceMealViewHolder(
@@ -25,6 +26,9 @@ class WeekAtAGlanceMealViewHolder(
     init {
         val menu = root.findViewById<ImageView>(R.id.week_at_a_glance_menu)
         menu.setOnClickListener { onClickPopupMenu(menu) }
+        root.setOnClickListener {
+            root.context.startActivity(MealActivity.newIntent(root.context, mealPortion.meal.id))
+        }
     }
 
     fun bind(meal: MealPortion) {

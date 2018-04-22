@@ -1,13 +1,11 @@
 package com.mealsmadeeasy.model
 
-data class Ingredient (
-        val id: String,
-        val name: String,
-        val quantity: Double,
-        val unitName: String,
-        val isMeasurable: Boolean = true
+data class Ingredient(
+        val quantity: Float,
+        val unit: String,
+        val name: String
 ) {
 
-    constructor(id: String, name: String, quantity: Int, unitName: String, isMeasurable: Boolean = true):
-            this(id, name, quantity.toDouble(), unitName, isMeasurable)
+    constructor(quantity: Number, unit: String, name: String): this(quantity.toFloat(), unit, name)
+
 }
