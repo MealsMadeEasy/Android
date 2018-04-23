@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <CheckedTextView
         android:id="@+id/filter_name"
-        android:layout_marginStart="@dimen/ingredient_unit_text_spacing"
+        android:padding="@dimen/filter_category_textview_padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp" />
+        android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+        android:drawableTint="@color/colorAccent"
+        android:gravity="center"
+        tools:text="Filter name"/>
 
 </LinearLayout>

@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">MealsMadeEasy</string>
+    <string name="app_name">Meals Made Easy</string>
     <string name="auth_fail">Authentication failed</string>
     <string name="google_login_fail">Google Sign In failed</string>
 
@@ -9,9 +9,6 @@
     <string name="meal_dinner">Dinner</string>
 
     <string name="week_at_a_glance">Week at a glance</string>
-    <string name="week_at_a_glance_delete_prompt">Do you really want to remove this meal from your meal plan?</string>
-    <string name="week_at_a_glance_delete_prompt_positive_ack">Delete</string>
-    <string name="week_at_a_glance_delete_prompt_negative_ack">Cancel</string>
     <string name="week_at_a_glance_meal_deleted">Removed meal</string>
     <string name="week_at_a_glance_undo_delete">Undo</string>
     <string name="week_at_a_glance_delete_menu">Delete</string>
@@ -57,8 +54,6 @@
     <string name="discover">Discover</string>
     <string name="failed_to_load_suggestions">Couldn\'t access suggestions</string>
 
-    <string name="meal_page_minutes">Minutes</string>
-    <string name="meal_page_bullet">&#8226;</string>
     <string name="meal_page_failed_to_load_meal">Couldn\'t find that meal</string>
     <string name="meal_page_failed_to_load_recipe">Couldn\'t find the meal\'s recipe</string>
 
@@ -79,7 +74,5 @@
     <string name="failed_to_load_search_results">Couldn\'t access search results</string>
     <string name="search_screen_title">Search recipes</string>
     <string name="filter_icon_title">Filter</string>
-    <string name="filter_bottom_sheet_title">Filter</string>
-    <string name="filter_categories_heading">Categories</string>
     <string name="filter_clear_button_text">Clear Filters</string>
 </resources>
