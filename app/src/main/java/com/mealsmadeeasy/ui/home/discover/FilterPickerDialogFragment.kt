@@ -40,7 +40,7 @@ class FilterPickerDialogFragment : BottomSheetDialogFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putParcelableArrayList(KEY_SAVED_SEL_FILTERS, ArrayList<Filter>(filterAdapter.selected.toList()))
+        outState.putParcelableArrayList(KEY_SAVED_SEL_FILTERS, ArrayList<Filter>(filterAdapter.selected))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

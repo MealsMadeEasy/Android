@@ -13,7 +13,7 @@ import com.mealsmadeeasy.model.FilterGroup
 class FilterGroupAdapter(
         groups: List<FilterGroup> = emptyList(),
         selected: Set<Filter> = emptySet()
-) : RecyclerView.Adapter<FilterGroupViewHolder>() {
+) : RecyclerView.Adapter<FilterGroupAdapter.FilterGroupViewHolder>() {
 
     var groups: List<FilterGroup> = groups
         set(value) {
@@ -21,8 +21,7 @@ class FilterGroupAdapter(
             notifyDataSetChanged()
         }
 
-    val selected: Set<Filter>
-        get() = emptySet()
+    val selected = selected.toMutableSet()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterGroupViewHolder {
         val root = LayoutInflater.from(parent.context)
@@ -37,27 +36,28 @@ class FilterGroupAdapter(
         holder.bind(groups[position])
     }
 
-}
+    inner class FilterGroupViewHolder(root: View) : RecyclerView.ViewHolder(root) {
 
-class FilterGroupViewHolder(root: View) : RecyclerView.ViewHolder(root) {
+        private val name = root.findViewById<TextView>(R.id.filter_group_title)
+        private val adapter: FilterAdapter
 
-    private val name = root.findViewById<TextView>(R.id.filter_group_title)
-    private val adapter: FilterAdapter
+        init {
+            val recyclerView = root.findViewById<RecyclerView>(R.id.filter_group_content_adapter)
+            recyclerView.layoutManager = LinearLayoutManager(root.context).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
 
-    init {
-        val recyclerView = root.findViewById<RecyclerView>(R.id.filter_group_content_adapter)
-        recyclerView.layoutManager = LinearLayoutManager(root.context).apply {
-            orientation = LinearLayoutManager.HORIZONTAL
+            adapter = FilterAdapter(selected = selected).also {
+                recyclerView.adapter = it
+            }
         }
 
-        adapter = FilterAdapter().also {
-            recyclerView.adapter = it
+        fun bind(group: FilterGroup) {
+            adapter.group = group
+            adapter.data = group.filters
+            name.text = group.groupName
         }
-    }
 
-    fun bind(group: FilterGroup) {
-        adapter.data = group.filters
-        name.text = group.groupName
     }
 
 }

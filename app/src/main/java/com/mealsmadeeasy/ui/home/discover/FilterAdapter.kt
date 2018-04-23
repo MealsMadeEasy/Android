@@ -7,19 +7,20 @@ import android.view.ViewGroup
 import android.widget.CheckedTextView
 import com.mealsmadeeasy.R
 import com.mealsmadeeasy.model.Filter
+import com.mealsmadeeasy.model.FilterGroup
 
 class FilterAdapter(
         data: List<Filter> = emptyList(),
-        selectedCategories: Collection<Filter> = emptySet())
-    : RecyclerView.Adapter<FilterViewHolder>() {
+        private val selected: MutableSet<Filter>
+) : RecyclerView.Adapter<FilterViewHolder>() {
+
+    lateinit var group: FilterGroup
 
     var data: List<Filter> = data
         set(value) {
             field = value
             notifyDataSetChanged()
         }
-
-    val selected = selectedCategories.toMutableSet()
 
     override fun getItemCount() = data.size
 
@@ -28,6 +29,12 @@ class FilterAdapter(
                 .inflate(R.layout.view_filter_category, parent, false)
         return FilterViewHolder(inflater) { category, include ->
             if (include) {
+                val active = selected.filter { it in group.filters }
+                if (active.size >= group.maximumActive) {
+                    selected -= active.first()
+                    notifyDataSetChanged()
+                }
+
                 selected += category
             } else {
                 selected -= category
