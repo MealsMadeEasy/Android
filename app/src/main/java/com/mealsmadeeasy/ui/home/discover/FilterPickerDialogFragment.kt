@@ -16,6 +16,7 @@ import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.model.Filter
 import javax.inject.Inject
 
+private const val ARG_SEL_FILTERS = "FilterFrag.ARG_SELECTED_FILTERS"
 private const val KEY_SAVED_SEL_FILTERS = "FilterFrag.SELECTED_FILTERS"
 
 class FilterPickerDialogFragment : BottomSheetDialogFragment() {
@@ -27,8 +28,12 @@ class FilterPickerDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "FilterFragment"
 
-        fun newInstance(): FilterPickerDialogFragment {
-            return FilterPickerDialogFragment()
+        fun newInstance(selected: List<Filter>): FilterPickerDialogFragment {
+            return FilterPickerDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelableArrayList(ARG_SEL_FILTERS, ArrayList(selected))
+                }
+            }
         }
     }
 
@@ -47,8 +52,7 @@ class FilterPickerDialogFragment : BottomSheetDialogFragment() {
         if (savedInstanceState != null) {
             selectedCategories = savedInstanceState.getParcelableArrayList<Filter>(KEY_SAVED_SEL_FILTERS).toSet()
         } else {
-            filterAdapter = FilterGroupAdapter()
-            selectedCategories = filterAdapter.selected
+            selectedCategories = arguments?.getParcelableArrayList<Filter>(ARG_SEL_FILTERS)?.toSet().orEmpty()
         }
 
         val root = inflater.inflate(R.layout.fragment_filter, container, false)

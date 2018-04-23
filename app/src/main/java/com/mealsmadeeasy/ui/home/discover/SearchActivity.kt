@@ -6,21 +6,21 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Menu
-import com.mealsmadeeasy.MealsApplication
-import com.mealsmadeeasy.R
-import com.mealsmadeeasy.data.MealStore
-import com.mealsmadeeasy.ui.BaseActivity
-import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
+import com.mealsmadeeasy.MealsApplication
+import com.mealsmadeeasy.R
+import com.mealsmadeeasy.data.MealStore
 import com.mealsmadeeasy.model.Filter
+import com.mealsmadeeasy.ui.BaseActivity
 import com.mealsmadeeasy.ui.meal.MealActivity
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class SearchActivity : BaseActivity() {
 
@@ -46,7 +46,8 @@ class SearchActivity : BaseActivity() {
 
         val filterFAB = findViewById<FloatingActionButton>(R.id.filter_fab)
         filterFAB.setOnClickListener({
-            val frag = FilterPickerDialogFragment.newInstance()
+            val activeFilters = if (filters.hasValue()) filters.value else emptyList()
+            val frag = FilterPickerDialogFragment.newInstance(activeFilters)
             frag.show(this.supportFragmentManager, FilterPickerDialogFragment.TAG)
         })
 
