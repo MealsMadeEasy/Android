@@ -22,7 +22,7 @@ class FilterBottomDialogFragment : BottomSheetDialogFragment() {
     @Inject lateinit var mealStore: MealStore
 
     private lateinit var selectedCategories: Set<Filter>
-    private lateinit var filterAdapter: FilterAdapter
+    private lateinit var filterAdapter: FilterGroupAdapter
 
     companion object {
         const val TAG = "FilterFragment"
@@ -47,22 +47,19 @@ class FilterBottomDialogFragment : BottomSheetDialogFragment() {
         if (savedInstanceState != null) {
             selectedCategories = savedInstanceState.getParcelableArrayList<Filter>(KEY_SAVED_SEL_FILTERS).toSet()
         } else {
-            filterAdapter = FilterAdapter()
+            filterAdapter = FilterGroupAdapter()
             selectedCategories = filterAdapter.selected
         }
 
         val root = inflater.inflate(R.layout.fragment_filter, container, false)
         val rv = root.findViewById<RecyclerView>(R.id.filter_recycler_view)
         val layoutManager = LinearLayoutManager(root.context)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         rv.layoutManager = layoutManager
-        filterAdapter = FilterAdapter(selectedCategories = selectedCategories)
+        filterAdapter = FilterGroupAdapter(selected = selectedCategories)
 
         mealStore.getAvailableFilters()
                 .subscribe({ filterGroup ->
-                    filterAdapter.data = filterGroup.flatMap {
-                        it.filters
-                    }
+                    filterAdapter.groups = filterGroup
                     rv.adapter = filterAdapter
                 }, { throwable ->
                     Log.e(TAG, "Failed to load filters", throwable)

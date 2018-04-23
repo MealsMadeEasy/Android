@@ -4,24 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/filter_frag_categories_height"
-        android:layout_marginTop="@dimen/filter_frag_categories_vert_padding"
-        android:layout_marginStart="@dimen/filter_frag_categories_horiz_padding"
-        android:layout_marginEnd="@dimen/filter_frag_categories_horiz_padding"
-        android:gravity="start"
-        android:text="@string/filter_categories_heading"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/filter_frag_categories_font_size" />
-
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/filter_recycler_view"
+        android:layout_marginTop="@dimen/filter_frag_categories_vert_padding"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/filter_frag_rv_height"
-        android:layout_marginStart="@dimen/filter_frag_rv_horiz_padding"
-        android:layout_marginEnd="@dimen/filter_frag_rv_horiz_padding" />
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/filter_clear_filters"

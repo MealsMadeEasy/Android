@@ -74,6 +74,5 @@
     <string name="failed_to_load_search_results">Couldn\'t access search results</string>
     <string name="search_screen_title">Search recipes</string>
     <string name="filter_icon_title">Filter</string>
-    <string name="filter_categories_heading">Categories</string>
     <string name="filter_clear_button_text">Clear Filters</string>
 </resources>
