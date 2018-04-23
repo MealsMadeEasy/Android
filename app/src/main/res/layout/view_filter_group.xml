@@ -13,7 +13,6 @@
         android:paddingStart="@dimen/filter_frag_rv_horiz_padding"
         android:paddingEnd="@dimen/filter_frag_rv_horiz_padding"
         style="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/colorAccent"
         tools:text="Category name"/>
 
     <android.support.v7.widget.RecyclerView

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 private const val KEY_SAVED_SEL_FILTERS = "FilterFrag.SELECTED_FILTERS"
 
-class FilterBottomDialogFragment : BottomSheetDialogFragment() {
+class FilterPickerDialogFragment : BottomSheetDialogFragment() {
     @Inject lateinit var mealStore: MealStore
 
     private lateinit var selectedCategories: Set<Filter>
@@ -27,8 +27,8 @@ class FilterBottomDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "FilterFragment"
 
-        fun newInstance(): FilterBottomDialogFragment {
-            return FilterBottomDialogFragment()
+        fun newInstance(): FilterPickerDialogFragment {
+            return FilterPickerDialogFragment()
         }
     }
 

@@ -46,8 +46,8 @@ class SearchActivity : BaseActivity() {
 
         val filterFAB = findViewById<FloatingActionButton>(R.id.filter_fab)
         filterFAB.setOnClickListener({
-            val frag = FilterBottomDialogFragment.newInstance()
-            frag.show(this.supportFragmentManager, FilterBottomDialogFragment.TAG)
+            val frag = FilterPickerDialogFragment.newInstance()
+            frag.show(this.supportFragmentManager, FilterPickerDialogFragment.TAG)
         })
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
