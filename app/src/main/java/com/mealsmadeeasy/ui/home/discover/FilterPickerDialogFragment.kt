@@ -22,7 +22,6 @@ private const val KEY_SAVED_SEL_FILTERS = "FilterFrag.SELECTED_FILTERS"
 class FilterPickerDialogFragment : BottomSheetDialogFragment() {
     @Inject lateinit var mealStore: MealStore
 
-    private lateinit var selectedCategories: Set<Filter>
     private lateinit var filterAdapter: FilterGroupAdapter
 
     companion object {
@@ -49,6 +48,8 @@ class FilterPickerDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val selectedCategories: Set<Filter>
+
         if (savedInstanceState != null) {
             selectedCategories = savedInstanceState.getParcelableArrayList<Filter>(KEY_SAVED_SEL_FILTERS).toSet()
         } else {
@@ -71,7 +72,7 @@ class FilterPickerDialogFragment : BottomSheetDialogFragment() {
 
         val clearButton = root.findViewById<Button>(R.id.filter_clear_filters)
         clearButton.setOnClickListener {
-            selectedCategories = emptySet()
+            filterAdapter.selected.clear()
             dismiss()
         }
 
