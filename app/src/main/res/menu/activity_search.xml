@@ -8,6 +8,4 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search_bar_title"
         app:showAsAction="always" />
-
-
 </menu>

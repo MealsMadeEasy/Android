@@ -46,12 +46,12 @@ class DiscoverFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_discover, container, false)
-        val list = root.findViewById<RecyclerView>(R.id.suggestion_list)
+        val recyclerView = root.findViewById<RecyclerView>(R.id.suggestion_list)
         mealStore.getSuggestedMeals().subscribe({ suggestions ->
-            list.adapter = SuggestionsAdapter(suggestions) { _, mealId ->
+            recyclerView.adapter = SuggestionsAdapter(suggestions) { _, mealId ->
                 startActivity(MealActivity.newIntent(context, mealId))
             }
-            list.layoutManager = LinearLayoutManager(root.context)
+            recyclerView.layoutManager = LinearLayoutManager(root.context)
         }, { throwable ->
             Log.e(TAG, "Failed to load suggestions", throwable)
             Snackbar.make(root, R.string.failed_to_load_suggestions, Snackbar.LENGTH_LONG).show()
