@@ -18,7 +18,7 @@ class DiscoverFragment : BaseFragment() {
     @Inject lateinit var mealStore: MealStore
 
     companion object {
-        const val TAG = "DiscoverFragment"
+        private const val TAG = "DiscoverFragment"
         fun newInstance(): DiscoverFragment = DiscoverFragment()
     }
 

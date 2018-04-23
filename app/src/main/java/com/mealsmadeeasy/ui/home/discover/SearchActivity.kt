@@ -3,6 +3,7 @@ package com.mealsmadeeasy.ui.home.discover
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
@@ -14,7 +15,6 @@ import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.MenuItem
 import android.widget.Toast
 import com.mealsmadeeasy.model.Filter
 import com.mealsmadeeasy.ui.meal.MealActivity
@@ -43,6 +43,12 @@ class SearchActivity : BaseActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.search_toolbar)
         setSupportActionBar(toolbar)
+
+        val filterFAB = findViewById<FloatingActionButton>(R.id.filter_fab)
+        filterFAB.setOnClickListener({
+            val frag = FilterBottomDialogFragment.newInstance()
+            frag.show(this.supportFragmentManager, FilterBottomDialogFragment.TAG)
+        })
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -94,17 +100,6 @@ class SearchActivity : BaseActivity() {
         querySubject.value?.takeIf { it.isNotEmpty() }?.let{ searchView.setQuery(it, false) }
 
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_recipe_filter -> {
-                val frag = FilterBottomDialogFragment.newInstance()
-                frag.show(this.supportFragmentManager, FilterBottomDialogFragment.TAG)
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
     }
 
     private fun getQueryObservable(): Observable<String> {

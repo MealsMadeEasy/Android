@@ -8,6 +8,6 @@
         android:padding="@dimen/filter_category_textview_padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple" />
+        android:drawableStart="?android:attr/listChoiceIndicatorMultiple" />
 
 </LinearLayout>

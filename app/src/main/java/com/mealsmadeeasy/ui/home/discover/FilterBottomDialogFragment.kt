@@ -19,8 +19,7 @@ import javax.inject.Inject
 private const val KEY_SAVED_SEL_FILTERS = "FilterFrag.SELECTED_FILTERS"
 
 class FilterBottomDialogFragment : BottomSheetDialogFragment() {
-    @Inject
-    lateinit var mealStore: MealStore
+    @Inject lateinit var mealStore: MealStore
 
     private lateinit var selectedCategories: Set<Filter>
     private lateinit var filterAdapter: FilterAdapter

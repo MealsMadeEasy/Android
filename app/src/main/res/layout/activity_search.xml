@@ -20,6 +20,14 @@
             app:titleTextColor="@android:color/white"/>
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/filter_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/filter_fab_margin"
+        android:src="@drawable/ic_filter_list_white_24dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_results_list"
         android:layout_width="match_parent"

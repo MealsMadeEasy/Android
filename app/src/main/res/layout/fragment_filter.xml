@@ -5,16 +5,9 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/filter_bottom_sheet_heading"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/filter_frag_heading_height"
-        android:gravity="center"
-        android:text="@string/filter_bottom_sheet_title"
-        android:textSize="@dimen/filter_frag_heading_size" />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/filter_frag_categories_height"
+        android:layout_marginTop="@dimen/filter_frag_categories_vert_padding"
         android:layout_marginStart="@dimen/filter_frag_categories_horiz_padding"
         android:layout_marginEnd="@dimen/filter_frag_categories_horiz_padding"
         android:gravity="start"

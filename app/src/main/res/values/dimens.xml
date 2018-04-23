@@ -53,8 +53,6 @@
     <dimen name="add_to_plan_button_margin_bottom">12dp</dimen>
     <dimen name="edit_servings_title_padding">8dp</dimen>
     <dimen name="filter_category_textview_padding">4dp</dimen>
-    <dimen name="filter_frag_heading_size">20sp</dimen>
-    <dimen name="filter_frag_heading_height">56dp</dimen>
     <dimen name="filter_frag_categories_height">32dp</dimen>
     <dimen name="filter_frag_categories_horiz_padding">16dp</dimen>
     <dimen name="filter_frag_categories_font_size">16sp</dimen>
@@ -63,4 +61,6 @@
     <dimen name="filter_frag_clear_button_horiz_padding">16dp</dimen>
     <dimen name="filter_frag_clear_button_bottom_padding">8dp</dimen>
     <dimen name="filter_fragment_font_size">16sp</dimen>
+    <dimen name="filter_frag_categories_vert_padding">8dp</dimen>
+    <dimen name="filter_fab_margin">16dp</dimen>
 </resources>
