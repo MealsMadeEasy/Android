@@ -59,28 +59,28 @@ class FakeMealStore : MealStore {
 
         ingredients = mapOf(
                 bagels to listOf(
-                        Ingredient(id = "single-bagel", name = "Bagel", quantity = 1, unitName = "Whole bagel"),
-                        Ingredient(id = "cream-cheese", name = "Cream cheese", quantity = 2, unitName = "Tbsp")
+                        Ingredient(name = "Bagel", quantity = 1, unit = "Whole bagel"),
+                        Ingredient(name = "Cream cheese", quantity = 2, unit = "Tbsp")
                 ),
                 banana to listOf(
-                        Ingredient(id = "single-banana", name = "Banana", quantity = 1, unitName = "Bananas")
+                        Ingredient(name = "Banana", quantity = 1, unit = "Bananas")
                 ),
                 sandwich to listOf(
-                        Ingredient(id = "bread", name = "Bread", quantity = 2, unitName = "Slices"),
-                        Ingredient(id = "lunch-meat_turkey", name = "Sliced turkey", quantity = 3, unitName = "Oz."),
-                        Ingredient(id = "sliced_cheese", name = "Cheese", quantity = 1, unitName = "Slices"),
-                        Ingredient(id = "lettuce", name = "Lettuce", quantity = 4, unitName = "Leaves")
+                        Ingredient(name = "Bread", quantity = 2, unit = "Slices"),
+                        Ingredient(name = "Sliced turkey", quantity = 3, unit = "Oz."),
+                        Ingredient(name = "Cheese", quantity = 1, unit = "Slices"),
+                        Ingredient(name = "Lettuce", quantity = 4, unit = "Leaves")
                 ),
                 tacos to listOf(
-                        Ingredient(id = "taco-shell", name = "Flour tortilla shells", quantity = 3, unitName = "Shells"),
-                        Ingredient(id = "taco-meat_chicken", name = "Chicken", quantity = 0.5, unitName = "lbs"),
-                        Ingredient(id = "shredded_cheese", name = "Shredded cheese", quantity = 0.75, unitName = "Cups"),
-                        Ingredient(id = "lettuce", name = "Lettuce", quantity = 2, unitName = "Leaves"),
-                        Ingredient(id = "tomato", name = "Tomato", quantity = 0.5, unitName = "Tomatoes")
+                        Ingredient(name = "Flour tortilla shells", quantity = 3, unit = "Shells"),
+                        Ingredient(name = "Chicken", quantity = 0.5, unit = "lbs"),
+                        Ingredient(name = "Shredded cheese", quantity = 0.75, unit = "Cups"),
+                        Ingredient(name = "Lettuce", quantity = 2, unit = "Leaves"),
+                        Ingredient(name = "Tomato", quantity = 0.5, unit = "Tomatoes")
                 ),
                 iceCream to listOf(
-                        Ingredient(id = "ice-cream_chocolate", name = "Chocolate ice cream", quantity = 1, unitName = "Pint"),
-                        Ingredient(id = "chocolate-syrup", name = "Chocolate syrup", quantity = 1, unitName = "Fl.oz.")
+                        Ingredient(name = "Chocolate ice cream", quantity = 1, unit = "Pint"),
+                        Ingredient(name = "Chocolate syrup", quantity = 1, unit = "Fl.oz.")
                 ))
                 .mapValues { (_, ingredients) -> BehaviorSubject.createDefault(ingredients) }
                 .mapKeys { (meal, _) -> meal.id }
@@ -88,9 +88,32 @@ class FakeMealStore : MealStore {
 
     override fun getMealPlan() = mealPlan
 
-    override fun getIngredientsForRecipe(meal: Meal) = ingredients[meal.id]
+    private fun getIngredientsForRecipe(meal: Meal) = ingredients[meal.id]
             ?: Observable.just(emptyList<Ingredient>())!!
 
+    override fun getIngredientsForMealPlan(): Observable<GroceryList> {
+        return getMealPlan()
+                .map { it.meals }
+                .flatMap { meals ->
+                    Observable.fromIterable(meals)
+                            .flatMap { Observable.fromIterable(it.meals) }
+                            .map { it.meal }
+                            .flatMapSingle { getIngredientsForRecipe(it).first(emptyList()) }
+                            .map { ingredients ->
+                                ingredients.map { GroceryListEntry(ingredient = it, purchased = false, dependants = listOf("A food")) }
+                            }
+                            .collect<MutableList<GroceryListEntry>>(::mutableListOf, { all, meal ->
+                                all.addAll(meal)
+                            })
+                            .toObservable()
+                }
+                .map { it.sortedBy { it.ingredient.name } }
+                .map { GroceryList(it) }
+    }
+
+    override fun markIngredientPurchased(ingredient: Ingredient, purchased: Boolean) {
+        TODO("not implemented")
+    }
 
     override fun addMealToMealPlan(meal: Meal, date: DateTime, mealPeriod: MealPeriod, servings: Int) {
         mealPlan.onNext(mealPlan.value + MealPlanEntry(date, mealPeriod, listOf(MealPortion(meal, servings))))
