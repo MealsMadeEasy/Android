@@ -81,6 +81,6 @@ class FilterPickerDialogFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
-        (activity as SearchActivity).setFilters(filterAdapter.selected.toList())
+        (activity as SearchActivity?)?.setFilters(filterAdapter.selected.toList())
     }
 }
